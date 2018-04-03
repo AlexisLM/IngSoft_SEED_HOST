@@ -8,6 +8,8 @@ and open the template in the editor.
     Author     : fergch97
 */
 
+body>.container{  padding-top: 50px; padding-bottom: 200px;} 
+
 .submit{
   background: #d39c2f !important;
   border-color: #d39c2f !important;
