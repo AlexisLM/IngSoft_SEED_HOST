@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <main role="main">
+
+        <div class="comments-container">
+
+            <!-- Comentario principal -->
+            <ul class="comments-list">
+                <div class="comment-main-level">
+                    <!-- Avatar -->
+                  <div class="comment-avatar"><h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/></div>
+                  <!-- Contenedor del Comentario -->
+                  <div class="comment-box">
+                    <div class="comment-head">
+                      <h6 class="comment-name by-author"><a href="">Nombre</a></h6>
+                      <span>hace 20 minutos</span>
+                    </div>
+                    <div class="comment-content">
+                      I just met this girl on the subway the other day. We exchanged contacts. Pretty sure we had a nice conversation. LOOL
+                    </div>
+                    <div class="icon-content">
+                      <i class="fa fa-heart"></i>
+                      <i class="fa fa-reply"></i>
+                    </div>
+                  </div>
+                </div>
+            
+                <!-- Realizar Comentario -->
+
+                <div id="addComentario-cont" class="col-sm-11 ml-auto p-2 mt-2">
+                    <div class="card">
+                        <div class="col-sm-12">
+                            <div class="card-body">
+                                <h:inputText id="titulo" class="form-control" a:placeholder="Comentario"/>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">Enviar</button>
+                    </div>
+                </div>
+            
+                <!-- Respuestas de los comentarios -->
+                <ul class="comments-list reply-list">
+                <li>
+                    <div class=".reply-list .comment-avatar">
+                        <!-- Avatar -->
+                        <div class="comment-avatar"><h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/></div>
+                        <!-- Contenedor del Comentario -->
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name by-author"><a href="">Nombre</a></h6>
+                                <span>hace 20 minutos</span>
+                            </div>
+                            <div class="comment-content">
+                                I just met this girl on the subway the other day. We exchanged contacts. Pretty sure we had a nice conversation.
+                            </div>
+                            <div class="icon-content">
+                                <i class="fa fa-heart"></i>
+                                <i class="fa fa-reply"></i>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                 
+                <li>   
+                    <div class=".reply-list .comment-avatar">
+                        <!-- Avatar -->
+                        <div class="comment-avatar"><h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/></div>
+                        <!-- Contenedor del Comentario -->
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name by-author"><a href="">Nombre</a></h6>
+                                <span>hace 20 minutos</span>
+                            </div>
+                            <div class="comment-content">
+                                I just met this girl on the subway the other day. We exchanged contacts. Pretty sure we had a nice conversation.
+                            </div>
+                            <div class="icon-content">
+                                <i class="fa fa-heart"></i>
+                                <i class="fa fa-reply"></i>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class=".reply-list .comment-avatar">
+                        <!-- Avatar -->
+                        <div class="comment-avatar"><h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/></div>
+                        <!-- Contenedor del Comentario -->
+                        <div class="comment-box">
+                            <div class="comment-head">
+                                <h6 class="comment-name by-author"><a href="">Nombre</a></h6>
+                                <span>hace 20 minutos</span>
+                            </div>
+                            <div class="comment-content">
+                                I just met this girl on the subway the other day. We exchanged contacts. Pretty sure we had a nice conversation.
+                            </div>
+                            <div class="icon-content">
+                                <i class="fa fa-heart"></i>
+                                <i class="fa fa-reply"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+
+              </ul>
+            </ul>
+        </div>
+    </main>
+
+</ui:composition>
