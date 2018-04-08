@@ -23,23 +23,23 @@ public class ComentarioPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fecha")
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Basic(optional = false)
-    @Column(name = "idUsuario")
-    private int idUsuario;
+    @Column(nullable = false)
+    private int idusuario;
     @Basic(optional = false)
-    @Column(name = "idPregunta")
-    private int idPregunta;
+    @Column(nullable = false)
+    private int idpregunta;
 
     public ComentarioPK() {
     }
 
-    public ComentarioPK(Date fecha, int idUsuario, int idPregunta) {
+    public ComentarioPK(Date fecha, int idusuario, int idpregunta) {
         this.fecha = fecha;
-        this.idUsuario = idUsuario;
-        this.idPregunta = idPregunta;
+        this.idusuario = idusuario;
+        this.idpregunta = idpregunta;
     }
 
     public Date getFecha() {
@@ -50,28 +50,28 @@ public class ComentarioPK implements Serializable {
         this.fecha = fecha;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
+    public int getIdusuario() {
+        return idusuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdusuario(int idusuario) {
+        this.idusuario = idusuario;
     }
 
-    public int getIdPregunta() {
-        return idPregunta;
+    public int getIdpregunta() {
+        return idpregunta;
     }
 
-    public void setIdPregunta(int idPregunta) {
-        this.idPregunta = idPregunta;
+    public void setIdpregunta(int idpregunta) {
+        this.idpregunta = idpregunta;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (fecha != null ? fecha.hashCode() : 0);
-        hash += (int) idUsuario;
-        hash += (int) idPregunta;
+        hash += (int) idusuario;
+        hash += (int) idpregunta;
         return hash;
     }
 
@@ -85,10 +85,10 @@ public class ComentarioPK implements Serializable {
         if ((this.fecha == null && other.fecha != null) || (this.fecha != null && !this.fecha.equals(other.fecha))) {
             return false;
         }
-        if (this.idUsuario != other.idUsuario) {
+        if (this.idusuario != other.idusuario) {
             return false;
         }
-        if (this.idPregunta != other.idPregunta) {
+        if (this.idpregunta != other.idpregunta) {
             return false;
         }
         return true;
@@ -96,7 +96,7 @@ public class ComentarioPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.ComentarioPK[ fecha=" + fecha + ", idUsuario=" + idUsuario + ", idPregunta=" + idPregunta + " ]";
+        return "com.seedhost.fodupa.model.ComentarioPK[ fecha=" + fecha + ", idusuario=" + idusuario + ", idpregunta=" + idpregunta + " ]";
     }
     
 }

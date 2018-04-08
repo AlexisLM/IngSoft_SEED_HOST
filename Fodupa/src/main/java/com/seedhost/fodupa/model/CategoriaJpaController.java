@@ -48,12 +48,12 @@ public class CategoriaJpaController implements Serializable {
             categoria.setPreguntaList(attachedPreguntaList);
             em.persist(categoria);
             for (Pregunta preguntaListPregunta : categoria.getPreguntaList()) {
-                Categoria oldIdCategoriaOfPreguntaListPregunta = preguntaListPregunta.getIdCategoria();
-                preguntaListPregunta.setIdCategoria(categoria);
+                Categoria oldIdcategoriaOfPreguntaListPregunta = preguntaListPregunta.getIdcategoria();
+                preguntaListPregunta.setIdcategoria(categoria);
                 preguntaListPregunta = em.merge(preguntaListPregunta);
-                if (oldIdCategoriaOfPreguntaListPregunta != null) {
-                    oldIdCategoriaOfPreguntaListPregunta.getPreguntaList().remove(preguntaListPregunta);
-                    oldIdCategoriaOfPreguntaListPregunta = em.merge(oldIdCategoriaOfPreguntaListPregunta);
+                if (oldIdcategoriaOfPreguntaListPregunta != null) {
+                    oldIdcategoriaOfPreguntaListPregunta.getPreguntaList().remove(preguntaListPregunta);
+                    oldIdcategoriaOfPreguntaListPregunta = em.merge(oldIdcategoriaOfPreguntaListPregunta);
                 }
             }
             em.getTransaction().commit();
@@ -78,7 +78,7 @@ public class CategoriaJpaController implements Serializable {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain Pregunta " + preguntaListOldPregunta + " since its idCategoria field is not nullable.");
+                    illegalOrphanMessages.add("You must retain Pregunta " + preguntaListOldPregunta + " since its idcategoria field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -94,12 +94,12 @@ public class CategoriaJpaController implements Serializable {
             categoria = em.merge(categoria);
             for (Pregunta preguntaListNewPregunta : preguntaListNew) {
                 if (!preguntaListOld.contains(preguntaListNewPregunta)) {
-                    Categoria oldIdCategoriaOfPreguntaListNewPregunta = preguntaListNewPregunta.getIdCategoria();
-                    preguntaListNewPregunta.setIdCategoria(categoria);
+                    Categoria oldIdcategoriaOfPreguntaListNewPregunta = preguntaListNewPregunta.getIdcategoria();
+                    preguntaListNewPregunta.setIdcategoria(categoria);
                     preguntaListNewPregunta = em.merge(preguntaListNewPregunta);
-                    if (oldIdCategoriaOfPreguntaListNewPregunta != null && !oldIdCategoriaOfPreguntaListNewPregunta.equals(categoria)) {
-                        oldIdCategoriaOfPreguntaListNewPregunta.getPreguntaList().remove(preguntaListNewPregunta);
-                        oldIdCategoriaOfPreguntaListNewPregunta = em.merge(oldIdCategoriaOfPreguntaListNewPregunta);
+                    if (oldIdcategoriaOfPreguntaListNewPregunta != null && !oldIdcategoriaOfPreguntaListNewPregunta.equals(categoria)) {
+                        oldIdcategoriaOfPreguntaListNewPregunta.getPreguntaList().remove(preguntaListNewPregunta);
+                        oldIdcategoriaOfPreguntaListNewPregunta = em.merge(oldIdcategoriaOfPreguntaListNewPregunta);
                     }
                 }
             }
@@ -138,7 +138,7 @@ public class CategoriaJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This Categoria (" + categoria + ") cannot be destroyed since the Pregunta " + preguntaListOrphanCheckPregunta + " in its preguntaList field has a non-nullable idCategoria field.");
+                illegalOrphanMessages.add("This Categoria (" + categoria + ") cannot be destroyed since the Pregunta " + preguntaListOrphanCheckPregunta + " in its preguntaList field has a non-nullable idcategoria field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
