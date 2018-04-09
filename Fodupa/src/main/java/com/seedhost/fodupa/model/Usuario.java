@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author alexis
  */
 @Entity
-@Table(name = "Usuario", catalog = "fodupa", schema = "fodupa")
+@Table(catalog = "fodupa", schema = "fodupa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
@@ -46,42 +47,54 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(nullable = false)
     private Integer id;
+
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "correo")
-    private String correo;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "contrasena")
-    private String contrasena;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "nombre")
+    @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres.")
+    @Column(nullable = false)
     private String nombre;
+
+
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "ap_paterno")
+    @Size(min = 3, max = 50, message = "El apellido paterno debe tener entre 3 y 50 caracteres.")
+    @Column(nullable = false)
     private String apPaterno;
+
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "ap_materno")
+    @Size(min = 3, max = 50, message = "El apellido materno debe tener entre 3 y 50 caracteres.")
+    @Column(nullable = false)
     private String apMaterno;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 15, max = 100)
+    @Column(nullable = false)
+    private String correo;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
+    @Column(nullable = false)
+    private String contrasena;
+
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
+    @Column(nullable = false)
+    private String confirm;
+
     @Lob
-    @Column(name = "foto")
     private byte[] foto;
     @ManyToMany(mappedBy = "usuarioList")
     private List<Carrera> carreraList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<Pregunta> preguntaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Comentario> comentarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
+    private List<Pregunta> preguntaList;
 
     public Usuario() {
     }
@@ -165,15 +178,6 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Pregunta> getPreguntaList() {
-        return preguntaList;
-    }
-
-    public void setPreguntaList(List<Pregunta> preguntaList) {
-        this.preguntaList = preguntaList;
-    }
-
-    @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;
     }
@@ -182,6 +186,28 @@ public class Usuario implements Serializable {
         this.comentarioList = comentarioList;
     }
 
+    @XmlTransient
+    public List<Pregunta> getPreguntaList() {
+        return preguntaList;
+    }
+
+    public void setPreguntaList(List<Pregunta> preguntaList) {
+        this.preguntaList = preguntaList;
+    }
+    
+    public String getConfirm() {
+            return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+            this.confirm = confirm;
+    }
+    
+    @AssertTrue(message = "Las contraseñas deben coincidir.")
+    public boolean equalsContrasenia() {
+            return contrasena.equals(confirm);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -204,7 +230,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.Usuario[ id=" + id + " ]";
+        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]";
     }
     
 }
