@@ -45,6 +45,7 @@ public class PreguntaController implements Serializable {
     private UsuarioJpaController u_jpaController;
     private PreguntaJpaController p_jpaController;
     private List<Categoria> categorias;
+    private List<Pregunta> preguntas;
     private PreguntaBean pregunta_bean;
     
     /**
@@ -71,6 +72,10 @@ public class PreguntaController implements Serializable {
             }
         }
         categorias.add(otros);
+
+        //Obtenemos las preguntas
+        p_jpaController = new PreguntaJpaController(emf);
+        preguntas = p_jpaController.findPreguntaEntities();
         
         //Inicializamos la pregunta_bean
         pregunta_bean = new PreguntaBean();
@@ -120,6 +125,10 @@ public class PreguntaController implements Serializable {
         return categorias;
     }
 
+    public List<Pregunta> getPreguntas() {
+        return preguntas;
+    }
+
     public PreguntaBean getPregunta(){
         return pregunta_bean;
     }
@@ -128,6 +137,10 @@ public class PreguntaController implements Serializable {
         this.categorias = categorias;
     }
     
+    public void setPreguntas(List<Pregunta> preguntas) {
+        this.preguntas = preguntas;
+    }
+
     public void setPregunta(PreguntaBean pregunta){
         this.pregunta_bean = pregunta;
     }
