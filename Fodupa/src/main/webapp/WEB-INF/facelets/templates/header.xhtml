@@ -25,11 +25,17 @@
                     </form>
                     <ul class="navbar-nav my-2 my-lg-0">
                         <li class="nav-item">
-                            <a4j:commandButton value="Registrarse" action="#{loginController.registra}"/>
+                            <!--<a4j:commandButton value="Registrarse" action="{loginController.registra}"/>-->
+                            <h:form>
+                                <h:link class="nav-link" value="Registrarse" outcome="registra" />
+                            </h:form>
                             <!--<a class="nav-link" href="#">Registrarse</a>-->
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Iniciar Sesión</a>
+                            <!--Provisional-->
+                            <h:form>
+                                <h:link class="nav-link" value="Iniciar Sesión" outcome="iniciasesion" />
+                            </h:form>
                         </li>
                     </ul>
                 </div>

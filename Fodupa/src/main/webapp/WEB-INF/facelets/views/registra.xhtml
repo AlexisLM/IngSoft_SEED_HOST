@@ -23,47 +23,41 @@ and open the template in the editor.
         <div class="form-group">
           <div class="form-group">
             <label for="exampleFormControlFile1">Nombre </label>
-            <h:inputText value="#{registra.nombre}" type="text" class="form-control" id="name"/>
+            <h:inputText value="#{registra.nombre}" class="form-control" id="name"/>
             <rich:message for="name" />
             <label for="exampleFormControlFile1">Apellido Paterno </label>
-            <h:inputText value="#{registra.apPaterno}" type="text" class="form-control" id="appat" />
+            <h:inputText value="#{registra.apPaterno}" class="form-control" id="appat" />
             <rich:message for="appat" />
             <label for="exampleFormControlFile1">Apellido Materno </label>
-            <h:inputText value="#{registra.apMaterno}" type="text" class="form-control" id="apmat" placeholder="Ap Materno"/>
+            <h:inputText value="#{registra.apMaterno}" class="form-control" id="apmat" />
             <rich:message for="apmat" />
           </div>
         </div>
         <div class="form-group ">
             <label for="exampleFormControlFile1">Correo </label>
-          <h:inputText value="#{registra.correo}" type="email" class="form-control" id="email" placeholder="Correo"/>
+          <h:inputText value="#{registra.correo}" class="form-control" id="email" />
               <rich:message for="email" />
         </div>
         <div class="form-group">
             <label for="exampleFormControlFile1">Contraseña </label>
-          <h:inputText value="#{registra.contrasena}" type="password" class="form-control" id="password" placeholder="Contraseña"/>
+          <h:inputSecret value="#{registra.contrasena}" class="form-control" id="password" />
           <rich:message for="password" />
         </div>
         <div class="form-group">
             <label for="exampleFormControlFile1">Confirma contraseña </label>
-          <h:inputText type="password_repeat" class="form-control" id="password_confirm" placeholder="Confirma contraseña"/>
-          <rich:message for="password_repeat" />
+          <h:inputSecret value="#{registra.confirm}" class="form-control" id="password_confirm" />
+          <rich:message for="password_confirm" />
         </div>
         <div class="form-group">
           <label for="exampleFormControlFile1">Foto de Perfil: </label>
-          <h:inputText value="#{registra.foto}" type="file" class="form-control-file" id="picture"/>
+          <h:inputFile value="#{registra.foto}"  class="form-control-file" id="picture"/>
           <rich:message for="picture" />
         </div>
         <div class="form-group ">
           <label for="exampleFormControlFile1">Carrera: </label>
           <h:selectOneMenu value="#{registra.carreraList}" id="list_c" class="form-control">
-              <f:selectItem  itemLabel = "Actuaria" />
-              <f:selectItem  itemLabel = "Matemáticas" />
-              <f:selectItem  itemLabel = "Matemáticas Aplicadas" />
-              <f:selectItem  itemLabel = "Biologia" />
-              <f:selectItem  itemLabel = "Ciencias de la computación" />
-              <f:selectItem  itemLabel = "Ciencias de la tierra" />
-              <f:selectItem  itemLabel = "Física" />
-              <f:selectItem  itemLabel = "Física Biomédicas" />
+              <f:selectItem  itemValues = "Actuaria" />
+              
           </h:selectOneMenu>
           <rich:message for="carrera" />
         </div>
