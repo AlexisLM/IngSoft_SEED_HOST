@@ -181,8 +181,8 @@ body {
 }
 
 .comment-box .comment-head {
-  background: #FCFCFC;
-  padding: 10px 12px;
+  background: #F6F6F6;
+  padding: 10px 12px 0px 12px;
   border-top: 1px solid #E5E5E5;
   border-left: 1px solid #E5E5E5;
   border-right: 1px solid #E5E5E5;
@@ -241,7 +241,7 @@ body {
 }
 
 .comment-box .icon-content {
-  background: #d39c2f;
+  background: /*#d39c2f;*/ #b0c05a;
   padding: 12px;
   font-size: 15px;
   color: #595959;
@@ -250,9 +250,8 @@ body {
   border-radius: 0 0 4px 4px;
 }
 .comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
-.comment-box .comment-name.by-author:after {
-  content: 'Autor';
-  background: #b0c05a;
+.comment-box .comment-name.by-author .categoria {
+  background: /*#b0c05a;*/ #d39c2f; /*#a27e35;*/
   color: #FFF;
   font-size: 12px;
   padding: 3px 5px;
@@ -261,6 +260,17 @@ body {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  text-shadow: 2px 1px 2px #b78727;
+}
+
+.comment-box .pregunta_titulo{
+  font-size: 19px;
+  padding-left: 10px;
+  border-style: solid;
+  border-left: 1px solid #E5E5E5;
+  border-right: 1px solid #E5E5E5;
+  border-top: none;
+  border-bottom: none;
 }
 
 /** =====================

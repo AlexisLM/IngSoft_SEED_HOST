@@ -22,11 +22,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Date;
+import java.util.Collections;
 import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManagerFactory;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
@@ -37,7 +39,7 @@ import static javax.faces.context.FacesContext.getCurrentInstance;
  */
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class PreguntaController implements Serializable {
 
     private EntityManagerFactory emf;
@@ -76,6 +78,7 @@ public class PreguntaController implements Serializable {
         //Obtenemos las preguntas
         p_jpaController = new PreguntaJpaController(emf);
         preguntas = p_jpaController.findPreguntaEntities();
+        Collections.reverse(preguntas);
         
         //Inicializamos la pregunta_bean
         pregunta_bean = new PreguntaBean();
@@ -92,8 +95,24 @@ public class PreguntaController implements Serializable {
     }
     
     
-    public void createPregunta(){
+    public String createPregunta(){
         
+        if(!validateTitulo()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "Error: Lo sentimos, el títlo sólo no admite el símbolo "+
+                    getTitleInvalidChars(), ""));
+            return null;
+        }
+
+        if(!validateDetalles()){
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                    "Error: Lo sentimos, el campo de detalles no admite el "+
+                    "símbolo"+getDetallesInvalidChars(), ""));
+            return null;
+        }
+
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new 
                                                             Locale("es-Mx"));
         FacesContext context = getCurrentInstance();
@@ -119,8 +138,38 @@ public class PreguntaController implements Serializable {
         p_jpaController = new PreguntaJpaController(emf);
         p_jpaController.create(pregunta);
         
+        clear();
+
+        return "index?faces-redirect=true";
+    }
+
+    public String clear(){
+        pregunta_bean.setTitulo(null);
+        pregunta_bean.setCategoria(null);
+        pregunta_bean.setDetalles(null);
+        return null;
     }
     
+    private boolean validateTitulo(){
+        return pregunta_bean.getTitulo().matches("^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡\"]{2,}"+
+                                       "[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\\s\"]{0,48}$");
+    }
+
+    private boolean validateDetalles(){
+        return pregunta_bean.getDetalles().matches("^[A-Za-z0-9\\s¿?+-_.*/\\{}()%&#"+
+                                              "\"$@|!¡;,:áé\\níóúÁÉÍÓÚñÑ\"]{0,}$");
+    }
+
+    private String getTitleInvalidChars(){
+        return pregunta_bean.getTitulo().replaceAll("[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡\"]{2,}"+
+                                       "[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\\s\"]{0,48}","");
+    }
+
+    private String getDetallesInvalidChars(){
+        return pregunta_bean.getDetalles().replaceAll("[A-Za-z0-9\\s¿?+-_.*/\\{}()%&#"+
+                                              "\"$@|!¡;,:áé\\níóúÁÉÍÓÚñÑ\"]{0,}","");
+    }
+
     public List<Categoria> getCategorias() {
         return categorias;
     }
