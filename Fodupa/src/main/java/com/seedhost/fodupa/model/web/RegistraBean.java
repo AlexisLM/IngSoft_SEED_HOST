@@ -5,6 +5,7 @@
  */
 package com.seedhost.fodupa.web;
 
+import com.seedhost.fodupa.model.Carrera;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -39,7 +40,7 @@ public class RegistraBean{
         return correo;
     }
     public String getContrasena(){
-        return contraseña;
+        return contrasena;
     }
     public String getConfirm(){
         return confirm;
@@ -65,7 +66,7 @@ public class RegistraBean{
         this.correo = correo;
     }
     public void setContrasena(String contraseña){
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
     }
     public void setConfirm(String confirm){
         this.confirm = confirm;

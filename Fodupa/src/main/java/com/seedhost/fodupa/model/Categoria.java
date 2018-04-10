@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author alexis
  */
 @Entity
-@Table(name = "Categoria", catalog = "fodupa", schema = "fodupa")
+@Table(catalog = "fodupa", schema = "fodupa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c")
@@ -41,17 +41,17 @@ public class Categoria implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(nullable = false)
     private Integer id;
     @Size(max = 2147483647)
-    @Column(name = "descripcion")
+    @Column(length = 2147483647)
     private String descripcion;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "nombre")
+    @Column(nullable = false, length = 50)
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCategoria")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idcategoria")
     private List<Pregunta> preguntaList;
 
     public Categoria() {
@@ -121,7 +121,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.Categoria[ id=" + id + " ]";
+        return "com.seedhost.fodupa.model.Categoria[ id=" + id + " ]";
     }
     
 }

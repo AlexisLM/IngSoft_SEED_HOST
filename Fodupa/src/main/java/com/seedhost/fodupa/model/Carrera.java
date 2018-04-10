@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author alexis
  */
 @Entity
-@Table(name = "Carrera", catalog = "fodupa", schema = "fodupa")
+@Table(catalog = "fodupa", schema = "fodupa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Carrera.findAll", query = "SELECT c FROM Carrera c")
@@ -41,16 +41,16 @@ public class Carrera implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "nombre")
+    @Column(nullable = false, length = 100)
     private String nombre;
-    @JoinTable(name = "Estudiar", joinColumns = {
-        @JoinColumn(name = "idCarrera", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "idUsuario", referencedColumnName = "id")})
+    @JoinTable(name = "estudiar", joinColumns = {
+        @JoinColumn(name = "idcarrera", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
+        @JoinColumn(name = "idusuario", referencedColumnName = "id", nullable = false)})
     @ManyToMany
     private List<Usuario> usuarioList;
 
@@ -113,7 +113,7 @@ public class Carrera implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.Carrera[ id=" + id + " ]";
+        return "com.seedhost.fodupa.model.Carrera[ id=" + id + " ]";
     }
     
 }

@@ -86,7 +86,12 @@ public class Usuario implements Serializable {
     @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
     @Column(nullable = false)
     private String confirm;
-
+    
+    @Basic(optional = false)
+    @NotNull
+    private Carrera carrera;
+    
+    
     @Lob
     private byte[] foto;
     @ManyToMany(mappedBy = "usuarioList")
@@ -176,7 +181,16 @@ public class Usuario implements Serializable {
     public void setCarreraList(List<Carrera> carreraList) {
         this.carreraList = carreraList;
     }
-
+    
+    
+    public Carrera getCarrera(){
+        return carrera;
+    }
+    
+    public void setCarrera(Carrera carrera){
+        this.carrera = carrera;
+    }
+    
     @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;

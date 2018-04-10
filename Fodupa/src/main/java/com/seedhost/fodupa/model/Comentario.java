@@ -25,13 +25,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author alexis
  */
 @Entity
-@Table(name = "Comentario", catalog = "fodupa", schema = "fodupa")
+@Table(catalog = "fodupa", schema = "fodupa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c")
     , @NamedQuery(name = "Comentario.findByFecha", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.fecha = :fecha")
-    , @NamedQuery(name = "Comentario.findByIdUsuario", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idUsuario = :idUsuario")
-    , @NamedQuery(name = "Comentario.findByIdPregunta", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idPregunta = :idPregunta")
+    , @NamedQuery(name = "Comentario.findByIdusuario", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idusuario = :idusuario")
+    , @NamedQuery(name = "Comentario.findByIdpregunta", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idpregunta = :idpregunta")
     , @NamedQuery(name = "Comentario.findByContenido", query = "SELECT c FROM Comentario c WHERE c.contenido = :contenido")})
 public class Comentario implements Serializable {
 
@@ -41,12 +41,12 @@ public class Comentario implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
-    @Column(name = "contenido")
+    @Column(nullable = false, length = 2147483647)
     private String contenido;
-    @JoinColumn(name = "idPregunta", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "idpregunta", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Pregunta pregunta;
-    @JoinColumn(name = "idUsuario", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "idusuario", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
 
@@ -62,8 +62,8 @@ public class Comentario implements Serializable {
         this.contenido = contenido;
     }
 
-    public Comentario(Date fecha, int idUsuario, int idPregunta) {
-        this.comentarioPK = new ComentarioPK(fecha, idUsuario, idPregunta);
+    public Comentario(Date fecha, int idusuario, int idpregunta) {
+        this.comentarioPK = new ComentarioPK(fecha, idusuario, idpregunta);
     }
 
     public ComentarioPK getComentarioPK() {
@@ -120,7 +120,7 @@ public class Comentario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.Comentario[ comentarioPK=" + comentarioPK + " ]";
+        return "com.seedhost.fodupa.model.Comentario[ comentarioPK=" + comentarioPK + " ]";
     }
     
 }

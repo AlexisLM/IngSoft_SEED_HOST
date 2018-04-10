@@ -17,53 +17,53 @@ and open the template in the editor.
    <main role="main" class="container">
     <h1 class="mt-5">Registro</h1>
     <h:form style="margin-top:40px">
-      <rich:graphValidator value="#{registra}" id="rgv">
-        <rich:messages for="rgv" />
-        <rich:messages globalOnly="true" />
+      <!--<rich:graphValidator value="#{registra}" id="rgv">-->
+        <!--<rich:messages for="rgv" />-->
+        <!--<rich:messages globalOnly="true" />-->
         <div class="form-group">
           <div class="form-group">
             <label for="exampleFormControlFile1">Nombre </label>
-            <h:inputText value="#{registra.nombre}" class="form-control" id="name"/>
-            <rich:message for="name" />
+            <h:inputText value="#{registraController.registra.nombre}" class="form-control" id="name"/>
+            <!--<rich:message for="name" />-->
             <label for="exampleFormControlFile1">Apellido Paterno </label>
-            <h:inputText value="#{registra.apPaterno}" class="form-control" id="appat" />
-            <rich:message for="appat" />
+            <h:inputText value="#{registraController.registra.apPaterno}" class="form-control" id="appat" />
+            <!--<rich:message for="appat" />-->
             <label for="exampleFormControlFile1">Apellido Materno </label>
-            <h:inputText value="#{registra.apMaterno}" class="form-control" id="apmat" />
-            <rich:message for="apmat" />
+            <h:inputText value="#{registraController.registra.apMaterno}" class="form-control" id="apmat" />
+            <!--<rich:message for="apmat" />-->
           </div>
         </div>
         <div class="form-group ">
             <label for="exampleFormControlFile1">Correo </label>
-          <h:inputText value="#{registra.correo}" class="form-control" id="email" />
-              <rich:message for="email" />
+          <h:inputText value="#{registraController.registra.correo}" class="form-control" id="email" />
+              <!--<rich:message for="email" />-->
         </div>
         <div class="form-group">
             <label for="exampleFormControlFile1">Contraseña </label>
-          <h:inputSecret value="#{registra.contrasena}" class="form-control" id="password" />
-          <rich:message for="password" />
+          <h:inputSecret value="#{registraController.registra.contrasena}" class="form-control" id="password" />
+          <!--<rich:message for="password" />-->
         </div>
         <div class="form-group">
             <label for="exampleFormControlFile1">Confirma contraseña </label>
-          <h:inputSecret value="#{registra.confirm}" class="form-control" id="password_confirm" />
-          <rich:message for="password_confirm" />
+          <h:inputSecret value="#{registraController.registra.confirm}" class="form-control" id="password_confirm" />
+          <!--<rich:message for="password_confirm" />-->
         </div>
-        <div class="form-group">
+<!--        <div class="form-group">
           <label for="exampleFormControlFile1">Foto de Perfil: </label>
-          <h:inputFile value="#{registra.foto}"  class="form-control-file" id="picture"/>
+          <h:inputFile value="#{registraController.registra.foto}"  class="form-control-file" id="picture"/>
           <rich:message for="picture" />
-        </div>
+        </div>-->
         <div class="form-group ">
           <label for="exampleFormControlFile1">Carrera: </label>
-          <h:selectOneMenu value="#{registra.carreraList}" id="list_c" class="form-control">
-              <f:selectItem  itemValues = "Actuaria" />
+          <h:selectOneMenu value="#{registraController.registra.carrera}" id="list_c" class="form-control">
+               <f:selectItems value="#{registraController.carreras}" var="car" itemValue="#{car.id}" itemLabel="#{car.nombre}"/>
               
           </h:selectOneMenu>
-          <rich:message for="carrera" />
+          <!--<rich:message for="carrera" />-->
         </div>
-        <a4j:commandButton value="Registrarme" class="btn btn-primary submit"
-                                        action="#{registra.addUser}" />
-      </rich:graphValidator>
+        <h:commandButton value="Registrarme" class="btn btn-primary submit"
+                                        action="#{registraController.createRegistro}" />
+      <!--</rich:graphValidator>-->
     </h:form>
   </main>
     

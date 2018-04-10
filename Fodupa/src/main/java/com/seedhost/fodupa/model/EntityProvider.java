@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 
 /**
  *
- * @author miguel
+ * @author alexis
  */
 public class EntityProvider {
 
@@ -21,7 +21,7 @@ public class EntityProvider {
 
     public static EntityManagerFactory provider() {
         if (_emf == null) {
-            _emf = Persistence.createEntityManagerFactory("PersistenceUnit");
+            _emf = Persistence.createEntityManagerFactory("com.seedhost_Fodupa_war_1.0-SNAPSHOTPU");
         }
         return _emf;
     }
