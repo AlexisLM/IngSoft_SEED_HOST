@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author alexis
  */
 @Entity
-@Table(name = "Pregunta", catalog = "fodupa", schema = "fodupa")
+@Table(catalog = "fodupa", schema = "fodupa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pregunta.findAll", query = "SELECT p FROM Pregunta p")
@@ -47,29 +47,29 @@ public class Pregunta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "titulo")
+    @Column(nullable = false, length = 50)
     private String titulo;
     @Size(max = 2147483647)
-    @Column(name = "descripcion")
+    @Column(length = 2147483647)
     private String descripcion;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "fecha")
+    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "idCategoria", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Categoria idCategoria;
-    @JoinColumn(name = "idUsuario", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Usuario idUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pregunta")
     private List<Comentario> comentarioList;
+    @JoinColumn(name = "idcategoria", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Categoria idcategoria;
+    @JoinColumn(name = "idusuario", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Usuario idusuario;
 
     public Pregunta() {
     }
@@ -116,22 +116,6 @@ public class Pregunta implements Serializable {
         this.fecha = fecha;
     }
 
-    public Categoria getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(Categoria idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-
-    public Usuario getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;
@@ -139,6 +123,22 @@ public class Pregunta implements Serializable {
 
     public void setComentarioList(List<Comentario> comentarioList) {
         this.comentarioList = comentarioList;
+    }
+
+    public Categoria getIdcategoria() {
+        return idcategoria;
+    }
+
+    public void setIdcategoria(Categoria idcategoria) {
+        this.idcategoria = idcategoria;
+    }
+
+    public Usuario getIdusuario() {
+        return idusuario;
+    }
+
+    public void setIdusuario(Usuario idusuario) {
+        this.idusuario = idusuario;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class Pregunta implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.Pregunta[ id=" + id + " ]";
+        return "com.seedhost.fodupa.model.Pregunta[ id=" + id + " ]";
     }
     
 }

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author alexis
  */
 @Entity
-@Table(name = "Usuario", catalog = "fodupa", schema = "fodupa")
+@Table(catalog = "fodupa", schema = "fodupa")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
@@ -46,42 +46,41 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
+    @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "correo")
+    @Column(nullable = false, length = 100)
     private String correo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(name = "contrasena")
+    @Column(nullable = false, length = 20)
     private String contrasena;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "nombre")
+    @Column(nullable = false, length = 50)
     private String nombre;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "ap_paterno")
+    @Column(name = "ap_paterno", nullable = false, length = 50)
     private String apPaterno;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
-    @Column(name = "ap_materno")
+    @Column(name = "ap_materno", nullable = false, length = 50)
     private String apMaterno;
     @Lob
-    @Column(name = "foto")
     private byte[] foto;
     @ManyToMany(mappedBy = "usuarioList")
     private List<Carrera> carreraList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<Pregunta> preguntaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Comentario> comentarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idusuario")
+    private List<Pregunta> preguntaList;
 
     public Usuario() {
     }
@@ -165,21 +164,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Pregunta> getPreguntaList() {
-        return preguntaList;
-    }
-
-    public void setPreguntaList(List<Pregunta> preguntaList) {
-        this.preguntaList = preguntaList;
-    }
-
-    @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;
     }
 
     public void setComentarioList(List<Comentario> comentarioList) {
         this.comentarioList = comentarioList;
+    }
+
+    @XmlTransient
+    public List<Pregunta> getPreguntaList() {
+        return preguntaList;
+    }
+
+    public void setPreguntaList(List<Pregunta> preguntaList) {
+        this.preguntaList = preguntaList;
     }
 
     @Override
@@ -204,7 +203,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.Usuario[ id=" + id + " ]";
+        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]";
     }
     
 }

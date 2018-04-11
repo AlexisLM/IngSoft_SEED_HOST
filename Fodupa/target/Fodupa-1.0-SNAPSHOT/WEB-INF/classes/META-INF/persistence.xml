@@ -3,16 +3,17 @@
   <persistence-unit name="com.seedhost_Fodupa_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.seedhost.fodupa.model.Pregunta</class>
-    <class>com.seedhost.fodupa.model.Carrera</class>
     <class>com.seedhost.fodupa.model.Comentario</class>
     <class>com.seedhost.fodupa.model.Usuario</class>
     <class>com.seedhost.fodupa.model.Categoria</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>com.seedhost.fodupa.model.Carrera</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/fodupa"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="seedhost"/>
+      <!--property name="javax.persistence.schema-generation.database.action" value=""/-->
     </properties>
   </persistence-unit>
 </persistence>
