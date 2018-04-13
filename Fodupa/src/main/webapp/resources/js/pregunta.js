@@ -11,8 +11,8 @@ function uniqChars(str) {
 }
 
 /**
- * [toggleQuestionModals description]
- * @return {[type]} [description]
+ * Toggles question input and question modal
+ * @return {void}
  */
 function toggleQuestionModals(){
     $("#addQuestion-cont").toggleClass("hide"); //Create question input
@@ -20,8 +20,9 @@ function toggleQuestionModals(){
 }
 
 /**
- * [validateTitle description]
- * @return {[type]} [description]
+ * Validates value of title. [At least 2 chars, letters, numbers, question 
+ * marks, exclamation marks and spaces]
+ * @return {boolean} True if the test passes, false otherwise.
  */
 function validateTitle(){
     var pattern = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡"]{2}[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\s"]{0,48}$/;
@@ -29,8 +30,11 @@ function validateTitle(){
 };
 
 /**
- * [validateDetails description]
- * @return {[type]} [description]
+ * Validates value of details. [At least 2 chars, letters, numbers, question 
+ * marks, exclamation marks, arithmetic operators, braces, parenthesis, pipes, 
+ * ampersands, punctuation marks, at, underscores, sharps, line brakes and 
+ * spaces]
+ * @return {boolean} True if the test passes, false otherwise.
  */
 function validateDetails(){
     var pattern = /^[A-Za-z0-9\s¿?+-_.*/{}()%&amp;#$@|!¡;,:áé\níóúÁÉÍÓÚñÑ"]*$/;
@@ -38,8 +42,8 @@ function validateDetails(){
 };
 
 /**
- * [validateTitleLength description]
- * @return {[type]} [description]
+ * Validates the length of the title. [At least 5 chars]
+ * @return {boolean} True if the test passes, false otherwise.
  */
 function validateTitleLength(){
     return $("#form_question\\:title").val().replace(/^\s*/, "").length >= 5 &&
@@ -47,8 +51,8 @@ function validateTitleLength(){
 }
 
 /**
- * [getTitleInvalidChars description]
- * @return {[type]} [description]
+ * Gets the invalid chars of the title.
+ * @return {string} The invalid chars of the title.
  */
 function getTitleInvalidChars(){
     var pattern = /[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\s"]/g;
@@ -56,8 +60,8 @@ function getTitleInvalidChars(){
 }
 
 /**
- * [getDetailsInvalidChars description]
- * @return {[type]} [description]
+ * Gets the invalid chars of the details.
+ * @return {string} The invalid chars of the details.
  */
 function getDetailsInvalidChars(){
     var pattern = /[A-Za-z0-9\s¿?+-_.*/{}()%&amp;#$@|!¡;,:áé\níóúÁÉÍÓÚñÑ"]/g;
@@ -65,8 +69,8 @@ function getDetailsInvalidChars(){
 };
 
 /**
- * [successStatusTitle description]
- * @return {[type]} [description]
+ * Set a success status for the title field.
+ * @return {void} 
  */
 function successStatusTitle(){
     $("#form_question\\:title").addClass('is-valid');
@@ -77,8 +81,8 @@ function successStatusTitle(){
 }
 
 /**
- * [successStatusDetails description]
- * @return {[type]} [description]
+ * Set a success status for the details field.
+ * @return {void} 
  */
 function successStatusDetails(){
     $("#form_question\\:details").addClass('is-valid');
@@ -89,8 +93,8 @@ function successStatusDetails(){
 }
 
 /**
- * [errorStatusTitle description]
- * @return {[type]} [description]
+ * Set a error status for the title field.
+ * @return {void} 
  */
 function errorStatusTitle(){
     $("#form_question\\:title").addClass('is-invalid');
@@ -101,8 +105,8 @@ function errorStatusTitle(){
 }
 
 /**
- * [errorStatusDetails description]
- * @return {[type]} [description]
+ * Set a error status for the details field.
+ * @return {void} 
  */
 function errorStatusDetails(){
     $("#form_question\\:details").addClass('is-invalid');
