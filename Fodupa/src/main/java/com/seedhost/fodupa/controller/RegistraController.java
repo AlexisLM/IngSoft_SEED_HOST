@@ -9,6 +9,11 @@ import com.seedhost.fodupa.model.UsuarioJpaController;
 
 /* Vista */
 import com.seedhost.fodupa.web.RegistraBean;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -88,14 +93,38 @@ public class RegistraController implements Serializable {
         */
         
         String confirm = registra_bean.getConfirm();
-        
+        byte[] foto = registra_bean.getFoto();
+
+//        //Take the default user image.
+        if(foto == null){
+            String src = "../../../../../webapp/resources/imgs/default_user.png";
+            File file = new File(src);
+            
+            try{
+                FileInputStream fis = new FileInputStream(file);
+                //create FileInputStream which obtains input bytes from a file in a file system
+
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                try {
+                    for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                        //Writes to this byte array output stream
+                        bos.write(buf, 0, readNum); 
+                        System.out.println("read " + readNum + " bytes,");
+                    }
+                } catch (IOException ex){}
+                
+                foto = bos.toByteArray();
+            }catch(FileNotFoundException e){}   
+        }
+                
         usuario.setNombre(registra_bean.getNombre());
         usuario.setApPaterno(registra_bean.getApPaterno());
         usuario.setApMaterno(registra_bean.getApMaterno());
         usuario.setCorreo(registra_bean.getCorreo());
         usuario.setContrasena(registra_bean.getContrasena());
         usuario.setCarrera(registra_bean.getCarrera());
-        usuario.setFoto(registra_bean.getFoto());
+        usuario.setFoto(foto);
         
         usuario.setConfirm(confirm);
         
