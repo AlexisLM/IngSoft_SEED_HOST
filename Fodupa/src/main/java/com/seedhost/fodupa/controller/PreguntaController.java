@@ -143,11 +143,11 @@ public class PreguntaController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    public String clear(){
+    public void clear(){
         pregunta_bean.setTitulo(null);
         pregunta_bean.setCategoria(null);
         pregunta_bean.setDetalles(null);
-        return null;
+        return;
     }
     
     private boolean validateTitulo(){
