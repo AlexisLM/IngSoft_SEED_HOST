@@ -44,6 +44,7 @@ public class RegistraController implements Serializable {
     private CarreraJpaController c_jpaController;
     private UsuarioJpaController u_jpaController;
     private List<Carrera> carreras;
+    private Carrera carrera;
     private RegistraBean registra_bean;
 
     /**
@@ -137,6 +138,18 @@ public class RegistraController implements Serializable {
     
     public List<Carrera> getCarreras() {
         return carreras;
+    }
+    
+    public Carrera getCarrera(Integer id){
+        if (id == null){
+            throw new IllegalArgumentException("no id provided");
+        }
+        for (Carrera carr : carreras){
+            if (id.equals(carr.getId())){
+                return carr;
+            }
+        }
+        return null;
     }
 
     public RegistraBean getRegistra(){

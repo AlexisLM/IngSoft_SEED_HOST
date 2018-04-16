@@ -14,8 +14,7 @@ import javax.faces.bean.SessionScoped;
  *
  * @author fergch97
  */
-@ManagedBean
-@SessionScoped
+
 public class RegistraBean{
     private String nombre;
     private String apPaterno;
