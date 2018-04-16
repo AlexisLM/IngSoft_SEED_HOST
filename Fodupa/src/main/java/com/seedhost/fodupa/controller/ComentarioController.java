@@ -70,12 +70,12 @@ public class ComentarioController implements Serializable {
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
         if(usuario == null) {
             u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(1);
+            usuario = u_jpaController.findUsuario(2);
             context.getExternalContext().getSessionMap().put("usuario", usuario);
         }
 
         //Obtenemos la pregunta actual (Esto es del caso de uso de Alexis)
-        Pregunta pregunta = (Pregunta)context.getExternalContext().getSessionMap().get("pregunta");
+        Pregunta pregunta = (Pregunta) context.getExternalContext().getSessionMap().get("pregunta");
         if(pregunta == null) {
             p_jpaController = new PreguntaJpaController(emf);
             pregunta = p_jpaController.findPregunta(5);
@@ -103,9 +103,9 @@ public class ComentarioController implements Serializable {
         comentarioPK.setFecha(new Date());
         comentarioPK.setIdpregunta(pregunta.getId());
         comentarioPK.setIdusuario(usuario.getId());
- 
+
         Comentario comentario = new Comentario(comentarioPK);
-        
+
         comentario.setContenido(comentario_bean.getContenido());
         comentario.setPregunta(pregunta);
         comentario.setUsuario(usuario);

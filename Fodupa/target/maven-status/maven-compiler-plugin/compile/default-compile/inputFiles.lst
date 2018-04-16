@@ -12,7 +12,9 @@
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/model/exceptions/PreexistingEntityException.java
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/controller/ComentarioController.java
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/model/Pregunta.java
+/home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/controller/PreguntaController.java
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/model/EntityProvider.java
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/model/Carrera.java
+/home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/web/PreguntaBean.java
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/model/UsuarioJpaController.java
 /home/rodd/Documentos/GitHub/IngSoft_SEED_HOST/Fodupa/src/main/java/com/seedhost/fodupa/model/PreguntaJpaController.java
