@@ -60,13 +60,13 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 3, max = 50, message = "El apellido paterno debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ap_paterno")
     private String apPaterno;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 3, max = 50, message = "El apellido materno debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ap_materno")
     private String apMaterno;
 
     @Basic(optional = false)
@@ -86,12 +86,12 @@ public class Usuario implements Serializable {
     @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
     @Column(nullable = false)
     private String confirm;
-    
+
     @Basic(optional = false)
     @NotNull
     private Carrera carrera;
-    
-    
+
+
     @Lob
     private byte[] foto;
     @ManyToMany(mappedBy = "usuarioList")
@@ -181,16 +181,16 @@ public class Usuario implements Serializable {
     public void setCarreraList(List<Carrera> carreraList) {
         this.carreraList = carreraList;
     }
-    
-    
+
+
     public Carrera getCarrera(){
         return carrera;
     }
-    
+
     public void setCarrera(Carrera carrera){
         this.carrera = carrera;
     }
-    
+
     @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;
@@ -208,7 +208,7 @@ public class Usuario implements Serializable {
     public void setPreguntaList(List<Pregunta> preguntaList) {
         this.preguntaList = preguntaList;
     }
-    
+
     public String getConfirm() {
             return confirm;
     }
@@ -216,12 +216,12 @@ public class Usuario implements Serializable {
     public void setConfirm(String confirm) {
             this.confirm = confirm;
     }
-    
+
     @AssertTrue(message = "Las contraseñas deben coincidir.")
     public boolean equalsContrasenia() {
             return contrasena.equals(confirm);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -246,5 +246,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]";
     }
-    
+
 }
