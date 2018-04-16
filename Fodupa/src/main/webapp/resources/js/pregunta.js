@@ -168,4 +168,4 @@ window.onload = function(){
         if(!validateTitleLength() || !validateTitle() || !validateDetails())
             return false;
     });
-}
+};
