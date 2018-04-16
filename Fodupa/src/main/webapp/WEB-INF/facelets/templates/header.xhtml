@@ -27,7 +27,22 @@
                             <a class="nav-link" href="#">Perfil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Cerrar Sesión</a>
+                            <c:choose>
+                                <c:when test="#{usuarioBean.logged}">                     
+                                    <div class ="my-2 my-lg-0">
+                                      <h:form id="exit">
+                                          <h:inputText class="form-control" value="#{loginController.usuario.correo}" a:placeholder="#{loginController.usuario.correo}" required="true"/>
+                                        <h:commandButton action="#{loginController.logout}"
+                                                       value="Cerrar Sesión"
+                                                       class="btn btn-outline-success my-2 my-sm-0"/>
+                                      </h:form>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">Iniciar Sesión</a>
+                                </c:otherwise>
+                            </c:choose>
+                            
                         </li>
                     </ul>
                 </div>
@@ -37,5 +52,41 @@
                 <div class="color-secundario"></div>
             </div>
         </div>
+        
+          <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Inicia Sesión </h6>          
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">X</button>
+        </div>
+        <div class="modal-body">
+            <h:form id="myForm" class="form-inline my-2 my-lg-0">
+                <label class="col-md-2 col-form-label" for="title">Correo: </label>  
+                <div class="col-sm-10">                          
+                  <h:inputText value="#{loginController.usuario.correo}"
+                               required="true" id="Correo"
+                               size="15" class="form-control mr-sm-2"
+                               a:placeholder="Correo Electrónico"/>
+                </div>
+                <div class="col-sm-12 " style="height: 20px" ></div>
+                <label class="col-md-2 col-form-label" for="title">Contraseña: </label>  
+                <div class="col-sm-10">
+                    <h:inputSecret value="#{loginController.usuario.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
+                                   a:placeholder="Contraseña"/>
+                </div>    
+            </h:form>            
+        </div>
+        <div class="modal-footer">
+            <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin()}"/>
+          <!--button type="button" class="btn btn-info btn-lg">Aceptar</button-->
+        </div>
+      </div>
+      
+    </div>
+  </div>
     </header>
 </ui:composition>
