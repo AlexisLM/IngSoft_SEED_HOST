@@ -84,6 +84,7 @@ public class RegistraController implements Serializable {
         emf = EntityProvider.provider();
         
         Usuario usuario = new Usuario();
+        Usuario usr = new Usuario();
         Carrera carrera = new Carrera();
         
         /*Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
@@ -127,9 +128,10 @@ public class RegistraController implements Serializable {
         usuario.setCarrera(registra_bean.getCarrera());
         usuario.setFoto(foto);
         
-        usuario.setConfirm(confirm);
+        usr.setConfirm(confirm);
+        usr.setContrasena(registra_bean.getContrasena());
         
-        if(usuario.equalsContrasenia()){
+        if(usr.equalsContrasenia()){
             u_jpaController = new UsuarioJpaController(emf);
             u_jpaController.create(usuario);
         }

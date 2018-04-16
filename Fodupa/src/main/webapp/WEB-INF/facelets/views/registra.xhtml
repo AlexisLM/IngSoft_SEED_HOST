@@ -55,9 +55,14 @@ and open the template in the editor.
         </div>
         <div class="form-group ">
           <label for="exampleFormControlFile1">Carrera: </label>
-          <h:selectOneMenu value="#{registraController.registra.carrera}" id="list_c" class="form-control" converter ="convertidorCarrera">
-               <f:selectItems value="#{registraController.carreras}" var="car" itemValue="#{car.id}" itemLabel="#{car.nombre}"/>
-              
+          <h:selectOneMenu value="#{registraController.registra.carrera}"
+                           id="list_c"
+                           class="form-control"
+                           converter ="convertidorCarrera">
+               <f:selectItems value="#{registraController.carreras}"
+                              var="car"
+                              itemValue="#{car}"
+                              itemLabel="#{car.nombre}"/>
           </h:selectOneMenu>
           <!--<rich:message for="carrera" />-->
         </div>

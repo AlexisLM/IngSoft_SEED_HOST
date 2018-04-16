@@ -60,25 +60,25 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 3, max = 50, message = "El apellido paterno debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ap_paterno")
     private String apPaterno;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 3, max = 50, message = "El apellido materno debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ap_materno") 
     private String apMaterno;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 15, max = 100)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "correo")
     private String correo;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
-    @Column(nullable = false)
+    @Column(nullable = false, name = "contrasena")
     private String contrasena;
 
     @Basic(optional = false)
@@ -89,6 +89,7 @@ public class Usuario implements Serializable {
     
     @Basic(optional = false)
     @NotNull
+    @Column(nullable = false, name = "carrera")
     private Carrera carrera;
     
     
