@@ -3,12 +3,12 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 3/04/2018, 01:21:09 AM
     Author     : fergch97
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f = "http://java.sun.com/jsf/core"   
+                xmlns:f = "http://java.sun.com/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:a4j="http://richfaces.org/a4j"
@@ -55,9 +55,15 @@ and open the template in the editor.
         </div>
         <div class="form-group ">
           <label for="exampleFormControlFile1">Carrera: </label>
-          <h:selectOneMenu value="#{registraController.registra.carrera}" id="list_c" class="form-control" converter ="convertidorCarrera">
-               <f:selectItems value="#{registraController.carreras}" var="car" itemValue="#{car.id}" itemLabel="#{car.nombre}"/>
-              
+          <h:selectOneMenu value="#{registraController.registra.carrera}"
+                           id="list_c"
+                           class="form-control"
+                           converter ="convertidorCarrera">
+               <f:selectItems value="#{registraController.carreras}"
+                              var="car"
+                              itemValue="#{car}"
+                              itemLabel="#{car.nombre}"/>
+
           </h:selectOneMenu>
           <!--<rich:message for="carrera" />-->
         </div>
@@ -66,6 +72,6 @@ and open the template in the editor.
       <!--</rich:graphValidator>-->
     </h:form>
   </main>
-    
+
 
 </ui:composition>
