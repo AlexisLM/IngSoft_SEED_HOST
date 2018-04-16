@@ -55,10 +55,9 @@
         <div id="addComentario" class="col-sm-11 ml-auto p-2 mt-2">
             <h:form id="form_comment">
                 <div class="card">
-                    <div class="col-sm-12">
-                        <div class="card-body">
-                            <h:inputText id="contenido" class="form-control" value="#{comentarioController.comentario.contenido}" a:placeholder="Introduce tu comentario"  required="true"/>
-                        </div>
+                    <div class="card-body">
+                        <h:inputText id="contenido" class="form-control" value="#{comentarioController.comentario.contenido}" a:placeholder="Introduce tu comentario"  required="true"/>
+                        <div id="error_contenido" class="hide text-danger"></div>
                     </div>
                     <h:commandButton class="btn btn-outline-success float-right btn-question" value="Comentar" action="#{comentarioController.createComentario}"/>
                 </div>
