@@ -11,6 +11,15 @@ function uniqChars(str) {
 }
 
 /**
+ * [toggleCommentModals description]
+ * @return {[type]} [description]
+ */
+function toggleCommentModals(){
+    $("#reply").toggleClass("hide");            //Create comment input
+    $("#addComentario").toggleClass("hide");    //Comment modal
+}
+
+/**
  * [validateContentLength contenido]
  * @return {[type]} [contenido]
  */
@@ -61,7 +70,10 @@ function errorStatusContent(){
 }
 
 window.onload = function(){
-    
+
+    // Div [reply] event handler
+    $("#reply").on("click", toggleCommentModals);
+
     //Input [contenido] event handler
     $("#form_comment\\:contenido").on("keyup", function(){
         if(!validateContentLength()){

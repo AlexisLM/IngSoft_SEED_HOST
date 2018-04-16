@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -84,13 +83,6 @@ public class ComentarioController implements Serializable {
     }
     
     public String createComentario() throws Exception {
-
-        if(!validateContenido()){
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Error: Lo sentimos, el campo de contenido no admite el símbolo" + getContenidoInvalidChars(), ""));
-            return null;
-        }
                 
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
         FacesContext context = getCurrentInstance();
@@ -118,9 +110,9 @@ public class ComentarioController implements Serializable {
         return "index?faces-redirect=true";
     }
 
-    public String clear() {
+    public void clear() {
         comentario_bean.setContenido(null);
-        return null;
+        return;
     }
 
     private boolean validateContenido(){
