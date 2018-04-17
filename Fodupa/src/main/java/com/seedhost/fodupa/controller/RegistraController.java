@@ -8,7 +8,7 @@ import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
 
 /* Vista */
-import com.seedhost.fodupa.web.RegistraBean;
+import com.seedhost.fodupa.model.web.RegistraBean;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -84,9 +85,8 @@ public class RegistraController implements Serializable {
         emf = EntityProvider.provider();
         
         Usuario usuario = new Usuario();
-        Usuario usr = new Usuario();
         Carrera carrera = new Carrera();
-        
+        List<Carrera> carreras = new ArrayList<>();
         /*Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
                                     .get("usuario");
         */
@@ -120,21 +120,18 @@ public class RegistraController implements Serializable {
             }catch(FileNotFoundException e){}   
         }
                 
+        carreras.add(registra_bean.getCarrera());
+        
         usuario.setNombre(registra_bean.getNombre());
         usuario.setApPaterno(registra_bean.getApPaterno());
         usuario.setApMaterno(registra_bean.getApMaterno());
         usuario.setCorreo(registra_bean.getCorreo());
         usuario.setContrasena(registra_bean.getContrasena());
-        usuario.setCarrera(registra_bean.getCarrera());
+        usuario.setCarreraList(carreras);
         usuario.setFoto(foto);
         
-        usr.setConfirm(confirm);
-        usr.setContrasena(registra_bean.getContrasena());
-        
-        if(usr.equalsContrasenia()){
-            u_jpaController = new UsuarioJpaController(emf);
-            u_jpaController.create(usuario);
-        }
+        u_jpaController = new UsuarioJpaController(emf);
+        u_jpaController.create(usuario);
         
     }
     
@@ -165,4 +162,9 @@ public class RegistraController implements Serializable {
     public void setRegistra(RegistraBean registra){
         this.registra_bean = registra;
     }
+    
+    public String formularioRegistro(){
+        return "views/registra?faces-redirect=true";
+    }
+    
 }

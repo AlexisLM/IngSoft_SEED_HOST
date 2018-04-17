@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seedhost.fodupa.web;
+package com.seedhost.fodupa.model.web;
 
 import com.seedhost.fodupa.model.Carrera;
-
 /**
  *
  * @author fergch97
@@ -21,11 +20,11 @@ public class RegistraBean{
     private String confirm;
     private byte[] foto;
     private Carrera carrera;
-    
+
     public String getNombre(){
         return nombre;
     }
-    
+
     public String getApPaterno(){
         return apPaterno;
     }
@@ -47,7 +46,7 @@ public class RegistraBean{
     public Carrera getCarrera(){
         return carrera;
     }
-    
+
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
@@ -61,6 +60,7 @@ public class RegistraBean{
     public void setCorreo(String correo){
         this.correo = correo;
     }
+    
     public void setContrasena(String contrasena){
         this.contrasena = contrasena;
     }
@@ -73,5 +73,5 @@ public class RegistraBean{
     public void setCarrera(Carrera carrera){
         this.carrera = carrera;
     }
-    
+
 }

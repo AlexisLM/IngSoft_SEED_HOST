@@ -20,7 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -49,50 +48,31 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-
     @Basic(optional = false)
     @NotNull
-    @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false)
-    private String nombre;
-
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 3, max = 50, message = "El apellido paterno debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false, name = "ap_paterno")
-    private String apPaterno;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 3, max = 50, message = "El apellido materno debe tener entre 3 y 50 caracteres.")
-    @Column(nullable = false, name = "ap_materno") 
-    private String apMaterno;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 15, max = 100)
-    @Column(nullable = false, name = "correo")
+    @Size(min = 1, max = 100)
+    @Column(name = "correo", nullable = false, length = 100)
     private String correo;
-
     @Basic(optional = false)
     @NotNull
-    @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
-    @Column(nullable = false, name = "contrasena")
+    @Size(min = 1, max = 20)
+    @Column(name = "contrasena", nullable = false, length = 20)
     private String contrasena;
-
     @Basic(optional = false)
     @NotNull
-    @Size(min = 6, max = 20, message = "La contraseña debe tener entre 6 y 20 caracteres.")
-    @Column(nullable = false)
-    private String confirm;
-    
+    @Size(min = 3, max = 50)
+    @Column(name = "nombre", nullable = false, length = 50)
+    private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false, name = "carrera")
-    private Carrera carrera;
-    
-    
+    @Size(min = 3, max = 50)
+    @Column(name = "ap_paterno", nullable = false, length = 50)
+    private String apPaterno;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 3, max = 50)
+    @Column(name = "ap_materno", nullable = false, length = 50)
+    private String apMaterno;
     @Lob
     private byte[] foto;
     @ManyToMany(mappedBy = "usuarioList")
@@ -182,16 +162,7 @@ public class Usuario implements Serializable {
     public void setCarreraList(List<Carrera> carreraList) {
         this.carreraList = carreraList;
     }
-    
-    
-    public Carrera getCarrera(){
-        return carrera;
-    }
-    
-    public void setCarrera(Carrera carrera){
-        this.carrera = carrera;
-    }
-    
+
     @XmlTransient
     public List<Comentario> getComentarioList() {
         return comentarioList;
@@ -209,20 +180,7 @@ public class Usuario implements Serializable {
     public void setPreguntaList(List<Pregunta> preguntaList) {
         this.preguntaList = preguntaList;
     }
-    
-    public String getConfirm() {
-            return confirm;
-    }
 
-    public void setConfirm(String confirm) {
-            this.confirm = confirm;
-    }
-    
-    @AssertTrue(message = "Las contraseñas deben coincidir.")
-    public boolean equalsContrasenia() {
-            return contrasena.equals(confirm);
-    }
-    
     @Override
     public int hashCode() {
         int hash = 0;
