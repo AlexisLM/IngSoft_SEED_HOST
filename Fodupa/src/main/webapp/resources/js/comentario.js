@@ -34,7 +34,7 @@ function validateContentLength(){
 function validateContent(){
     var pattern = /^[A-Za-z0-9\s¿?+-_.*/{}()%&amp;#$@|!¡;,:áé\níóúÁÉÍÓÚñÑ"]*$/;
     return pattern.test($("#form_comment\\:contenido").val());
-};
+}
 
 /**
  * [getContenidoInvalidChars contenido]
@@ -43,7 +43,7 @@ function validateContent(){
 function getContentInvalidChars(){
     var pattern = /[A-Za-z0-9\s¿?+-_.*/{}()%&amp;#$@|!¡;,:áé\níóúÁÉÍÓÚñÑ"]/g;
     return uniqChars($("#form_comment\\:contenido").val().replace(pattern,""));
-};
+}
 
 /**
  * [successStatusContent contenido]
@@ -93,4 +93,4 @@ window.onload = function(){
             return false;
     });
 
-}
+};

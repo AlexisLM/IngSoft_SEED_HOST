@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Date;
 import java.util.Collections;
 import java.util.List;
+import java.sql.Timestamp;
 import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
@@ -69,7 +70,7 @@ public class ComentarioController implements Serializable {
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
         if(usuario == null) {
             u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(2);
+            usuario = u_jpaController.findUsuario(1);
             context.getExternalContext().getSessionMap().put("usuario", usuario);
         }
 
@@ -97,11 +98,12 @@ public class ComentarioController implements Serializable {
         comentarioPK.setIdusuario(usuario.getId());
 
         Comentario comentario = new Comentario(comentarioPK);
+        comentarios.add(0, comentario); //Agrega el nuevo comentario a la lista de comentarios
 
         comentario.setContenido(comentario_bean.getContenido());
         comentario.setPregunta(pregunta);
         comentario.setUsuario(usuario);
-
+        
         c_jpaController = new ComentarioJpaController(emf);
         c_jpaController.create(comentario); //create
 
@@ -112,17 +114,6 @@ public class ComentarioController implements Serializable {
 
     public void clear() {
         comentario_bean.setContenido(null);
-        return;
-    }
-
-    private boolean validateContenido(){
-        return comentario_bean.getContenido().matches("[A-Za-z0-9\\s¿?+-_.*/\\{}()%&#"+
-                                              "\"$@|!¡;,:áé\\níóúÁÉÍÓÚñÑ\"]{0,}");
-    }
-
-    private String getContenidoInvalidChars(){
-        return comentario_bean.getContenido().replaceAll("[A-Za-z0-9\\s¿?+-_.*/\\{}()%&#"+
-                                              "\"$@|!¡;,:áé\\níóúÁÉÍÓÚñÑ\"]{0,}","");
     }
 
     public ComentarioBean getComentario() {
