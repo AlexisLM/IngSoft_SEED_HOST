@@ -24,7 +24,7 @@ public class ComentarioPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     @Basic(optional = false)
     @Column(nullable = false)
