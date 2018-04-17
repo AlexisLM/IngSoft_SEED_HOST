@@ -25,7 +25,7 @@ function toggleQuestionModals(){
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validateTitle(){
-    var pattern = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡"]{2}[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\s"]{0,48}$/;
+    var pattern = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡"]{5}[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\s"]{0,45}$/;
     return pattern.test($("#form_question\\:title").val());
 };
 
