@@ -25,7 +25,7 @@ function toggleQuestionModals(){
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validateTitle(){
-    var pattern = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡"]{5}[A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\s"]{0,45}$/;
+    var pattern = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ¿?!¡"][A-Za-z0-9áéíóúÁÉÍÓÚñÑ!¡¿?\s"]{0,45}$/;
     return pattern.test($("#form_question\\:title").val());
 };
 
@@ -46,7 +46,7 @@ function validateDetails(){
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validateTitleLength(){
-    return $("#form_question\\:title").val().replace(/^\s*/, "").length >= 5 &&
+    return $("#form_question\\:title").val().replace(/^\s*/, "").length >= 1 &&
            $("#form_question\\:title").val().length <= 50;
 }
 
@@ -118,14 +118,21 @@ function errorStatusDetails(){
 
 /* -------------------------------------------------------------------------- */
 /**
- * [toggleCommentModals description]
+ * [showCommentModal description]
  * @return {[type]} [description]
  */
-function toggleCommentModals(element){
-    //console.log(element);
+function showCommentModal(element){
     $(element).toggleClass("hide");            //Create comment input
     $(element).parents(".comment-main-level").next().toggleClass("hide");
-    //$("#addComentario").toggleClass("hide");    //Comment modal
+}
+
+/**
+ * [showCommentModal description]
+ * @return {[type]} [description]
+ */
+function hideCommentModal(element){
+    $(element).parents(".addComentario").toggleClass("hide");
+    $(element).parents(".addComentario").prev().find(".reply_question").toggleClass("hide");
 }
 
 /**
@@ -206,12 +213,16 @@ window.onload = function(){
         if(!validateTitleLength()){
             errorStatusTitle();
             $("#error_title").text("Lo sentimos, la longitud del título debe "+
-                                   "ser de 5 a 50 caracteres.");
+                                   "ser de 1 a 50 caracteres.");
         }
         else if(!validateTitle()){
             errorStatusTitle();
-            $("#error_title").text("Lo sentimos, los siguientes caracteres no "+
-                                   "son válidos: "+getTitleInvalidChars());
+            if($(this).val().startsWith(" "))
+                $("#error_title").text("Lo sentimos, no se permiten espacios "+
+                                       "al inicio del título.");
+            else    
+                $("#error_title").text("Lo sentimos, los siguientes caracteres "+
+                                       "no son válidos: "+getTitleInvalidChars());
         }
         else
             successStatusTitle();
@@ -235,7 +246,9 @@ window.onload = function(){
     });
     
     // Div [reply] event handler
-    $(".reply_question").on("click", function(){toggleCommentModals(this)});
+    $(".reply_question").on("click", function(){showCommentModal(this);});
+    $(".btn-comment").on("click", function(){hideCommentModal(this);});
+    // 
 
     //Input [contenido] event handler
     $("#form_comment\\:contenido").on("keyup", function(){

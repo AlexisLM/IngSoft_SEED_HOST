@@ -6,48 +6,47 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
-            <!-- Realizar Comentario -->
-            <div class="col-md-11 ml-auto mt-12 addComentario hide">
-                <div class="card">
-                    <div class="card-body">
-                        <h:form id="form_comment">
-                            <h:inputTextarea id="contenido" class="form-control" value="#{comentarioController.comentario.contenido}" a:placeholder="Introduce tu comentario"  required="true"/>
-                            <div id="error_contenido" class="hide text-danger"></div>
-                            <div class="col-md-12">
-                                <h:commandButton class="btn btn-outline-success float-right btn-question" value="Comentar" action="#{comentarioController.createComentario(pregunta)}"/>
-                                <button type="button" class="btn btn-outline-secondary float-right btn-question">Cancelar</button>
-                            </div>
-                        </h:form>
+    <!-- Realizar Comentario -->
+    <div class="col-md-10 ml-auto mt-3 addComentario hide">
+        <div class="card">
+            <div class="card-body">
+                <h:form id="form_comment">
+                    <h:inputTextarea id="contenido" class="form-control" value="#{comentarioController.comentario.contenido}" a:placeholder="Introduce tu comentario"  required="true"/>
+                    <div id="error_contenido" class="hide text-danger"></div>
+                    <br></br>
+                    <h:commandButton class="btn btn-outline-success float-right ml-3" value="Comentar" action="#{comentarioController.createComentario(pregunta)}"/>
+                    <button type="button" class="btn btn-outline-secondary float-right btn-comment">Cancelar</button>
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Respuestas de los comentarios -->
+    <ul class="comments-list reply-list">
+        <c:forEach items="#{comentarioController.getComentarios(pregunta)}" var="comentario">
+            <li>
+                <div class=".reply-list .comment-avatar">
+                    <!-- Avatar -->
+                    <div class="comment-avatar"><h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/></div>
+                    <!-- Contenedor del Comentario -->
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 class="comment-name by-author">
+                                <h:outputText value="#{comentario.usuario.nombre} #{comentario.usuario.apPaterno} #{comentario.usuario.apMaterno}"/>
+                            </h6>
+                            <span>
+                                <h:outputText value="#{comentario.comentarioPK.fecha}"/>
+                            </span>
+                        </div>
+                        <div class="comment-content">
+                            <h:outputText value="#{comentario.contenido}"/>
+                        </div>
+                        <div class="icon-content">
+                            <i class="fa fa-heart"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-        
-            <!-- Respuestas de los comentarios -->
-            <ul class="comments-list reply-list">
-                <c:forEach items="#{comentarioController.getComentarios(pregunta)}" var="comentario">
-                    <li>
-                        <div class=".reply-list .comment-avatar">
-                            <!-- Avatar -->
-                            <div class="comment-avatar"><h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/></div>
-                            <!-- Contenedor del Comentario -->
-                            <div class="comment-box">
-                                <div class="comment-head">
-                                    <h6 class="comment-name by-author">
-                                        <h:outputText value="#{comentario.usuario.nombre} #{comentario.usuario.apPaterno} #{comentario.usuario.apMaterno}"/>
-                                    </h6>
-                                    <span>
-                                        <h:outputText value="#{comentario.comentarioPK.fecha}"/>
-                                    </span>
-                                </div>
-                                <div class="comment-content">
-                                    <h:outputText value="#{comentario.contenido}"/>
-                                </div>
-                                <div class="icon-content">
-                                    <i class="fa fa-heart"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </c:forEach>
-            </ul>
+            </li>
+        </c:forEach>
+    </ul>
 </ui:composition>
