@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
@@ -98,7 +99,9 @@ public class ComentarioController implements Serializable {
         comentarioPK.setIdusuario(usuario.getId());
 
         Comentario comentario = new Comentario(comentarioPK);
-        comentarios.add(0, comentario); //Agrega el nuevo comentario a la lista de comentarios
+        if(comentarios == null)
+            comentarios = new ArrayList<>();
+        comentarios.add(0,comentario); //Agrega el nuevo comentario a la lista de comentarios
 
         comentario.setContenido(comentario_bean.getContenido());
         comentario.setPregunta(pregunta);
