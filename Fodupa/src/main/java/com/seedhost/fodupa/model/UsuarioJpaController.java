@@ -291,17 +291,20 @@ public class UsuarioJpaController implements Serializable {
     }
     
     public Usuario findLogin(String correo, String contraseña) {
-        EntityManager em = getEntityManager();
-        Query q = em.createNamedQuery("Usuario.findByCorreoAndPassword")
-                .setParameter("correo", correo)
-                .setParameter("contrasena", contraseña);
-        if (q.getResultList().isEmpty()) {
-            return null;
-        }
-        return (Usuario) q.getSingleResult();
+//        EntityManager em = getEntityManager();
+//        Query q = em.createNamedQuery("Usuario.findByCorreoAndContrasena")
+//                .setParameter("correo", correo)
+//                .setParameter("contrasena", contraseña);
+        Usuario a = findUsuario(1); //HACIENCO ESTA LLAMADA SI ME REGRESA UN USUARIO
+//        if (q.getResultList().isEmpty()) {
+//            System.out.println("No se encontro");
+//            return null;
+//        }
+//        return (Usuario) q.getSingleResult();
+        return a;
     }
     
-        public Usuario findUsuarioByLoginId(Integer loginId) {
+    public Usuario findUsuarioByLoginId(Integer loginId) {
         EntityManager em = getEntityManager();
         Query q = em.createNamedQuery("Usuario.findById")
                 .setParameter("id", loginId);

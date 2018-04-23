@@ -5,34 +5,30 @@
  */
 package com.seedhost.fodupa.controller;
 
-/* Modelo */
 import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
+import com.seedhost.fodupa.web.UsuarioBean;
+import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Locale;
-
-/* Vista */
-import com.seedhost.fodupa.web.UsuarioBean;
-
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManagerFactory;
-
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author adriana
+ * @author adrisan
  */
-
 @ManagedBean
-@ViewScoped
-public class LoginController implements Serializable {
-    private final EntityManagerFactory emf;
-    private final UsuarioJpaController usuarioJpaController;
+@SessionScoped
+public class LoginController implements Serializable {    
+    
+    private EntityManagerFactory emf;
+    private UsuarioJpaController usuarioJpaController;
     private UsuarioBean usuario_bean;
+    private boolean error = false;
     
     public LoginController() {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
@@ -50,17 +46,29 @@ public class LoginController implements Serializable {
     }
     
     public String canLogin() {
+        System.out.println("entro a canLogin");
+        System.out.println(usuario_bean.getCorreo() + "   " + usuario_bean.getContrasena());
         Usuario l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), usuario_bean.getContrasena());
         boolean logged = l != null;
         if (logged) {
+            System.out.println("Si existe");
             Usuario u = usuarioJpaController.findUsuarioByLoginId(l.getId());
             FacesContext context = getCurrentInstance();
             context.getExternalContext().getSessionMap().put("usuario", u);
-            context.getExternalContext().getSessionMap().put("datos", u);
-            return "index?faces-redirect=true";
+            error = false;
+//            context.getExternalContext().getSessionMap().put("datos", u);
+        }else{
+            System.out.println("Entro a error true");
+            this.error = true;
         }
         return "index?faces-redirect=true";
     }
+    
+    public boolean error(){
+        System.out.println("entro a revisar el metodo");
+        return this.error;
+    }
+    
     
     public String logout() {
         FacesContext context = getCurrentInstance();
