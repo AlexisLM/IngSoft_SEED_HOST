@@ -134,7 +134,7 @@ public class RegistraController implements Serializable {
         //CORREO
         String destinatario = registra_bean.getCorreo();
         String asunto = "Confirmación de registro";
-        String link = ""; //Pendiente...
+        String link = ""; //Pendiente ...
         String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
         enviar(destinatario,asunto,cuerpo);
         
