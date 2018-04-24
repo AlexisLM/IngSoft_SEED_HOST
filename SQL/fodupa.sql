@@ -20,28 +20,28 @@ CREATE SCHEMA fodupa;
 ALTER SCHEMA fodupa OWNER TO postgres;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: 
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA fodupa;
 
 
 --
--- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
@@ -52,7 +52,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: carrera; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: carrera; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE fodupa.carrera (
@@ -85,7 +85,7 @@ ALTER SEQUENCE fodupa.carrera_id_seq OWNED BY fodupa.carrera.id;
 
 
 --
--- Name: categoria; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: categoria; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE fodupa.categoria (
@@ -119,7 +119,7 @@ ALTER SEQUENCE fodupa.categoria_id_seq OWNED BY fodupa.categoria.id;
 
 
 --
--- Name: comentario; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: comentario; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE fodupa.comentario (
@@ -176,7 +176,7 @@ ALTER SEQUENCE fodupa.comentario_idusuario_seq OWNED BY fodupa.comentario.idusua
 
 
 --
--- Name: estudiar; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: estudiar; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE fodupa.estudiar (
@@ -230,7 +230,7 @@ ALTER SEQUENCE fodupa.estudiar_idusuario_seq OWNED BY fodupa.estudiar.idusuario;
 
 
 --
--- Name: pregunta; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: pregunta; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE fodupa.pregunta (
@@ -311,7 +311,7 @@ ALTER SEQUENCE fodupa.pregunta_idusuario_seq OWNED BY fodupa.pregunta.idusuario;
 
 
 --
--- Name: usuario; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: usuario; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 CREATE TABLE fodupa.usuario (
@@ -326,7 +326,8 @@ CREATE TABLE fodupa.usuario (
     CONSTRAINT usuario_appaterno_check CHECK (((ap_paterno)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
     CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$'::text)),
     CONSTRAINT usuario_correo_check CHECK (((correo)::text ~* '^[A-Za-z0-9._-]{1,83}@ciencias.unam.mx$'::text)),
-    CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text))
+    CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
+    CONSTRAINT usuario_correo_unico unique(correo)
 );
 
 
@@ -564,7 +565,7 @@ SELECT pg_catalog.setval('fodupa.usuario_id_seq', 1, false);
 
 
 --
--- Name: carrera_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: carrera_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY fodupa.carrera
@@ -572,7 +573,7 @@ ALTER TABLE ONLY fodupa.carrera
 
 
 --
--- Name: categoria_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: categoria_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY fodupa.categoria
@@ -580,7 +581,7 @@ ALTER TABLE ONLY fodupa.categoria
 
 
 --
--- Name: estudiar_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: estudiar_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY fodupa.estudiar
@@ -588,7 +589,7 @@ ALTER TABLE ONLY fodupa.estudiar
 
 
 --
--- Name: none; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: none; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY fodupa.comentario
@@ -596,7 +597,7 @@ ALTER TABLE ONLY fodupa.comentario
 
 
 --
--- Name: pregunta_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: pregunta_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY fodupa.pregunta
@@ -604,7 +605,7 @@ ALTER TABLE ONLY fodupa.pregunta
 
 
 --
--- Name: usuario_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace: 
+-- Name: usuario_pkey; Type: CONSTRAINT; Schema: fodupa; Owner: postgres; Tablespace:
 --
 
 ALTER TABLE ONLY fodupa.usuario
@@ -672,4 +673,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-
