@@ -291,18 +291,16 @@ public class UsuarioJpaController implements Serializable {
     }
     
     public Usuario findLogin(String correo, String contraseña) {
-//        EntityManager em = getEntityManager();
-//        Query q = em.createNamedQuery("Usuario.findByCorreoAndContrasena")
-//                .setParameter("correo", correo)
-//                .setParameter("contrasena", contraseña);
-        Usuario a = findUsuario(1); //HACIENCO ESTA LLAMADA SI ME REGRESA UN USUARIO
-//        if (q.getResultList().isEmpty()) {
-//            System.out.println("No se encontro");
-//            return null;
-//        }
-//        return (Usuario) q.getSingleResult();
-        return a;
-    }
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findByCorreoAndContrasena")
+                .setParameter("correo", correo)
+                .setParameter("contrasena", contraseña);
+        if (q.getResultList().isEmpty()) {
+            System.out.println("No se encontro");
+            return null;
+        }
+        return (Usuario) q.getSingleResult();
+        }
     
     public Usuario findUsuarioByLoginId(Integer loginId) {
         EntityManager em = getEntityManager();
@@ -312,5 +310,16 @@ public class UsuarioJpaController implements Serializable {
             return null;
         }
         return (Usuario) q.getSingleResult();
+    }
+    
+    public boolean findByCorreo(String correo){
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findByCorreoAndContrasena")
+                .setParameter("correo", correo);
+        if (q.getResultList().isEmpty()) {
+            System.out.println("No se encontro");
+            return false;
+        }
+        return true;
     }
 }

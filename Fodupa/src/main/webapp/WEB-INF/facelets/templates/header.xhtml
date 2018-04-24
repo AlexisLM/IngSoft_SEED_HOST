@@ -4,7 +4,8 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" 
     xmlns:h="http://xmlns.jcp.org/jsf/html" 
     xmlns:p="http://primefaces.org/ui" 
-    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <header>
         <!-- Menú/Encabezado -->
         <div class="header">
@@ -37,12 +38,7 @@
                                       </h:form>
                                     </div>
                                 </c:when>
-                                <c:when test="#{loginController.error()}">
-                                    <div class="alert alert-danger">
-                                        <strong>Ojo!</strong> Ingresaste datos erroneos.
-                                    </div>                                    
-                                </c:when>
-                                <c:otherwise>                                    
+                                <c:otherwise>                                     
                                     <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">Iniciar Sesión</a>
                                 </c:otherwise>
                             </c:choose>
@@ -71,12 +67,14 @@
             <div class="modal-body">
                 <label class="col-md-2 col-form-label" for="title">Correo: </label>  
                 <div class="col-sm-12">                          
-                  <h:inputText value="#{loginController.usuario.correo}"
+                    <h:inputText value="#{loginController.usuario.correo}"
                                required="true" id="Correo"
                                size="15" class="form-control mr-sm-2"
-                               a:placeholder="Correo Electrónico"/>
+                               a:placeholder="Correo Electrónico">
+                        <!--<f:ajax  event="blur" render="error_correo" listener="#{loginController.existeCorreo()}"/>-->
+                    </h:inputText>
                 </div>
-                
+                <!--<h:outputText id="error_correo" class="alert alert-danger" value="#{loginController.errorCorreo()}"/>-->
                 <label class="col-md-2 col-form-label" for="title">Contraseña: </label>  
                 <div class="col-sm-12">
                     <h:inputSecret value="#{loginController.usuario.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"

@@ -29,6 +29,7 @@ public class LoginController implements Serializable {
     private UsuarioJpaController usuarioJpaController;
     private UsuarioBean usuario_bean;
     private boolean error = false;
+    private String mensajeErrorCorreo = "";
     
     public LoginController() {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
@@ -62,6 +63,22 @@ public class LoginController implements Serializable {
             this.error = true;
         }
         return "index?faces-redirect=true";
+    }
+    
+    public void existeCorreo(){
+        System.out.println("entro a existe correo");
+        if(usuarioJpaController.findByCorreo(usuario_bean.getCorreo())){
+            System.out.println("entro a no error");
+            this.mensajeErrorCorreo = "";
+        }else{
+            System.out.println("entro a error");
+            this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorrecta.";
+        }
+    }
+    
+    public String errorCorreo(){
+        System.out.println("entro a obtener el mensaje  " + this.mensajeErrorCorreo + " <");
+        return this.mensajeErrorCorreo;
     }
     
     public boolean error(){
