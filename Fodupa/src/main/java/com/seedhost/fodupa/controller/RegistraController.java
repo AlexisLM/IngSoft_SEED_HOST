@@ -136,14 +136,16 @@ public class RegistraController implements Serializable {
         String asunto = "Confirmación de registro";
         String link = ""; //Pendiente ...
         String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
-        enviar(destinatario,asunto,cuerpo);
+        boolean enviado = enviar(destinatario,asunto,cuerpo);
         
-        u_jpaController = new UsuarioJpaController(emf);
-        u_jpaController.create(usuario);
+        if(enviado){
+            u_jpaController = new UsuarioJpaController(emf);
+            u_jpaController.create(usuario);
+        }
         
     }
     
-    private int enviar(String destinatario, String asunto, String cuerpo) {
+    private boolean enviar(String destinatario, String asunto, String cuerpo) {
         // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
         String remitente = "fodupa@gmail.com";  //Para la dirección nomcuenta@gmail.com
         String password = "seedhost123";
@@ -169,9 +171,9 @@ public class RegistraController implements Serializable {
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         }
-        catch (MessagingException me) {return -1;}
+        catch (MessagingException me) {return false;}
         
-        return 1;
+        return true;
     }
 
     public List<Carrera> getCarreras() {
