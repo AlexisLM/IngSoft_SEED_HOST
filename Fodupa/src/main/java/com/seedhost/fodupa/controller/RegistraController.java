@@ -148,7 +148,7 @@ public class RegistraController implements Serializable {
     private boolean enviar(String destinatario, String asunto, String cuerpo) {
         // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
         String remitente = "fodupa@gmail.com";  //Para la dirección nomcuenta@gmail.com
-        String password = "seedhost123";
+        String password = "fodupa123";
 
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
@@ -205,7 +205,12 @@ public class RegistraController implements Serializable {
     }
     
     public String formularioRegistro(){
-        return "views/registra?faces-redirect=true";
+        return "/views/registra?faces-redirect=true";
+    }
+    
+    public String paginaPrincipal(){
+        System.out.println("Entre");
+        return "/index?faces-redirect=true";
     }
     
 }
