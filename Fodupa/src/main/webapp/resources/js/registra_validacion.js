@@ -443,7 +443,8 @@ window.onload = function(){
         if(!validateLength(id[3])){
             errorStatus(id[3]);
             $("#error_"+id[3]).text("Lo sentimos, la longitud de"+input[3]+
-                                    " debe ser de "+rangos[3]+" caracteres.");
+                                    " debe ser de "+rangos[3]+" caracteres. "+
+                                    "El correo debe tener extensión: @ciencias.unam.mx");
         }
         else if(!validate(id[3])){
             errorStatus(id[3]);
