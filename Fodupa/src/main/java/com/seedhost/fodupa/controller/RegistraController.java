@@ -1,36 +1,32 @@
 package com.seedhost.fodupa.controller;
 
 /* Modelo */
-import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Carrera;
 import com.seedhost.fodupa.model.CarreraJpaController;
+import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
-
-/* Vista */
 import com.seedhost.fodupa.model.web.RegistraBean;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.EntityManagerFactory;
-
-import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityManagerFactory;
+
+import static javax.faces.context.FacesContext.getCurrentInstance;
 
 
 /**
@@ -54,18 +50,18 @@ public class RegistraController implements Serializable {
      */
     @PostConstruct
     private void init() {
-        
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new 
+
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(new
                                                             Locale("es-Mx"));
         emf = EntityProvider.provider();
-        
+
         //Obtenemos las carreras
         c_jpaController = new CarreraJpaController(emf);
         carreras = c_jpaController.findCarreraEntities();
-        
+
         //Inicializamos el registra_bean
         registra_bean = new RegistraBean();
-        
+
         //Obtenemos el usuario actual (Esto es del caso de uso de Fer)
         /*FacesContext context = getCurrentInstance();
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
@@ -76,15 +72,15 @@ public class RegistraController implements Serializable {
             context.getExternalContext().getSessionMap().put("usuario", usuario);
         }*/
     }
-    
-    
+
+
     public void createRegistro(){
-        
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new 
+
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(new
                                                             Locale("es-Mx"));
         FacesContext context = getCurrentInstance();
         emf = EntityProvider.provider();
-        
+
         Usuario usuario = new Usuario();
         Carrera carrera = new Carrera();
         List<Carrera> carreras = new ArrayList<>();
@@ -94,7 +90,7 @@ public class RegistraController implements Serializable {
         /*String[] id_nom_categoria = pregunta_bean.getCategoria().split(":");
         int id = Integer.parseInt(id_nom_categoria[0]);
         */
-        
+
         String confirm = registra_bean.getConfirm();
         byte[] foto = registra_bean.getFoto();
 
@@ -102,7 +98,7 @@ public class RegistraController implements Serializable {
         if(foto == null){
             String src = "../../../../../webapp/resources/imgs/default_user.png";
             File file = new File(src);
-            
+
             try{
                 FileInputStream fis = new FileInputStream(file);
                 //create FileInputStream which obtains input bytes from a file in a file system
@@ -112,17 +108,17 @@ public class RegistraController implements Serializable {
                 try {
                     for (int readNum; (readNum = fis.read(buf)) != -1;) {
                         //Writes to this byte array output stream
-                        bos.write(buf, 0, readNum); 
+                        bos.write(buf, 0, readNum);
                         System.out.println("read " + readNum + " bytes,");
                     }
                 } catch (IOException ex){}
-                
+
                 foto = bos.toByteArray();
-            }catch(FileNotFoundException e){}   
+            }catch(FileNotFoundException e){}
         }
-                
+
         carreras.add(registra_bean.getCarrera());
-        
+
         usuario.setNombre(registra_bean.getNombre());
         usuario.setApPaterno(registra_bean.getApPaterno());
         usuario.setApMaterno(registra_bean.getApMaterno());
@@ -130,21 +126,21 @@ public class RegistraController implements Serializable {
         usuario.setContrasena(registra_bean.getContrasena());
         usuario.setCarreraList(carreras);
         usuario.setFoto(foto);
-        
+
         //CORREO
         String destinatario = registra_bean.getCorreo();
         String asunto = "Confirmación de registro";
         String link = ""; //Pendiente ...
         String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
         boolean enviado = enviar(destinatario,asunto,cuerpo);
-        
+
         if(enviado){
             u_jpaController = new UsuarioJpaController(emf);
             u_jpaController.create(usuario);
         }
-        
+
     }
-    
+
     private boolean enviar(String destinatario, String asunto, String cuerpo) {
         // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
         String remitente = "fodupa@gmail.com";  //Para la dirección nomcuenta@gmail.com
@@ -172,14 +168,14 @@ public class RegistraController implements Serializable {
             transport.close();
         }
         catch (MessagingException me) {return false;}
-        
+
         return true;
     }
 
     public List<Carrera> getCarreras() {
         return carreras;
     }
-    
+
     public Carrera getCarrera(Integer id){
         if (id == null){
             throw new IllegalArgumentException("no id provided");
@@ -195,22 +191,22 @@ public class RegistraController implements Serializable {
     public RegistraBean getRegistra(){
         return registra_bean;
     }
-    
+
     public void setCarreras(List<Carrera> carreras) {
         this.carreras = carreras;
     }
-    
+
     public void setRegistra(RegistraBean registra){
         this.registra_bean = registra;
     }
-    
+
     public String formularioRegistro(){
         return "/views/registra?faces-redirect=true";
     }
-    
+
     public String paginaPrincipal(){
         System.out.println("Entre");
         return "/index?faces-redirect=true";
     }
-    
+
 }
