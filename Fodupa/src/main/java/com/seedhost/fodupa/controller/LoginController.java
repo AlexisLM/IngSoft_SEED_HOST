@@ -60,7 +60,7 @@ public class LoginController implements Serializable {
 //            context.getExternalContext().getSessionMap().put("datos", u);
             return "index?faces-redirect=true";
         }else{
-            this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorregtas";
+            this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorrectas";
             this.error = true;
             return "";
         }
