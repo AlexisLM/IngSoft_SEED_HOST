@@ -52,8 +52,8 @@
                 <div class="color-secundario"></div>
             </div>
         </div>
-        
-          <!-- Modal -->
+     
+    <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
@@ -71,21 +71,26 @@
                                required="true" id="Correo"
                                size="15" class="form-control mr-sm-2"
                                a:placeholder="Correo Electrónico">
-                        <!--<f:ajax  event="blur" render="error_correo" listener="#{loginController.existeCorreo()}"/>-->
+                        <f:ajax  event="blur" render="error_correo" listener="#{loginController.existeCorreo()}"/>
                     </h:inputText>
                 </div>
-                <!--<h:outputText id="error_correo" class="alert alert-danger" value="#{loginController.errorCorreo()}"/>-->
+                <h:outputText id="error_correo" style="color: red; padding-left: 20px" value="#{loginController.errorCorreo()}"/>
+
                 <label class="col-md-2 col-form-label" for="title">Contraseña: </label>  
                 <div class="col-sm-12">
                     <h:inputSecret value="#{loginController.usuario.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
-                                   a:placeholder="Contraseña"/>
+                                   a:placeholder="Contraseña">
+                        <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin()}"/>
+                    </h:inputSecret>
                 </div>                
             </div>
+            <h:outputText id="error_general" style="color: red; padding-left: 20px; font-size: 15px" value="#{loginController.errorCorreo()}"/>
             <div class="col-sm-12 " style="height: 20px" ></div>
             <div class="col-sm-12 modal-footer">
-                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin()}"/>
-              <!--button type="button" class="btn btn-info btn-lg">Aceptar</button-->
+                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin()}">
+                </h:commandButton>
             </div>
+   
         </h:form>            
       </div>
       

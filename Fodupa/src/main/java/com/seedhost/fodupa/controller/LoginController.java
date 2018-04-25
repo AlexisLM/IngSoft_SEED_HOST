@@ -52,17 +52,19 @@ public class LoginController implements Serializable {
         Usuario l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), usuario_bean.getContrasena());
         boolean logged = l != null;
         if (logged) {
-            System.out.println("Si existe");
             Usuario u = usuarioJpaController.findUsuarioByLoginId(l.getId());
             FacesContext context = getCurrentInstance();
             context.getExternalContext().getSessionMap().put("usuario", u);
+            this.mensajeErrorCorreo = "";
             error = false;
 //            context.getExternalContext().getSessionMap().put("datos", u);
+            return "index?faces-redirect=true";
         }else{
-            System.out.println("Entro a error true");
+            this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorregtas";
             this.error = true;
+            return "";
         }
-        return "index?faces-redirect=true";
+        
     }
     
     public void existeCorreo(){
@@ -70,9 +72,11 @@ public class LoginController implements Serializable {
         if(usuarioJpaController.findByCorreo(usuario_bean.getCorreo())){
             System.out.println("entro a no error");
             this.mensajeErrorCorreo = "";
+            this.error = false;
         }else{
             System.out.println("entro a error");
-            this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorrecta.";
+            this.mensajeErrorCorreo = "Error! Ingresaste un correo no registrado.";
+            this.error = true;
         }
     }
     
