@@ -139,50 +139,49 @@ function hideCommentModal(element){
  * [validateContentLength contenido]
  * @return {[type]} [contenido]
  */
-function validateContentLength(){
-    return $("#form_comment\\:contenido").val().replace(/^\s*/, "").length > 0;
+function validateContentLength(element){
+    return $(element).val().replace(/^\s*/, "").length > 0;
 }
 
 /**
  * [validateDetails description]
  * @return {[type]} [description]
  */
-function validateContent(){
+function validateContent(element){
     var pattern = /^[A-Za-z0-9\s¿?+-_.*/{}()%&amp;#$@|!¡;,:áé\níóúÁÉÍÓÚñÑ"]*$/;
-    return pattern.test($("#form_comment\\:contenido").val());
+    return pattern.test($(element).val());
 }
 
 /**
  * [getContenidoInvalidChars contenido]
  * @return {[type]} [contenido]
  */
-function getContentInvalidChars(){
+function getContentInvalidChars(element){
+    //console.log(element);
     var pattern = /[A-Za-z0-9\s¿?+-_.*/{}()%&amp;#$@|!¡;,:áé\níóúÁÉÍÓÚñÑ"]/g;
-    return uniqChars($("#form_comment\\:contenido").val().replace(pattern,""));
+    return uniqChars($(element).val().replace(pattern,""));
 }
 
 /**
  * [successStatusContent contenido]
  * @return {[type]} [contenido]
  */
-function successStatusContent(){
-    $("#form_comment\\:contenido").addClass('is-valid');
-    $("#form_contenido\\:contenido").removeClass('is-invalid');
-    $("label[for='contenido']").addClass('text-success');
-    $("label[for='contenido']").removeClass('text-danger');
-    $("#error_contenido").addClass("hide");
+function successStatusContent(element){
+    $(element).addClass('is-valid');
+    $(element).removeClass('is-invalid');
+    $(element).next().addClass("hide");
 }
 
 /**
  * [errorStatusContent contenido]
  * @return {[type]} [contenido]
  */
-function errorStatusContent(){
-    $("#form_comment\\:contenido").addClass('is-invalid');
-    $("#form_comment\\:contenido").removeClass('is-valid');
-    $("label[for='contenido']").addClass('text-danger');
-    $("label[for='contenido']").removeClass('text-success');
-    $("#error_contenido").removeClass("hide");
+function errorStatusContent(element){
+    $(element).addClass('is-invalid');
+    $(element).removeClass('is-valid');
+    //$("label[for='contenido']").addClass('text-danger');
+    //$("label[for='contenido']").removeClass('text-success');
+    $(element).next().removeClass("hide");
 }
 
 
@@ -247,25 +246,33 @@ window.onload = function(){
     
     // Div [reply] event handler
     $(".reply_question").on("click", function(){showCommentModal(this);});
-    $(".btn-comment").on("click", function(){hideCommentModal(this);});
+    $(".btn-comment").on("click", function(){
+        $(this).siblings(".contenido").val("");
+        $(this).siblings(".contenido").removeClass("is-valid is-invalid");
+        $(this).siblings(".error_contenido").addClass("hide");
+        hideCommentModal(this);
+    });
     // 
 
     //Input [contenido] event handler
-    $("#form_comment\\:contenido").on("keyup", function(){
-        if(!validateContentLength()){
-            errorStatusContent();
-            $("#error_contenido").text("Lo sentimos, la longitud del título debe contener al menos 1 caracter.");
-        } else if(!validateContent()){
-            errorStatusContent();
-            $("#error_contenido").text("Lo sentimos, los siguientes caracteres no son válidos: " + getContentInvalidChars());
+    $(".form_comment .contenido").on("keyup", function(){
+        if(!validateContentLength(this)){
+            errorStatusContent(this);
+            $(this).parent().children(".error_contenido").text("Lo sentimos, la"+
+            " longitud del título debe contener al menos 1 caracter.");
+        } else if(!validateContent(this)){
+            errorStatusContent(this);
+            $(this).parent().children(".error_contenido").text("Lo sentimos, los"+
+            " siguientes caracteres no son válidos: " + getContentInvalidChars(this));
         }
         else
-            successStatusContent();
+            successStatusContent(this);
     });
 
     //Submit form event handler
-    $("#form_comment").submit(function(e){
-        if(!validateContentLength() || !validateContent())
+    $(".form_comment").submit(function(e){
+        if(!validateContentLength($(this).children(".contenido")) || 
+           !validateContent($(this).children(".contenido")))
             return false;
     });
 

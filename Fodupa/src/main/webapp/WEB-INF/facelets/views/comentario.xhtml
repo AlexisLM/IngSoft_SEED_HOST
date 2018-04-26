@@ -10,9 +10,9 @@
     <div class="col-md-10 ml-auto mt-3 addComentario hide">
         <div class="card">
             <div class="card-body">
-                <h:form id="form_comment">
-                    <h:inputTextarea id="contenido" class="form-control" value="#{comentarioController.comentario.contenido}" a:placeholder="Introduce tu comentario"  required="true"/>
-                    <div id="error_contenido" class="hide text-danger"></div>
+                <h:form class="form_comment">
+                    <h:inputTextarea class="form-control contenido" value="#{comentarioController.comentario.contenido}" a:placeholder="Introduce tu comentario"  required="true"/>
+                    <div class="hide text-danger error_contenido"></div>
                     <br></br>
                     <h:commandButton class="btn btn-outline-success float-right ml-3" value="Comentar" action="#{comentarioController.createComentario(pregunta)}"/>
                     <button type="button" class="btn btn-outline-secondary float-right btn-comment">Cancelar</button>
