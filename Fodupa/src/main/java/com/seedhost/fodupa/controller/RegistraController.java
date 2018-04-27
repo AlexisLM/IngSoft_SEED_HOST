@@ -13,6 +13,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +30,7 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManagerFactory;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.servlet.ServletContext;
 
 
 /**
@@ -95,14 +99,14 @@ public class RegistraController implements Serializable {
         byte[] foto = registra_bean.getFoto();
 
 //        //Take the default user image.
-        if(foto == null){
-            String src = "../../../../../webapp/resources/imgs/default_user.png";
+        if (foto == null) {
+            String src = getRuta()+"/resources/imgs/default_user.png";
             File file = new File(src);
-
+            
             try{
                 FileInputStream fis = new FileInputStream(file);
                 //create FileInputStream which obtains input bytes from a file in a file system
-
+                
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 byte[] buf = new byte[1024];
                 try {
@@ -112,10 +116,12 @@ public class RegistraController implements Serializable {
                         System.out.println("read " + readNum + " bytes,");
                     }
                 } catch (IOException ex){}
-
+                
                 foto = bos.toByteArray();
+                System.out.println("FOTO: "+foto);
             }catch(FileNotFoundException e){}
         }
+           
 
         carreras.add(registra_bean.getCarrera());
 
@@ -131,6 +137,7 @@ public class RegistraController implements Serializable {
         String destinatario = registra_bean.getCorreo();
         String asunto = "Confirmación de registro";
         String link = ""; //Pendiente ...
+        //UTILIZAR MD5
         String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
         boolean enviado = enviar(destinatario,asunto,cuerpo);
 
@@ -138,9 +145,16 @@ public class RegistraController implements Serializable {
             u_jpaController = new UsuarioJpaController(emf);
             u_jpaController.create(usuario);
         }
-
+        
+        redirect
     }
-
+    
+  /*  public void registroExitoso(){
+        Login l = jpaController.findLogin(usuario.getUsuario(), usuario.getContraseña());
+        boolean logged = l != null;
+        Usuario u = usuarioJpaController.findUsuarioByLoginId(l.getId());
+    }
+*/
     private boolean enviar(String destinatario, String asunto, String cuerpo) {
         // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
         String remitente = "fodupa@gmail.com";  //Para la dirección nomcuenta@gmail.com
@@ -170,6 +184,29 @@ public class RegistraController implements Serializable {
         catch (MessagingException me) {return false;}
 
         return true;
+    }
+    
+    /**
+     *  Aplica el hash md5 a la cadena input.
+     * @param input cadena a cifrar.
+     * @return el cifrado de una cadena.
+     */
+    private static String getMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger number = new BigInteger(1, messageDigest);
+            String hashtext = number.toString(16);
+
+            while (hashtext.length() < 32) {
+            hashtext = "0" + hashtext;
+            }
+            
+            return hashtext;
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Carrera> getCarreras() {
@@ -205,8 +242,17 @@ public class RegistraController implements Serializable {
     }
 
     public String paginaPrincipal(){
-        System.out.println("Entre");
         return "/index?faces-redirect=true";
+    }
+
+    public static String getRuta(){
+        try{
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            return ctx.getRealPath("/");
+        }catch(Exception e){
+            System.out.println("Error en obtener ruta");
+        }
+        return null;
     }
 
 }
