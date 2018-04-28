@@ -322,6 +322,8 @@ CREATE TABLE fodupa.usuario (
     ap_paterno character varying(50) NOT NULL,
     ap_materno character varying(50) NOT NULL,
     foto bytea,
+    token character varying(65) NOT NULL,
+    valido boolean NOT NULL,
     CONSTRAINT usuario_apmaterno_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
     CONSTRAINT usuario_appaterno_check CHECK (((ap_paterno)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
     CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$'::text)),
@@ -552,10 +554,8 @@ SELECT pg_catalog.setval('fodupa.pregunta_idusuario_seq', 1, false);
 -- Data for Name: usuario; Type: TABLE DATA; Schema: fodupa; Owner: postgres
 --
 
-COPY fodupa.usuario (id, correo, contrasena, nombre, ap_paterno, ap_materno, foto) FROM stdin;
-1	alexis-blm@ciencias.unam.mx	Contrasena1	Alexis	López	Matías	\N
-\.
-
+COPY fodupa.usuario (id, correo, contrasena, nombre, ap_paterno, ap_materno, foto, token, valido) FROM stdin;
+1	alexis-blm@ciencias.unam.mx	Contrasena1	Alexis	López	Matías	\N	6B86B273FF34FCE19D6B804EFF5A3F5747ADA4EAA22F1D49C01E52DDB7875B4B	TRUE\.
 
 --
 -- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: fodupa; Owner: postgres
