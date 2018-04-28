@@ -75,6 +75,14 @@ public class Usuario implements Serializable {
     private String apMaterno;
     @Lob
     private byte[] foto;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 65, max = 65)
+    @Column(name = "token", nullable = false, length = 65)
+    private String token;
+    
+    private boolean valido;
+    
     @ManyToMany(mappedBy = "usuarioList")
     private List<Carrera> carreraList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
@@ -152,6 +160,22 @@ public class Usuario implements Serializable {
 
     public void setFoto(byte[] foto) {
         this.foto = foto;
+    }
+    
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
+    public boolean getValido() {
+        return valido;
+    }
+
+    public void setValido(boolean valido) {
+        this.valido = valido;
     }
 
     @XmlTransient
