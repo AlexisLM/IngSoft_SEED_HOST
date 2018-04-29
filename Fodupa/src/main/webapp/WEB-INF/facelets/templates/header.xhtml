@@ -4,7 +4,8 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" 
     xmlns:h="http://xmlns.jcp.org/jsf/html" 
     xmlns:p="http://primefaces.org/ui" 
-    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <header>
         <!-- Menú/Encabezado -->
         <div class="header">
@@ -27,7 +28,21 @@
                             <a class="nav-link" href="#">Perfil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Cerrar Sesión</a>
+                            <c:choose>
+                                <c:when test="#{loginController.isLogged()}">                     
+                                    <div class ="my-2 my-lg-0">
+                                      <h:form id="exit">                                         
+                                        <h:commandButton action="#{loginController.logout}"
+                                                       value="Cerrar Sesión"
+                                                       class="btn btn-light"/>
+                                      </h:form>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>                                     
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">Iniciar Sesión</a>
+                                </c:otherwise>
+                            </c:choose>
+                            
                         </li>
                     </ul>
                 </div>
@@ -37,5 +52,49 @@
                 <div class="color-secundario"></div>
             </div>
         </div>
+     
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Inicia Sesión </h6>          
+          <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">X</button>
+        </div>          
+        <h:form id="myForm" class="form-inline my-2 my-lg-0">
+            <div class="modal-body">
+                <label class="col-md-2 col-form-label" for="title">Correo: </label>  
+                <div class="col-sm-12">                          
+                    <h:inputText value="#{loginController.usuario.correo}"
+                               required="true" id="Correo"
+                               size="15" class="form-control mr-sm-2"
+                               a:placeholder="Correo Electrónico">
+                        <f:ajax  event="blur" render="error_correo" listener="#{loginController.existeCorreo()}"/>
+                    </h:inputText>
+                </div>
+                <h:outputText id="error_correo" style="color: red; padding-left: 20px" value="#{loginController.errorCorreo()}"/>
+
+                <label class="col-md-2 col-form-label" for="title">Contraseña: </label>  
+                <div class="col-sm-12">
+                    <h:inputSecret value="#{loginController.usuario.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
+                                   a:placeholder="Contraseña">
+                        <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin()}"/>
+                    </h:inputSecret>
+                </div>                
+            </div>
+            <h:outputText id="error_general" style="color: red; padding-left: 20px; font-size: 15px" value="#{loginController.errorCorreo()}"/>
+            <div class="col-sm-12 " style="height: 20px" ></div>
+            <div class="col-sm-12 modal-footer">
+                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin()}">
+                </h:commandButton>
+            </div>
+   
+        </h:form>            
+      </div>
+      
+    </div>
+  </div>
     </header>
 </ui:composition>

@@ -87,11 +87,11 @@ public class PreguntaController implements Serializable {
         FacesContext context = getCurrentInstance();
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
                                     .get("usuario");
-        if(usuario == null){
-            u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(1);
-            context.getExternalContext().getSessionMap().put("usuario", usuario);
-        }
+//        if(usuario == null){
+//            u_jpaController = new UsuarioJpaController(emf);
+//            usuario = u_jpaController.findUsuario(1);
+//            context.getExternalContext().getSessionMap().put("usuario", usuario);
+//        }
     }
     
     
