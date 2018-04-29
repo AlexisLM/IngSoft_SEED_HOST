@@ -43,6 +43,13 @@
                         </div>
                         <div class="icon-content">
                             <i class="fa fa-heart"></i>
+                             <c:choose>
+                                <c:when test="#{loginController.isAdmin()}">
+                                    <i class="fas fa-trash"></i>
+                                </c:when>
+                            </c:choose>
+                            <!--<i class="fas fa-trash"></i>-->
+                            <!--<h:commandButton class="fas fa-trash"action="">-->    
                         </div>
                     </div>
                 </div>

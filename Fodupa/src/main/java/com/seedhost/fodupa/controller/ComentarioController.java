@@ -69,11 +69,11 @@ public class ComentarioController implements Serializable {
         //Obtenemos el usuario actual (Esto es del caso de uso de Fer)
         FacesContext context = getCurrentInstance();
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
-        if(usuario == null) {
-            u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(1);
-            context.getExternalContext().getSessionMap().put("usuario", usuario);
-        }
+//        if(usuario == null) {
+//            u_jpaController = new UsuarioJpaController(emf);
+//            usuario = u_jpaController.findUsuario(1);
+//            context.getExternalContext().getSessionMap().put("usuario", usuario);
+//        }
 
         //Obtenemos la pregunta actual (Esto es del caso de uso de Alexis)
         /*Pregunta pregunta = (Pregunta) context.getExternalContext().getSessionMap().get("pregunta");

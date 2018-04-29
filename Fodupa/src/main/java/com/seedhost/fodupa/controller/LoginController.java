@@ -52,11 +52,13 @@ public class LoginController implements Serializable {
         Usuario l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), usuario_bean.getContrasena());
         boolean logged = l != null;
         if (logged) {
-            Usuario u = usuarioJpaController.findUsuarioByLoginId(l.getId());
             FacesContext context = getCurrentInstance();
-            context.getExternalContext().getSessionMap().put("usuario", u);
+            context.getExternalContext().getSessionMap().put("usuario", l);
             this.mensajeErrorCorreo = "";
             error = false;
+            if(l.getId() == 1){
+                context.getExternalContext().getSessionMap().put("adm", l);
+            }
 //            context.getExternalContext().getSessionMap().put("datos", u);
             return "index?faces-redirect=true";
         }else{
@@ -106,5 +108,11 @@ public class LoginController implements Serializable {
     public Usuario getUsuario() {
         FacesContext context = getCurrentInstance();
         return (Usuario) context.getExternalContext().getSessionMap().get("usuario");
+    }
+    
+    public boolean isAdmin() {
+        FacesContext context = getCurrentInstance();
+        Usuario l = (Usuario) context.getExternalContext().getSessionMap().get("adm");
+        return l != null;
     }
 }
