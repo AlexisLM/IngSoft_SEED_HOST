@@ -13,10 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -158,16 +155,14 @@ public class RegistraController implements Serializable {
         String destinatario = registra_bean.getCorreo();
         String asunto = "Confirmación de registro";
         
-        try{
-            //Obtenemos el nombre del host y su servidor.
-            InetAddress address = InetAddress.getLocalHost();
-            //Nombre de la dirección InetAddress seleccionada.
-            String hostName = address.getHostName();
-            String link = hostName+"token="+token;
+        HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        StringBuffer requestUrl = origRequest.getRequestURL();
+        String hostName = requestUrl.toString();
+        String link = hostName+"?token="+token;
         //UTILIZAR MD5
-            String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
-            enviar(destinatario,asunto,cuerpo);
-        }catch(UnknownHostException e){System.out.println("Problemas al obtener dirección del host.");}
+        String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
+        boolean e = enviar(destinatario,asunto,cuerpo);
+        System.out.println(e+"");
         
         return "/views/mensaje_correo?faces-redirect=true";
     }
@@ -268,11 +263,15 @@ public class RegistraController implements Serializable {
         return "/index?faces-redirect=true";
     }
 
+    
+    /**
+     * Método que obtiene la ruta de los archivos
+     * @return la ruta del directorio.
+     */
     public static String getRuta(){
         try{
-            HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            StringBuffer requestUrl = origRequest.getRequestURL();
-            return requestUrl.toString();
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            return ctx.getRealPath("/");
         }catch(Exception e){
             System.out.println("Error en obtener ruta");
         }
