@@ -22,7 +22,7 @@ function uniqChars(str) {
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validateName(id){
-    var pattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$/;
+    var pattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ ]{0,47}$/;
     return pattern.test($("#form_registra\\:"+id).val());
 }
 
