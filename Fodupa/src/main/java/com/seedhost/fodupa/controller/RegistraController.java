@@ -13,7 +13,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ import javax.persistence.EntityManagerFactory;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -78,7 +82,7 @@ public class RegistraController implements Serializable {
     }
 
 
-    public void createRegistro(){
+    public String createRegistro(){
 
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new
                                                             Locale("es-Mx"));
@@ -130,23 +134,42 @@ public class RegistraController implements Serializable {
         usuario.setApMaterno(registra_bean.getApMaterno());
         usuario.setCorreo(registra_bean.getCorreo());
         usuario.setContrasena(registra_bean.getContrasena());
+        
         usuario.setCarreraList(carreras);
         usuario.setFoto(foto);
-
+        usuario.setToken("");
+        usuario.setValido(false);
+        
+        u_jpaController = new UsuarioJpaController(emf);
+        u_jpaController.create(usuario);
+        
+        List<Usuario> l = u_jpaController.findUsuarioEntities();
+        Usuario usr = l.get(l.size()-1);
+        String usr_id = Integer.toString(usr.getId());
+        String token = getMD5(usr_id);
+        usr.setToken(token);
+        
+        try{
+            u_jpaController.edit(usr);
+        //Jejejeje
+        }catch(Exception e){ System.out.println("Error al editar usuario.\n"); }
+        
         //CORREO
         String destinatario = registra_bean.getCorreo();
         String asunto = "Confirmación de registro";
-        String link = ""; //Pendiente ...
-        //UTILIZAR MD5
-        String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
-        boolean enviado = enviar(destinatario,asunto,cuerpo);
-
-        if(enviado){
-            u_jpaController = new UsuarioJpaController(emf);
-            u_jpaController.create(usuario);
-        }
         
-        redirect
+        try{
+            //Obtenemos el nombre del host y su servidor.
+            InetAddress address = InetAddress.getLocalHost();
+            //Nombre de la dirección InetAddress seleccionada.
+            String hostName = address.getHostName();
+            String link = hostName+"token="+token;
+        //UTILIZAR MD5
+            String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
+            enviar(destinatario,asunto,cuerpo);
+        }catch(UnknownHostException e){System.out.println("Problemas al obtener dirección del host.");}
+        
+        return "/views/mensaje_correo?faces-redirect=true";
     }
     
   /*  public void registroExitoso(){
@@ -208,6 +231,17 @@ public class RegistraController implements Serializable {
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+     * Pasa una catena a codificación utf8
+     * @param s la cadena a modificar su codificación.
+     * @return una cadena en codificación utf8.
+     * @throws UnsupportedEncodingException en caso de error.
+     */
+    private static String toUtf8(String s) throws UnsupportedEncodingException{
+        byte[] b = s.getBytes("UTF8");
+        return new String(b, "UTF8");
+    }
 
     public List<Carrera> getCarreras() {
         return carreras;
@@ -247,8 +281,9 @@ public class RegistraController implements Serializable {
 
     public static String getRuta(){
         try{
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            return ctx.getRealPath("/");
+            HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            StringBuffer requestUrl = origRequest.getRequestURL();
+            return requestUrl.toString();
         }catch(Exception e){
             System.out.println("Error en obtener ruta");
         }
