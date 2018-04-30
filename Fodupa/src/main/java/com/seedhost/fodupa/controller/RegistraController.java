@@ -158,7 +158,7 @@ public class RegistraController implements Serializable {
         HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         StringBuffer requestUrl = origRequest.getRequestURL();
         String hostName = requestUrl.toString();
-        String link = hostName+"?token="+token;
+        String link = hostName.substring(0,hostName.length()-14)+"registro_exitoso.xhtml?token="+token;
         //UTILIZAR MD5
         String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
         boolean e = enviar(destinatario,asunto,cuerpo);
