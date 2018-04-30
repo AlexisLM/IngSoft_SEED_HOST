@@ -231,17 +231,6 @@ public class RegistraController implements Serializable {
             throw new RuntimeException(e);
         }
     }
-    
-    /**
-     * Pasa una catena a codificación utf8
-     * @param s la cadena a modificar su codificación.
-     * @return una cadena en codificación utf8.
-     * @throws UnsupportedEncodingException en caso de error.
-     */
-    private static String toUtf8(String s) throws UnsupportedEncodingException{
-        byte[] b = s.getBytes("UTF8");
-        return new String(b, "UTF8");
-    }
 
     public List<Carrera> getCarreras() {
         return carreras;
