@@ -14,6 +14,7 @@ import com.seedhost.fodupa.model.Pregunta;
 import com.seedhost.fodupa.model.PreguntaJpaController;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
+import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
 
 /* Vista */
 import com.seedhost.fodupa.web.ComentarioBean;
@@ -72,6 +73,7 @@ public class ComentarioController implements Serializable {
 //        if(usuario == null) {
 //            u_jpaController = new UsuarioJpaController(emf);
 //            usuario = u_jpaController.findUsuario(1);
+//            context.getExternalContext().getSessionMap().put("adm", usuario);
 //            context.getExternalContext().getSessionMap().put("usuario", usuario);
 //        }
 
@@ -135,6 +137,15 @@ public class ComentarioController implements Serializable {
 
     public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
+    }
+    
+    public String deleteComentario(Comentario com_ref) throws NonexistentEntityException{
+        System.out.println("Entro a delete comentario");
+        c_jpaController = new ComentarioJpaController(emf);
+        System.out.println(com_ref.getComentarioPK());
+        c_jpaController.destroy(com_ref.getComentarioPK());
+        
+        return "index?faces-redirect=true";
     }
 
 }

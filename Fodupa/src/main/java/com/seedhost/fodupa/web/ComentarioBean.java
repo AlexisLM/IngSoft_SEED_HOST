@@ -25,5 +25,5 @@ public class ComentarioBean {
     public void setContenido(String contenido){
         this.contenido = contenido;
     }
-
+    
 }

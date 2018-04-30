@@ -47,17 +47,16 @@ public class LoginController implements Serializable {
     }
     
     public String canLogin() {
-        System.out.println("entro a canLogin");
-        System.out.println(usuario_bean.getCorreo() + "   " + usuario_bean.getContrasena());
         Usuario l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), usuario_bean.getContrasena());
         boolean logged = l != null;
         if (logged) {
-            FacesContext context = getCurrentInstance();
-            context.getExternalContext().getSessionMap().put("usuario", l);
+            FacesContext context = getCurrentInstance();            
             this.mensajeErrorCorreo = "";
             error = false;
             if(l.getId() == 1){
                 context.getExternalContext().getSessionMap().put("adm", l);
+            }else{
+                context.getExternalContext().getSessionMap().put("usuario", l);   
             }
 //            context.getExternalContext().getSessionMap().put("datos", u);
             return "index?faces-redirect=true";
@@ -70,25 +69,20 @@ public class LoginController implements Serializable {
     }
     
     public void existeCorreo(){
-        System.out.println("entro a existe correo");
         if(usuarioJpaController.findByCorreo(usuario_bean.getCorreo())){
-            System.out.println("entro a no error");
             this.mensajeErrorCorreo = "";
             this.error = false;
         }else{
-            System.out.println("entro a error");
             this.mensajeErrorCorreo = "Error! Ingresaste un correo no registrado.";
             this.error = true;
         }
     }
     
     public String errorCorreo(){
-        System.out.println("entro a obtener el mensaje  " + this.mensajeErrorCorreo + " <");
         return this.mensajeErrorCorreo;
     }
     
     public boolean error(){
-        System.out.println("entro a revisar el metodo");
         return this.error;
     }
     

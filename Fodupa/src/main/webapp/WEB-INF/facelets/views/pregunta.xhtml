@@ -7,14 +7,26 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     
     <!-- Realizar Pregunta -->
-    <div id="addQuestion-cont" class="col-sm-7 mx-auto mt-3">
-        <div class="card link">
-            <div class="card-body">
-                <span class="card-title text-muted">Realiza una pregunta...</span>
-                <i class="fas fa-plus-circle fa-lg float-right" style="color:#3498db;"></i>
+    <c:choose>
+        <c:when test="#{loginController.isLogged()}">
+            <div id="addQuestion-cont" class="col-sm-7 mx-auto mt-3">
+                <div class="card link">
+                    <div class="card-body">
+                        <span class="card-title text-muted">Realiza una pregunta...</span>
+                        <i class="fas fa-plus-circle fa-lg float-right" style="color:#3498db;"></i>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </c:when>        
+        <c:when test="#{loginController.isAdmin()}">
+            <h:form id="send_usuarios">
+                <h:commandButton action="#{preguntaController.sendUsuarios()}"
+                                    value="Administar usuarios" class="btn btn-info btn-lg"
+                                    style="width: 70%; margin: 20px 15%" >
+                </h:commandButton>
+            </h:form>
+        </c:when>
+    </c:choose>
 
     <!-- Realizar Pregunta Modal -->
     <div id="ask" class="col-sm-8 mx-auto mt-5 hide">
@@ -86,10 +98,24 @@
                                 <h:outputText value="#{pregunta.descripcion}"/>
                             </div>
                             <div class="icon-content">
-                                <i class="fa fa-heart"></i> 
-                                <span class="link reply_question">
-                                    <i class="fa fa-reply"></i>
-                                </span>
+                                <c:choose>
+                                    <c:when test="#{loginController.isLogged()}">                                        
+                                        <i class="fa fa-heart"></i> 
+                                        <span class="link reply_question">
+                                            <i class="fa fa-reply"></i>
+                                        </span>                                        
+                                    </c:when>
+                                    <c:when test="#{loginController.isAdmin()}">
+                                        <!--<i class="fas fa-trash"></i>-->           
+                                        <h:form id="delete">
+                                            <h:commandButton action="#{preguntaController.deletePregunta(pregunta)}"
+                                                             value="Eliminar" class="btn btn-secondary btn-sm"
+                                                             style="margin-left: 15px">
+                                            <!--<i class="fas fa-trash"></i>-->                                   
+                                            </h:commandButton>
+                                        </h:form>
+                                    </c:when>
+                                </c:choose>
                             </div>
                         </div>
                     </div>

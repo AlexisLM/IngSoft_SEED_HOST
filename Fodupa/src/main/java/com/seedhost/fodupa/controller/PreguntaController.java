@@ -9,10 +9,14 @@ package com.seedhost.fodupa.controller;
 import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Categoria;
 import com.seedhost.fodupa.model.CategoriaJpaController;
+import com.seedhost.fodupa.model.Comentario;
+import com.seedhost.fodupa.model.ComentarioJpaController;
 import com.seedhost.fodupa.model.Pregunta;
 import com.seedhost.fodupa.model.PreguntaJpaController;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
+import com.seedhost.fodupa.model.exceptions.IllegalOrphanException;
+import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
 
 /* Vista */
 import com.seedhost.fodupa.web.PreguntaBean;
@@ -87,11 +91,12 @@ public class PreguntaController implements Serializable {
         FacesContext context = getCurrentInstance();
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
                                     .get("usuario");
-//        if(usuario == null){
-//            u_jpaController = new UsuarioJpaController(emf);
-//            usuario = u_jpaController.findUsuario(1);
+        if(usuario == null) {
+            u_jpaController = new UsuarioJpaController(emf);
+            usuario = u_jpaController.findUsuario(2);
+            context.getExternalContext().getSessionMap().put("adm", usuario);
 //            context.getExternalContext().getSessionMap().put("usuario", usuario);
-//        }
+        }
     }
     
     
@@ -192,5 +197,20 @@ public class PreguntaController implements Serializable {
 
     public void setPregunta(PreguntaBean pregunta){
         this.pregunta_bean = pregunta;
+    }
+    
+    public String deletePregunta(Pregunta preg_ref) throws IllegalOrphanException, NonexistentEntityException{
+        p_jpaController = new PreguntaJpaController(emf);
+        ComentarioJpaController com_jpaController = new ComentarioJpaController(emf);        
+        List<Comentario> comentarios = preg_ref.getComentarioList();
+        for (Comentario coment : comentarios) {
+            com_jpaController.destroy(coment.getComentarioPK());
+        }
+        p_jpaController.destroy(preg_ref.getId());
+        return "index?faces-redirect=true";
+    }
+    
+    public String sendUsuarios(){
+        return "facelets/views/admUsuario?faces-redirect=true";
     }
 }
