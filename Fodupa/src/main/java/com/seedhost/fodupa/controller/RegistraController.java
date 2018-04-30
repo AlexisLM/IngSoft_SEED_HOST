@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -143,7 +144,7 @@ public class RegistraController implements Serializable {
         List<Usuario> l = u_jpaController.findUsuarioEntities();
         Usuario usr = l.get(l.size()-1);
         String usr_id = Integer.toString(usr.getId());
-        String token = getMD5(usr_id);
+        String token = getSha256(usr_id);
         usr.setToken(token);
         
         try{
@@ -155,9 +156,7 @@ public class RegistraController implements Serializable {
         String destinatario = registra_bean.getCorreo();
         String asunto = "Confirmación de registro";
         
-        HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        StringBuffer requestUrl = origRequest.getRequestURL();
-        String hostName = requestUrl.toString();
+        String hostName = getUrl();
         String link = hostName.substring(0,hostName.length()-14)+"registro_exitoso.xhtml?token="+token;
         //UTILIZAR MD5
         String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
@@ -209,21 +208,21 @@ public class RegistraController implements Serializable {
      * @param input cadena a cifrar.
      * @return el cifrado de una cadena.
      */
-    private static String getMD5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            BigInteger number = new BigInteger(1, messageDigest);
-            String hashtext = number.toString(16);
+    private static String getSha256(String input) {
+        try{
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(input.getBytes("UTF-8"));
+        StringBuilder hexString = new StringBuilder();
 
-            while (hashtext.length() < 32) {
-            hashtext = "0" + hashtext;
-            }
-            
-            return hashtext;
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
         }
-        catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+
+        return hexString.toString();
+        } catch(UnsupportedEncodingException | NoSuchAlgorithmException ex){
+           return null;
         }
     }
 
@@ -276,6 +275,16 @@ public class RegistraController implements Serializable {
             System.out.println("Error en obtener ruta");
         }
         return null;
+    }
+    
+    /**
+     * Obtiene la url actual.
+     * @return la url actual.
+     */
+    public static String getUrl(){
+        HttpServletRequest origRequest = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        StringBuffer requestUrl = origRequest.getRequestURL();
+        return requestUrl.toString();
     }
 
 }
