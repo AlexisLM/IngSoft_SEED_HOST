@@ -7,6 +7,10 @@ import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
 import com.seedhost.fodupa.model.web.RegistraBean;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -30,6 +35,7 @@ import javax.mail.internet.MimeMessage;
 import javax.persistence.EntityManagerFactory;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -101,26 +107,22 @@ public class RegistraController implements Serializable {
 
 //        //Take the default user image.
         if (foto == null) {
+            System.out.println(getRuta());
             String src = getRuta()+"/resources/imgs/default_user.png";
             File file = new File(src);
             
             try{
-                FileInputStream fis = new FileInputStream(file);
-                //create FileInputStream which obtains input bytes from a file in a file system
+                BufferedImage image = ImageIO.read(file);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(image, "png", baos);
+                byte[] res=baos.toByteArray();
+                //String encodedImage = Base64.encode(baos.toByteArray());
+                System.out.println("FOTO");
+                for(int i= 0; i<res.length;i++)
+                    System.out.print(res[i]);
                 
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                byte[] buf = new byte[1024];
-                try {
-                    for (int readNum; (readNum = fis.read(buf)) != -1;) {
-                        //Writes to this byte array output stream
-                        bos.write(buf, 0, readNum);
-                        System.out.println("read " + readNum + " bytes,");
-                    }
-                } catch (IOException ex){}
-                
-                foto = bos.toByteArray();
-                System.out.println("FOTO: "+foto);
-            }catch(FileNotFoundException e){}
+                foto = res;
+            }catch(IOException e){System.out.println("NO filee");}
         }
            
 
