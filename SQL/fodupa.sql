@@ -317,19 +317,20 @@ ALTER SEQUENCE fodupa.pregunta_idusuario_seq OWNED BY fodupa.pregunta.idusuario;
 CREATE TABLE fodupa.usuario (
     id integer NOT NULL,
     correo character varying(100) NOT NULL,
-    contrasena character varying(20) NOT NULL,
+    contrasena character varying(64) NOT NULL,
     nombre character varying(50) NOT NULL,
     ap_paterno character varying(50) NOT NULL,
     ap_materno character varying(50) NOT NULL,
     foto bytea,
-    token character varying(65) NOT NULL,
+    token character varying(64) NOT NULL,
     valido boolean NOT NULL,
     CONSTRAINT usuario_apmaterno_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
     CONSTRAINT usuario_appaterno_check CHECK (((ap_paterno)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
-    CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$'::text)),
+    CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^[A-Za-z\d]{64}$'::text)),
     CONSTRAINT usuario_correo_check CHECK (((correo)::text ~* '^[A-Za-z0-9._-]{1,83}@ciencias.unam.mx$'::text)),
     CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
-    CONSTRAINT usuario_correo_unico unique(correo)
+    CONSTRAINT usuario_correo_unico unique(correo),
+    CONSTRAINT usuario_token_check CHECK (((token)::text ~* '^[A-Za-z\d]{64}$'::text))
 );
 
 
@@ -555,8 +556,7 @@ SELECT pg_catalog.setval('fodupa.pregunta_idusuario_seq', 1, false);
 --
 
 COPY fodupa.usuario (id, correo, contrasena, nombre, ap_paterno, ap_materno, foto, token, valido) FROM stdin;
-1	alexis-blm@ciencias.unam.mx	Contrasena1	Alexis	López	Matías	\N	6B86B273FF34FCE19D6B804EFF5A3F5747ADA4EAA22F1D49C01E52DDB7875B4B	TRUE\.
-
+1	alexis-blm@ciencias.unam.mx	318741B811D728B078DEFA638729E29FCD1D3CDF703B1CEFDEC7AF452550DAB9	Alexis	López	Matías	\N	6B86B273FF34FCE19D6B804EFF5A3F5747ADA4EAA22F1D49C01E52DDB7875B4B	TRUE\.
 --
 -- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: fodupa; Owner: postgres
 --
