@@ -117,26 +117,29 @@ public class RegistraController implements Serializable {
                 ImageIO.write(image, "png", baos);
                 byte[] res=baos.toByteArray();
                 //String encodedImage = Base64.encode(baos.toByteArray());
-                System.out.println("FOTO");
+                /*System.out.println("FOTO");
                 for(int i= 0; i<res.length;i++)
                     System.out.print(res[i]);
-                
+                */
                 foto = res;
             }catch(IOException e){System.out.println("NO filee");}
         }
            
-
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!\n\n\n");
         carreras.add(registra_bean.getCarrera());
 
         usuario.setNombre(registra_bean.getNombre());
         usuario.setApPaterno(registra_bean.getApPaterno());
         usuario.setApMaterno(registra_bean.getApMaterno());
         usuario.setCorreo(registra_bean.getCorreo());
-        usuario.setContrasena(registra_bean.getContrasena());
+        
+        //Introduce la contraseña cifrada.
+        usuario.setContrasena(getSha256(registra_bean.getContrasena()));
         
         usuario.setCarreraList(carreras);
         usuario.setFoto(foto);
-        usuario.setToken("");
+        //Ya que no puede ser null
+        usuario.setToken("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         usuario.setValido(false);
         
         u_jpaController = new UsuarioJpaController(emf);
@@ -146,6 +149,8 @@ public class RegistraController implements Serializable {
         Usuario usr = l.get(l.size()-1);
         String usr_id = Integer.toString(usr.getId());
         String token = getSha256(usr_id);
+        System.out.print("\n\n!!!!!!!!!!!!!!!!!!!!!!!!!11TOKEN: "+token);
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!\n\n\n");
         usr.setToken(token);
         
         try{
@@ -203,11 +208,11 @@ public class RegistraController implements Serializable {
 
         return true;
     }
-    
+
     /**
      *  Aplica el hash md5 a la cadena input.
      * @param input cadena a cifrar.
-     * @return el cifrado de una cadena.
+     * @return el cifrado de una cadena de tamaño 65.
      */
     private static String getSha256(String input) {
         try{
@@ -223,6 +228,7 @@ public class RegistraController implements Serializable {
 
         return hexString.toString();
         } catch(UnsupportedEncodingException | NoSuchAlgorithmException ex){
+           System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111ERROOOOR SHA256!!!!!!!!!!!!!!!!!!!!!!!!!!!");
            return null;
         }
     }
