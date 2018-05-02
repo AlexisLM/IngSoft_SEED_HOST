@@ -23,5 +23,8 @@ and open the template in the editor.
                              action="#{registraController.paginaPrincipal()}">
             </h:commandButton>
         </h:form>
+        <f:metadata>
+            <f:viewAction action="#{loginController.canLogin(true)}" />
+        </f:metadata>
     </ui:define>
 </ui:composition>
