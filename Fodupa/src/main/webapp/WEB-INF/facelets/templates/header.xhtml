@@ -8,40 +8,43 @@
     xmlns:a4j="http://richfaces.org/a4j">
     <header>
         <!-- Menú/Encabezado -->
-        <div class="header">
-            <!-- Logo UNAM -->
-            <div class="container-fluid bg-dark">
-                <h:graphicImage value="/resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
-            </div>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Inicio <span class="sr-only">(current)</span></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <h:form class="form-inline ml-auto my-lg-0">
-                        <h:inputText class="form-control mr-md-2"/>
-                        <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
-                    </h:form>
-                    <ul class="navbar-nav my-2 my-lg-0">
-                        <li class="nav-item">
-                            <h:form>
-                                <h:commandButton action="#{registraController.formularioRegistro()}"
-                                                 value="Registrarse"
-                                                 class="btn nav-link">
-                                </h:commandButton>
-                            </h:form>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Iniciar Sesión</a>
-                        </li>
-                    </ul>
+        <ui:insert name="header">
+            <!--DEFAULT HEADER-->
+            <div class="header">
+                <!-- Logo UNAM -->
+                <div class="container-fluid bg-dark">
+                    <h:graphicImage value="/resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
                 </div>
-            </nav>
-            <div class="sombras">
-                <div class="color-primario"></div>
-                <div class="color-secundario"></div>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Inicio <span class="sr-only">(current)</span></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <h:form class="form-inline ml-auto my-lg-0">
+                            <h:inputText class="form-control mr-md-2"/>
+                            <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
+                        </h:form>
+                        <ul class="navbar-nav my-2 my-lg-0">
+                            <li class="nav-item">
+                                <h:form>
+                                    <h:commandButton action="#{registraController.formularioRegistro()}"
+                                                     value="Registrarse"
+                                                     class="btn nav-link">
+                                    </h:commandButton>
+                                </h:form>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Iniciar Sesión</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="sombras">
+                    <div class="color-primario"></div>
+                    <div class="color-secundario"></div>
+                </div>
             </div>
-        </div>
+        </ui:insert>
     </header>
 </ui:composition>
