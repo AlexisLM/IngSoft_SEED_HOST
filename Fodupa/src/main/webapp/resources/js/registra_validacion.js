@@ -60,12 +60,13 @@ function validatePasswordConfirm(){
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validatePicture(){
-    var pattern = /\.(gif|jpg|jpeg|tiff|png)$i/;
-    return pattern.test($("#form_registra\\:password").val());
+    var pattern = /.+\.(png|jpg|bmp|jpeg|PNG|JPG|BMP|JPEG)$/;
+    return pattern.test($("#form_registra\\:picture").val());
 }
 
 /**
  * Validates the length of the name. [At least 5 chars]
+ * @param id recibe el id de la parte del nombre a revisar.
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validateNameLength(id){
@@ -100,11 +101,10 @@ function validatePasswordConfirmLength(){
            $("#form_registra\\:confirm").val().length <= 50;
 }
 
-
 /**
  * Gets the invalid chars of the name.
  * @param {type} id
- * @return {string} The invalid chars of the name.
+ * @returns {String} The invalid chars of the name.
  */
 function getNameInvalidChars(id){
     var pattern = /[A-Za-záéíóúÁÉÍÓÚñÑ\s]/g;
@@ -203,11 +203,12 @@ function successStatusPicture(){
  * @return {void} 
  */
 function successStatusFill(){
-    $("#error_picture").addClass("hide");
+    $("#error_fill").addClass("hide");
 }
 
 /**
  * Set a error status for the name field.
+ * @param {string} id. 
  * @return {void} 
  */
 function errorStatusName(id){
@@ -317,6 +318,9 @@ function validate(id){
         case "confirm":
             return validatePasswordConfirm();
             break;
+        case "picture":
+            return validatePicture();
+            break;
     }
 }
 
@@ -360,6 +364,9 @@ function successStatus(id){
         case "confirm":
             return successStatusPasswordConfirm();
             break;
+        case "picture":
+            return successStatusPicture();
+            break;
     }
 }
 
@@ -382,6 +389,9 @@ function errorStatus(id){
             break;
         case "confirm":
             return errorStatusPasswordConfirm();
+            break;
+        case "picture":
+            return errorStatusPicture();
             break;
     }
 }
@@ -484,10 +494,10 @@ window.onload = function(){
             successStatus(id[5]);
     });
     
-    $("#form_registra\\:"+id[6]).on("keyup", function(){
+    $("#form_registra\\:"+id[6]).on("change", function(){
         if(!validate(id[6])){
             errorStatus(id[6]);
-            $("#error_"+id[6]).text("Lo sentimos, el archivo no es válido; necesita ser una imagen (gif|jpg|jpeg|tiff|png)");
+            $("#error_"+id[6]).text("Lo sentimos, el archivo no es válido; necesita ser una imagen (png|jpg|bmp|jpeg)");
         }
         else
             successStatus(id[6]);
