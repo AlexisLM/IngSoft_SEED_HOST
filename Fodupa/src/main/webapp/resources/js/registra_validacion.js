@@ -31,7 +31,7 @@ function validateName(id){
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validateEmail(){
-    var pattern = /^[A-Za-z0-9._-]{1,83}@ciencias.unam.mx$/;
+    var pattern = /^[A-Za-z0-9._-]{1,83}@ciencias\.unam\.mx$/;
     return pattern.test($("#form_registra\\:email").val());
 }
 
