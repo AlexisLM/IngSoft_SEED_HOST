@@ -13,7 +13,8 @@ and open the template in the editor.
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:a4j="http://richfaces.org/a4j"
-                xmlns:rich="http://richfaces.org/rich">
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:t="http://myfaces.apache.org/tomahawk">
     
     <ui:define name="content">
         <h1 class="mt-5">Registro</h1>
@@ -55,7 +56,7 @@ and open the template in the editor.
             </div>
             <div class="form-group">
               <h:outputLabel for="picture">Foto de Perfil: </h:outputLabel>
-              <h:inputFile value="#{registraController.registra.foto}"  class="form-control-file" id="picture" />
+              <t:inputFileUpload value="#{registraController.registra.foto}"  class="form-control-file" id="picture" />
               <div id="error_picture" class="hide text-danger"></div>
     <!--          <rich:message for="picture" />-->
             </div>
