@@ -79,8 +79,11 @@ public class LoginController implements Serializable {
                 context.getExternalContext().getSessionMap().put("usuario", l);   
             }
 //            context.getExternalContext().getSessionMap().put("datos", u);
-            //Sólo cambia la cabecera indicando que esta la sesión iniciada con los botones "Perfil" y "Cerrar Sesión".
-            return "/views/header_sesion?faces-redirect=true";
+            //Redirecciona al index
+            if(!token)
+                return "/index?faces-redirect=true";
+            else
+                return null;
         }else{
             this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorrectas";
             this.error = true;
