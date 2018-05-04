@@ -71,11 +71,16 @@ public class RegistraBean{
     public void setConfirm(String confirm){
         this.confirm = confirm;
     }
-    public void setFoto(UploadedFile foto){
-        String fileName = FilenameUtils.getName(foto.getFileName());
+    
+    //public void setFoto(UploadedFile foto){
+    public void setFoto(byte[] foto){
+      /*  String fileName = FilenameUtils.getName(foto.getFileName());
         String contentType = foto.getContentType();
-
-        this.foto = foto.getContents();
+        **/
+        this.foto = foto;
+        //this.foto = foto.getContents();
+        /*for(int i = 0; i<this.foto.length; i++)
+            System.out.print(this.foto[i]);*/
     }
     public void setCarrera(Carrera carrera){
         this.carrera = carrera;
