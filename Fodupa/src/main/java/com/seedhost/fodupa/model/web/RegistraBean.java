@@ -6,6 +6,10 @@
 package com.seedhost.fodupa.model.web;
 
 import com.seedhost.fodupa.model.Carrera;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.model.UploadedFile;
+
+
 /**
  *
  * @author fergch97
@@ -67,8 +71,11 @@ public class RegistraBean{
     public void setConfirm(String confirm){
         this.confirm = confirm;
     }
-    public void setFoto(byte[] foto){
-        this.foto = foto;
+    public void setFoto(UploadedFile foto){
+        String fileName = FilenameUtils.getName(foto.getFileName());
+        String contentType = foto.getContentType();
+
+        this.foto = foto.getContents();
     }
     public void setCarrera(Carrera carrera){
         this.carrera = carrera;
