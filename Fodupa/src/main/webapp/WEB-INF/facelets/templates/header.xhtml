@@ -24,9 +24,15 @@
                         <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
                     </form>
                     <ul class="navbar-nav my-2 my-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Perfil</a>
+                        <li class="nav-item">                      
+                            <h:form>
+                                <h:commandButton action="#{registraController.formularioRegistro()}"
+                                                 value="Registrarse"
+                                                 class="btn nav-link">
+                                </h:commandButton>
+                            </h:form>
                         </li>
+                        
                         <li class="nav-item">
                             <c:choose>
                                 <c:when test="#{loginController.isLogged()}">                     

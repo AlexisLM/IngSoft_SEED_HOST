@@ -48,7 +48,7 @@ public class Carrera implements Serializable {
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nombre;
-    @JoinTable(name = "estudiar", joinColumns = {
+    @JoinTable(name = "fodupa.estudiar", joinColumns = {
         @JoinColumn(name = "idcarrera", referencedColumnName = "id", nullable = false)}, inverseJoinColumns = {
         @JoinColumn(name = "idusuario", referencedColumnName = "id", nullable = false)})
     @ManyToMany
@@ -115,5 +115,5 @@ public class Carrera implements Serializable {
     public String toString() {
         return "com.seedhost.fodupa.model.Carrera[ id=" + id + " ]";
     }
-    
+
 }

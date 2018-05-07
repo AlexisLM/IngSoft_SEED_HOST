@@ -7,19 +7,19 @@
 
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    
     <title>Fodupa</title>
 
     <h:outputStylesheet library="webjars" name="bootstrap/4.0.0-2/css/bootstrap.min-jsf.css" />
     <h:outputScript library="webjars" name="font-awesome/5.0.6/on-server/js/fontawesome-all.min.js"/>
-    <h:outputScript library="js" name="pregunta.js" />
+    <h:outputScript library="js" name="registra_validacion.js" />
+    <h:outputScript library="js" name="registra.js" />
     <h:outputStylesheet library="css" name="main.css" />
-    <h:outputStylesheet library="css" name="comentar.css" />
+    <h:outputStylesheet library="css" name="registro.css" />
     
     <style>
         .hide{  display: none;  }
         .link{ cursor: pointer; }
-        .unresizable{ resize: none; }
     </style>
 
 </h:head>
@@ -27,7 +27,7 @@
 
     <ui:include src="./header.xhtml" />
     <div class="container">
-        <ui:include src="./content.xhtml" />
+        <ui:include id="contenido" src="./content.xhtml"/>
     </div>
     <ui:include src="./footer.xhtml" />
     

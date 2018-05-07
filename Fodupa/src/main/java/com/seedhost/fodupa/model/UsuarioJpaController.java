@@ -7,6 +7,7 @@ package com.seedhost.fodupa.model;
 
 import com.seedhost.fodupa.model.exceptions.IllegalOrphanException;
 import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
+import com.seedhost.fodupa.web.UsuarioBean;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -14,8 +15,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -276,6 +280,7 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
+    
 
     public int getUsuarioCount() {
         EntityManager em = getEntityManager();
@@ -320,5 +325,25 @@ public class UsuarioJpaController implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * Asigna el usuario buscandolo a través del token obtenido de la url.
+     * @return El usuario con ese token.
+     */
+    public Usuario findUsuarioByToken(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();
+        String token = paramMap.get("token");
+        
+        System.out.println("Token: "+token+"\n");
+        
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findByToken")
+                .setParameter("token", token);
+        if (q.getResultList().isEmpty()) {
+            return null;
+        }
+        return (Usuario) q.getSingleResult();
     }
 }
