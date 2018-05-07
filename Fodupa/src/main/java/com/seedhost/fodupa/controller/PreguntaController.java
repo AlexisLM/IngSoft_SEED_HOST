@@ -210,7 +210,4 @@ public class PreguntaController implements Serializable {
         return "index?faces-redirect=true";
     }
     
-    public String sendUsuarios(){
-        return "facelets/views/admUsuario?faces-redirect=true";
-    }
 }

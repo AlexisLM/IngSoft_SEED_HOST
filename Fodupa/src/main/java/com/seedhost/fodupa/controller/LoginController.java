@@ -109,4 +109,8 @@ public class LoginController implements Serializable {
         Usuario l = (Usuario) context.getExternalContext().getSessionMap().get("adm");
         return l != null;
     }
+    
+    public String sendUsuarios(){
+        return "/views/admUsuario?faces-redirect=true";
+    }
 }
