@@ -202,6 +202,7 @@ public class UsuarioJpaController implements Serializable {
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
+        System.out.println("entro a destroy");
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -209,6 +210,7 @@ public class UsuarioJpaController implements Serializable {
             try {
                 usuario = em.getReference(Usuario.class, id);
                 usuario.getId();
+                System.out.println("encontro a la referencia");
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
             }
@@ -227,16 +229,20 @@ public class UsuarioJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Pregunta " + preguntaListOrphanCheckPregunta + " in its preguntaList field has a non-nullable idusuario field.");
             }
+            System.out.println("reviso que preguntas y comentarios esten vacios");
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             List<Carrera> carreraList = usuario.getCarreraList();
-            for (Carrera carreraListCarrera : carreraList) {
-                carreraListCarrera.getUsuarioList().remove(usuario);
-                carreraListCarrera = em.merge(carreraListCarrera);
-            }
+            System.out.println("aqui es donde muere");
+//            for (Carrera carreraListCarrera : carreraList) {
+//                carreraListCarrera.getUsuarioList().remove(usuario);
+//                carreraListCarrera = em.merge(carreraListCarrera);
+//            }
+            System.out.println("paso de remover la carrera");
             em.remove(usuario);
             em.getTransaction().commit();
+            System.out.println("paso el get transaction");
         } finally {
             if (em != null) {
                 em.close();

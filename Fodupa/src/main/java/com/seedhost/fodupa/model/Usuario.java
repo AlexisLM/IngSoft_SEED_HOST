@@ -169,6 +169,10 @@ public class Usuario implements Serializable {
     public List<Comentario> getComentarioList() {
         return comentarioList;
     }
+    
+    public int getSizeComentarioList(){
+        return this.comentarioList.size();
+    }
 
     public void setComentarioList(List<Comentario> comentarioList) {
         this.comentarioList = comentarioList;
@@ -177,6 +181,10 @@ public class Usuario implements Serializable {
     @XmlTransient
     public List<Pregunta> getPreguntaList() {
         return preguntaList;
+    }
+    
+    public int getSizePreguntaList(){
+        return this.preguntaList.size();
     }
 
     public void setPreguntaList(List<Pregunta> preguntaList) {
@@ -205,7 +213,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]";
+        return "\n >>>>>>>>>>>>>>><[ usuario=    " + id + "   ] >>>>>>>>><<<\n";
     }
     
 }

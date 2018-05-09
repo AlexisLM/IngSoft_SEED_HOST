@@ -53,8 +53,7 @@ public class ComentarioController implements Serializable {
     /**
      * Creates a new instance of ComentarioController
      */
-    @PostConstruct
-    private void init() {
+    public ComentarioController() {
         
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
         emf = EntityProvider.provider();
@@ -140,9 +139,7 @@ public class ComentarioController implements Serializable {
     }
     
     public String deleteComentario(Comentario com_ref) throws NonexistentEntityException{
-        System.out.println("Entro a delete comentario");
         c_jpaController = new ComentarioJpaController(emf);
-        System.out.println(com_ref.getComentarioPK());
         c_jpaController.destroy(com_ref.getComentarioPK());
         
         return "index?faces-redirect=true";

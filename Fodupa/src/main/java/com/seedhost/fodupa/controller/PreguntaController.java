@@ -57,8 +57,7 @@ public class PreguntaController implements Serializable {
     /**
      * Creates a new instance of PreguntaController
      */
-    @PostConstruct
-    private void init() {
+    public PreguntaController() {
         
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new 
                                                             Locale("es-Mx"));
@@ -94,7 +93,7 @@ public class PreguntaController implements Serializable {
         if(usuario == null) {
             u_jpaController = new UsuarioJpaController(emf);
             usuario = u_jpaController.findUsuario(2);
-            context.getExternalContext().getSessionMap().put("adm", usuario);
+//            context.getExternalContext().getSessionMap().put("adm", usuario);
 //            context.getExternalContext().getSessionMap().put("usuario", usuario);
         }
     }

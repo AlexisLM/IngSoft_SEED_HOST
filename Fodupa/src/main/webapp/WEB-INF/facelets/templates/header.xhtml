@@ -11,7 +11,7 @@
         <div class="header">
             <!-- Logo UNAM -->
             <div class="container-fluid bg-dark">
-                <h:graphicImage value="./resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
+                <h:graphicImage value="/resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
             </div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">Inicio <span class="sr-only">(current)</span></a>
@@ -38,6 +38,15 @@
                                       </h:form>
                                     </div>
                                 </c:when>
+                                <c:when test="#{loginController.isAdmin()}">                     
+                                    <div class ="my-2 my-lg-0">
+                                      <h:form id="exit">                                         
+                                        <h:commandButton action="#{loginController.logout}"
+                                                       value="Cerrar Administación"
+                                                       class="btn btn-light"/>
+                                      </h:form>
+                                    </div>
+                                </c:when>                                
                                 <c:otherwise>                                     
                                     <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">Iniciar Sesión</a>
                                 </c:otherwise>

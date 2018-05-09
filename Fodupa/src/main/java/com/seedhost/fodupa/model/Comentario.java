@@ -120,7 +120,7 @@ public class Comentario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.model.Comentario[ comentarioPK=" + comentarioPK + " ]";
+        return "\n >>>>>>>>>>>>>>><[ comentario= " + comentarioPK + " ] >>>>>>>>><<<\n";
     }
     
 }
