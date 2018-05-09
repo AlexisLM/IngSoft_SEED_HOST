@@ -1,0 +1,77 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 3/04/2018, 01:21:09 AM
+    Author     : fergch97
+-->
+<ui:composition template="/WEB-INF/facelets/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f = "http://java.sun.com/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:t="http://myfaces.apache.org/tomahawk">
+    
+    <ui:define name="content">
+        <h1 class="mt-5">Registro</h1>
+        <h:form enctype="multipart/form-data" style="margin-top:40px" id="form_registra">
+          <!--<rich:graphValidator value="#{registra}" id="rgv">-->
+            <!--<rich:messages for="rgv" />-->
+            <!--<rich:messages globalOnly="true" />-->
+            <div class="form-group">
+                <h:outputLabel for="name">Nombre </h:outputLabel>
+                <h:inputText value="#{registraController.registra.nombre}" class="form-control" id="name"/>
+                <div id="error_name" class="hide text-danger"></div>
+                <!--<rich:message for="name" />-->
+                <h:outputLabel for="appat">Apellido Paterno </h:outputLabel>
+                <h:inputText value="#{registraController.registra.apPaterno}" class="form-control" id="appat" />
+                <div id="error_appat" class="hide text-danger"></div>
+                <!--<rich:message for="appat" />-->
+                <h:outputLabel for="apmat">Apellido Materno </h:outputLabel>
+                <h:inputText value="#{registraController.registra.apMaterno}" class="form-control" id="apmat" />
+                <div id="error_apmat" class="hide text-danger"></div>
+                <!--<rich:message for="apmat" />-->
+            </div>
+            <div class="form-group ">
+                <h:outputLabel for="email">Correo </h:outputLabel>
+              <h:inputText value="#{registraController.registra.correo}" class="form-control" id="email" />
+              <div id="error_email" class="hide text-danger"></div>
+                  <!--<rich:message for="email" />-->
+            </div>
+            <div class="form-group">
+                <h:outputLabel for="password">Contraseña </h:outputLabel>
+              <h:inputSecret value="#{registraController.registra.contrasena}" class="form-control" id="password" />
+              <div id="error_password" class="hide text-danger"></div>
+              <!--<rich:message for="password" />-->
+            </div>
+            <div class="form-group">
+                <h:outputLabel for="confirm">Confirma contraseña </h:outputLabel>
+              <h:inputSecret value="#{registraController.registra.confirm}" class="form-control" id="confirm" />
+              <div id="error_confirm" class="hide text-danger"></div>
+              <!--<rich:message for="password_confirm" />-->
+            </div>
+            <div class="form-group">
+              <h:outputLabel for="picture">Foto de Perfil: </h:outputLabel>
+              <!--<t:inputFileUpload value="#{registraController.registra.foto}"  class="form-control-file" id="picture" />-->
+              <h:inputFile value="#{registraController.registra.foto}"  class="form-control-file" id="picture" />
+              <div id="error_picture" class="hide text-danger"></div>
+    <!--          <rich:message for="picture" />-->
+            </div>
+            <div class="form-group ">
+              <h:outputLabel for="list_c">Carrera: </h:outputLabel>
+              <h:selectOneMenu value="#{registraController.registra.carrera}" id="list_c" class="form-control" converter ="convertidorCarrera">
+                   <f:selectItems value="#{registraController.carreras}" var="car" itemValue="#{car}"  itemLabel="#{car.nombre}"/>
+              </h:selectOneMenu>
+              <!--<rich:message for="carrera" />-->
+            </div>
+            <h:commandButton value="Registrarme" class="btn btn-primary submit"
+                                            action="#{registraController.createRegistro}"/>
+            <div id="error_fill" class="hide text-danger"></div>
+          <!--</rich:graphValidator>-->
+        </h:form>
+    </ui:define>
+</ui:composition>
