@@ -59,7 +59,7 @@ public class LoginController implements Serializable {
         else
             System.out.println("NULLLLLLLLLLLL");
         Usuario l;
-        if(!token)
+        if(!token) //meter aqui el getSha de registra controller, y pasar el resultado al find login
             l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), usuario_bean.getContrasena());
         else{
             //Busca usuario por token (del link de confirmación)

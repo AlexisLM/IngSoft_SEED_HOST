@@ -86,14 +86,14 @@
                 <div class="col-sm-12">
                     <h:inputSecret value="#{loginController.usuario.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
                                    a:placeholder="Contraseña">
-                        <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin()}"/>
+                        <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin(false)}"/>
                     </h:inputSecret>
                 </div>                
             </div>
             <h:outputText id="error_general" style="color: red; padding-left: 20px; font-size: 15px" value="#{loginController.errorCorreo()}"/>
             <div class="col-sm-12 " style="height: 20px" ></div>
             <div class="col-sm-12 modal-footer">
-                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin()}">
+                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin(false)}">
                 </h:commandButton>
             </div>
    

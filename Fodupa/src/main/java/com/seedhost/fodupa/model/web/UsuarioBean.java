@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seedhost.fodupa.web;
+package com.seedhost.fodupa.model.web;
 
 import com.seedhost.fodupa.model.Usuario;
 import javax.inject.Named;
