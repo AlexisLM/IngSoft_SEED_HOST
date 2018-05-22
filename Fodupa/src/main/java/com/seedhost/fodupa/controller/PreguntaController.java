@@ -92,8 +92,8 @@ public class PreguntaController implements Serializable {
                                     .get("usuario");
         if(usuario == null) {
             u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(2);
-//            context.getExternalContext().getSessionMap().put("adm", usuario);
+            usuario = u_jpaController.findUsuario(1);
+            context.getExternalContext().getSessionMap().put("adm", usuario);
 //            context.getExternalContext().getSessionMap().put("usuario", usuario);
         }
     }
