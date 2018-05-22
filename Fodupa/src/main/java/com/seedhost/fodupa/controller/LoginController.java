@@ -24,8 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ManagedBean
 @SessionScoped
-public class LoginController implements Serializable {    
-    
+public class LoginController implements Serializable{        
     private EntityManagerFactory emf;
     private UsuarioJpaController usuarioJpaController;
     private UsuarioBean usuario_bean;
