@@ -313,22 +313,24 @@ ALTER SEQUENCE fodupa.pregunta_idusuario_seq OWNED BY fodupa.pregunta.idusuario;
 --
 -- Name: usuario; Type: TABLE; Schema: fodupa; Owner: postgres; Tablespace: 
 --
-
 CREATE TABLE fodupa.usuario (
     id integer NOT NULL,
     correo character varying(100) NOT NULL,
-    contrasena character varying(20) NOT NULL,
+    contrasena character varying(64) NOT NULL,
     nombre character varying(50) NOT NULL,
     ap_paterno character varying(50) NOT NULL,
     ap_materno character varying(50) NOT NULL,
     foto bytea,
+    token character varying(64) NOT NULL,
+    valido boolean NOT NULL,
     CONSTRAINT usuario_apmaterno_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
     CONSTRAINT usuario_appaterno_check CHECK (((ap_paterno)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
-    CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$'::text)),
+    CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^[A-Za-z\d]{64}$'::text)),
     CONSTRAINT usuario_correo_check CHECK (((correo)::text ~* '^[A-Za-z0-9._-]{1,83}@ciencias.unam.mx$'::text)),
-    CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text))
+    CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
+    CONSTRAINT usuario_correo_unico unique(correo),
+    CONSTRAINT usuario_token_check CHECK (((token)::text ~* '^[A-Za-z\d]{64}$'::text))
 );
-
 
 ALTER TABLE fodupa.usuario OWNER TO postgres;
 
@@ -519,11 +521,11 @@ SELECT pg_catalog.setval('fodupa.estudiar_idusuario_seq', 1, false);
 -- Data for Name: pregunta; Type: TABLE DATA; Schema: fodupa; Owner: postgres
 --
 
-COPY fodupa.pregunta (id, titulo, descripcion, idcategoria, idusuario, fecha) FROM stdin;
-5	Titulo uno	Detalles	10	1	2018-04-08
-7	Titulo dos	Detalles 2	13	1	2018-04-08
-8	Titulo tres		11	1	2018-04-08
-\.
+--COPY fodupa.pregunta (id, titulo, descripcion, idcategoria, idusuario, fecha) FROM stdin;
+--5	Titulo uno	Detalles	10	1	2018-04-08
+--7	Titulo dos	Detalles 2	13	1	2018-04-08
+--8	Titulo tres		11	1	2018-04-08
+--\.
 
 
 --
@@ -545,16 +547,6 @@ SELECT pg_catalog.setval('fodupa.pregunta_idcategoria_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('fodupa.pregunta_idusuario_seq', 1, false);
-
-
---
--- Data for Name: usuario; Type: TABLE DATA; Schema: fodupa; Owner: postgres
---
-
-COPY fodupa.usuario (id, correo, contrasena, nombre, ap_paterno, ap_materno, foto) FROM stdin;
-1	alexis-blm@ciencias.unam.mx	Contrasena1	Alexis	López	Matías	\N
-\.
-
 
 --
 -- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: fodupa; Owner: postgres
