@@ -50,6 +50,9 @@
 .color-primario{  width: 20%; background: #b0c05a; }
 .color-secundario{  width: 80%; background: #d39c2f; }
 
+.color-verde{background: #b0c05a;}
+.color-naranja{background: #d39c2f;}
+.color-rojo{background: #8e3343;}
 /* Fondo y espacio del contenido */
 /* .contenido{
   background: #cdcdcd;
