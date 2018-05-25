@@ -1,0 +1,42 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20/05/2018, 05:41:33 PM
+    Author     : fergch97
+*/
+
+.perfil>div{
+    display: inline-block;
+}
+
+.nav{ width: 30%;}
+.perfil-datos{ width: 70%;}
+#datos{
+    padding: 30px;
+    font-size: 20px;
+}
+
+#foto{
+    width:300px;
+    margin-top: -20px;
+}
+
+.left{ float: left; }
+
+.display-5{ font-size : 35px;}
+
+.nav{
+    padding : 10px;
+    display: block;
+    width: 300px;
+}
+
+.nav>div{
+    padding: 10px;
+    width: 100%;
+}
+
+#carreras{padding: 20px;}
