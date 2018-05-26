@@ -43,7 +43,7 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div id = 'datos'>
-                    <h:outputText id = "correo" value = "#{perfilController.usuario.correo}"/><br/><br/>
+                    <h:outputText value = "#{perfilController.usuario.correo}"/><br/><br/>
                     <h:outputText value = "Carrera(s):"/><br/>
                     <div id ="carreras">
                         <c:forEach items="#{perfilController.usuario.getCarreraList()}" var="carrera">
