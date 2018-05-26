@@ -14,7 +14,7 @@
                 <h:graphicImage value="/resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
             </div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Inicio <span class="sr-only">(current)</span></a>
+                <a class="navbar-brand" href="">Inicio <span class="sr-only">(current)</span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -24,13 +24,25 @@
                         <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
                     </form>
                     <ul class="navbar-nav my-2 my-lg-0">
-                        <li class="nav-item">                      
-                            <h:form>
-                                <h:commandButton action="#{registraController.formularioRegistro()}"
-                                                 value="Registrarse"
-                                                 class="btn nav-link">
-                                </h:commandButton>
-                            </h:form>
+                        <li class="nav-item">         
+                            <c:choose>
+                                <c:when test="#{loginController.isLogged()}">                     
+                                    <h:form>
+                                        <h:commandButton action="#{perfilController.perfilVista()}"
+                                                         value="Perfil"
+                                                         class="btn nav-link">
+                                        </h:commandButton>
+                                    </h:form>
+                                </c:when>
+                                <c:otherwise>                                     
+                                    <h:form>
+                                        <h:commandButton action="#{registraController.formularioRegistro()}"
+                                                         value="Registrarse"
+                                                         class="btn nav-link">
+                                        </h:commandButton>
+                                    </h:form>
+                                </c:otherwise>
+                            </c:choose>
                         </li>
                         
                         <li class="nav-item">
