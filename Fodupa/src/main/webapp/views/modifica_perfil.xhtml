@@ -1,0 +1,112 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 20/05/2018, 01:21:09 AM
+    Author     : fergch97
+-->
+<ui:composition template="/WEB-INF/facelets/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f = "http://java.sun.com/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    
+    <ui:define name="content">
+        <div class="container-fluid perfil">
+            <h:form enctype="multipart/form-data" style="margin-top:40px" id="form_modifica_perfil">
+                <div class = 'left nav'>
+                    <div>
+                    <p:graphicImage value="#{perfilController.imagen}"
+                                    class="img-thumbnail rounded-circle"
+                                    id = "foto"></p:graphicImage>
+                    </div>
+                    <div class="btn-group-vertical">
+                        <h:outputLabel for="picture" class = "text-center">Cambiar foto de perfil</h:outputLabel>
+                        <div id ="modificap">
+                            <h:inputFile    class="color-rojo btn btn-secondary" id="picture"
+                                            value="#{perfilController.perfil.foto}">
+                            </h:inputFile>
+                            <div id="error_picture" class="hide text-danger"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class = 'perfil-datos'>
+                    <h:outputLabel class="display-5">Actualización del perfil</h:outputLabel><br/>
+                    <h:outputLabel class = "text-danger">Llene sólo los campos que desea modificar.</h:outputLabel><br/>
+                    <div class="form-group">
+                        <h:outputLabel for="name">Nombre </h:outputLabel>
+                        <h:inputText value="#{perfilController.perfil.nombre}" 
+                                     class="form-control" id="name"
+                                     a:placeholder="#{perfilController.usuario.nombre}"/>
+                        <div id="error_name" class="hide text-danger"></div>
+
+                        <h:outputLabel for="appat">Apellido Paterno </h:outputLabel>
+                        <h:inputText value="#{perfilController.perfil.apPaterno}" 
+                                     class="form-control" id="appat"
+                                     a:placeholder="#{perfilController.usuario.apPaterno}"/>
+                        <div id="error_appat" class="hide text-danger"></div>
+
+                        <h:outputLabel for="apmat">Apellido Materno </h:outputLabel>
+                        <h:inputText value="#{perfilController.perfil.apMaterno}" 
+                                     class="form-control" id="apmat" 
+                                     a:placeholder="#{perfilController.usuario.apMaterno}"/>
+                        <div id="error_apmat" class="hide text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel>Correo: </h:outputLabel>
+                        <h:outputText value = "#{perfilController.usuario.correo}"/><br/><br/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="password">Nueva contraseña </h:outputLabel>
+                        <h:inputSecret value="#{perfilController.perfil.contrasena}" 
+                                     class="form-control" id="password" />
+                        <div id="error_password" class="hide text-danger"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <h:outputLabel for="confirm">Confirma nueva contraseña </h:outputLabel>
+                        <h:inputSecret value="#{perfilController.perfil.confirm}" class="form-control" id="confirm" />
+                        <div id="error_confirm" class="hide text-danger"></div>
+                    </div>
+                    
+                    <h:outputLabel>Carrera(s): </h:outputLabel><br/>
+                    <h:outputLabel class = "text-danger">Selecciona la opción "Quitar" para quitar esa carrera. </h:outputLabel><br/><br/>
+                    <ui:repeat value="#{perfilController.usuario.getCarreraList()}" var="carrera">
+                        <div class="form-group ">
+                            <h:selectOneMenu value="#{perfilController.carrerasAc}" 
+                                             class="carrera form-control" 
+                                             converter ="convertidorCarrera">
+                                <f:selectItem itemValue="#{carrera}" itemLabel="#{carrera.nombre}" />
+                                <f:selectItems value="#{perfilController.carreras}" 
+                                               var="car" itemValue="#{car}"  
+                                               itemLabel="#{car.nombre}"/>
+                                <f:selectItem itemValue="#{perfilController.carreraNula}" itemLabel="Quitar"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </ui:repeat>
+                    
+                    <div id ="carrera_nueva">
+                        <h:outputText value = "Selecciona otra carrera: (opcional)"/><br/>
+                        <h:selectOneMenu value="#{perfilController.perfil.carrera}" id="list_c" class="form-control" converter ="convertidorCarrera">
+                            <f:selectItems value="#{perfilController.carreras}" var="car" itemValue="#{car}"  itemLabel="#{car.nombre}"/>
+                            <f:selectItem itemValue="#{perfilController.carreraNula}" itemLabel="Quitar"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <br/><br/>
+                    <h:commandButton value="Guardar cambios" class="btn btn-primary submit"
+                                                    action="#{perfilController.createPerfil}"/>
+                    <div id="error_fill" class="hide text-danger"></div>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
