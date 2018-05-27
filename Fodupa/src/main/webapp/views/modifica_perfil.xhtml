@@ -83,7 +83,7 @@ and open the template in the editor.
                     <ui:repeat value="#{perfilController.usuario.getCarreraList()}" var="carrera">
                         <div class="form-group ">
                             <h:selectOneMenu value="#{perfilController.carrerasAc}" 
-                                             class="carrera form-control" 
+                                             class="carreras form-control"
                                              converter ="convertidorCarrera">
                                 <f:selectItem itemValue="#{carrera}" itemLabel="#{carrera.nombre}" />
                                 <f:selectItems value="#{perfilController.carreras}" 
@@ -96,7 +96,7 @@ and open the template in the editor.
                     
                     <div id ="carrera_nueva">
                         <h:outputText value = "Selecciona otra carrera: (opcional)"/><br/>
-                        <h:selectOneMenu value="#{perfilController.perfil.carrera}" id="list_c" class="form-control" converter ="convertidorCarrera">
+                        <h:selectOneMenu value="#{perfilController.perfil.carrera}" class="carreras form-control" converter ="convertidorCarrera">
                             <f:selectItems value="#{perfilController.carreras}" var="car" itemValue="#{car}"  itemLabel="#{car.nombre}"/>
                             <f:selectItem itemValue="#{perfilController.carreraNula}" itemLabel="Quitar"/>
                         </h:selectOneMenu>
