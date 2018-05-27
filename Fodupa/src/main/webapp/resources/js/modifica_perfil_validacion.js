@@ -10,7 +10,7 @@
  *                     characters will be removed.
  * @returns {string}   A copy of str with all duplicate characters removed.
  */
-function uniqChars(str) {
+function uniqCharsMP(str) {
     return str.replace(/[\s\S](?=([\s\S]+))/g, function(c, s) {
         return s.indexOf(c) + 1 ? '' : c;
     });
@@ -21,7 +21,7 @@ function uniqChars(str) {
  * @param {type} id
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validateName(id){
+function validateNameMP(id){
     var pattern = /^[A-Za-záéíóúÁÉÍÓÚñÑ]{2}[A-Za-záéíóúÁÉÍÓÚñÑ ]{0,47}$/;
     return pattern.test($("#form_modifica_perfil\\:"+id).val());
 }
@@ -30,7 +30,7 @@ function validateName(id){
  * Validates value of password. [At least 8,20 char]
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validatePassword(){
+function validatePasswordMP(){
     var pattern = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
     return pattern.test($("#form_modifica_perfil\\:password").val());
 }
@@ -39,7 +39,7 @@ function validatePassword(){
  * Validates value of password. [At least 8,20 char]
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validatePasswordConfirm(){
+function validatePasswordConfirmMP(){
     var password = $("#form_modifica_perfil\\:password").val();
     var confirm = $("#form_modifica_perfil\\:confirm").val();
     
@@ -50,7 +50,7 @@ function validatePasswordConfirm(){
  * Validates value of password. [At least 8,20 char]
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validatePicture(){
+function validatePictureMP(){
     var pattern = /.+\.(png|jpg|bmp|jpeg|PNG|JPG|BMP|JPEG)$/;
     return pattern.test($("#form_modifica_perfil\\:picture").val());
 }
@@ -62,10 +62,10 @@ function validatePicture(){
 function validateCareer(){
     var check = false;
     $(".carreras").each(function() {
-        check = check || ($(this).val() == "0");
+        check = check || ($(this).val() != "0");
     });
     
-    return check;
+    return !check;
 }
 
 /**
@@ -73,7 +73,7 @@ function validateCareer(){
  * @param id recibe el id de la parte del nombre a revisar.
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validateNameLength(id){
+function validateNameMPLengthMP(id){
     return $("#form_modifica_perfil\\:"+id).val().replace(/^\s*/, "").length >= 3 &&
            $("#form_modifica_perfil\\:"+id).val().length <= 50;
 }
@@ -82,7 +82,7 @@ function validateNameLength(id){
  * Validates the length of the name. [At least 5 chars]
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validatePasswordLength(){
+function validatePasswordLengthMP(){
     return $("#form_modifica_perfil\\:password").val().replace(/^\s*/, "").length >= 8 &&
            $("#form_modifica_perfil\\:password").val().length <= 20;
 }
@@ -91,7 +91,7 @@ function validatePasswordLength(){
  * Validates the length of the name. [At least 5 chars]
  * @return {boolean} True if the test passes, false otherwise.
  */
-function validatePasswordConfirmLength(){
+function validatePasswordConfirmMPLengthMP(){
     return $("#form_modifica_perfil\\:confirm").val().replace(/^\s*/, "").length >= 3 &&
            $("#form_modifica_perfil\\:confirm").val().length <= 50;
 }
@@ -101,18 +101,18 @@ function validatePasswordConfirmLength(){
  * @param {type} id
  * @returns {String} The invalid chars of the name.
  */
-function getNameInvalidChars(id){
+function getNameInvalidCharsMP(id){
     var pattern = /[A-Za-záéíóúÁÉÍÓÚñÑ\s]/g;
-    return uniqChars($("#form_modifica_perfil\\:"+id).val().replace(pattern,""));
+    return uniqCharsMP($("#form_modifica_perfil\\:"+id).val().replace(pattern,""));
 }
 
 /**
  * Gets the invalid chars of the email.
  * @return {string} The invalid chars of the email.
  */
-function getPasswordInvalidChars(){
+function getPasswordInvalidCharsMP(){
     var pattern = /[A-Za-z/d]/g;
-    return uniqChars($("#form_modifica_perfil\\:password").val().replace(pattern,""));
+    return uniqCharsMP($("#form_modifica_perfil\\:password").val().replace(pattern,""));
 };
 
 
@@ -121,7 +121,7 @@ function getPasswordInvalidChars(){
  * @param {type} id
  * @return {void} 
  */
-function successStatusName(id){
+function successStatusMPName(id){
     $("#form_modifica_perfil\\:"+id).addClass('is-valid');
     $("#form_modifica_perfil\\:"+id).removeClass('is-invalid');
     $("label[for='"+id+"']").addClass('text-success');
@@ -133,7 +133,7 @@ function successStatusName(id){
  * Set a success status for the password field.
  * @return {void} 
  */
-function successStatusPassword(){
+function successStatusMPPassword(){
     $("#form_modifica_perfil\\:password").addClass('is-valid');
     $("#form_modifica_perfil\\:password").removeClass('is-invalid');
     $("label[for='password']").addClass('text-success');
@@ -145,7 +145,7 @@ function successStatusPassword(){
  * Set a success status for the password field.
  * @return {void} 
  */
-function successStatusPasswordConfirm(){
+function successStatusMPPasswordConfirm(){
     $("#form_modifica_perfil\\:confirm").addClass('is-valid');
     $("#form_modifica_perfil\\:confirm").removeClass('is-invalid');
     $("label[for='confirm']").addClass('text-success');
@@ -157,7 +157,7 @@ function successStatusPasswordConfirm(){
  * Set a success status for the password field.
  * @return {void} 
  */
-function successStatusPicture(){
+function successStatusMPPicture(){
     $("#form_modifica_perfil\\:picture").addClass('is-valid');
     $("#form_modifica_perfil\\:picture").removeClass('is-invalid');
     $("label[for='picture']").addClass('text-success');
@@ -169,7 +169,7 @@ function successStatusPicture(){
  * Set a success status for the password field.
  * @return {void} 
  */
-function successStatusFill(){
+function successStatusMPFill(){
     $("#error_fill").addClass("hide");
 }
 
@@ -178,7 +178,7 @@ function successStatusFill(){
  * @param {string} id. 
  * @return {void} 
  */
-function errorStatusName(id){
+function errorStatusMPName(id){
     $("#form_modifica_perfil\\:"+id).addClass('is-invalid');
     $("#form_modifica_perfil\\:"+id).removeClass('is-valid');
     $("label[for='"+id+"']").addClass('text-danger');
@@ -191,7 +191,7 @@ function errorStatusName(id){
  * Set a error status for the password field.
  * @return {void} 
  */
-function errorStatusPassword(){
+function errorStatusMPPassword(){
     $("#form_modifica_perfil\\:password").addClass('is-invalid');
     $("#form_modifica_perfil\\:password").removeClass('is-valid');
     $("label[for='password']").addClass('text-danger');
@@ -203,7 +203,7 @@ function errorStatusPassword(){
  * Set a error status for the password confirm field.
  * @return {void} 
  */
-function errorStatusPasswordConfirm(){
+function errorStatusMPPasswordConfirm(){
     $("#form_modifica_perfil\\:confirm").addClass('is-invalid');
     $("#form_modifica_perfil\\:confirm").removeClass('is-valid');
     $("label[for='confirm']").addClass('text-danger');
@@ -215,7 +215,7 @@ function errorStatusPasswordConfirm(){
  * Set a error status for the picture field.
  * @return {void} 
  */
-function errorStatusPicture(){
+function errorStatusMPPicture(){
     $("#form_modifica_perfil\\:picture").addClass('is-invalid');
     $("#form_modifica_perfil\\:picture").removeClass('is-valid');
     $("label[for='picture']").addClass('text-danger');
@@ -227,112 +227,112 @@ function errorStatusPicture(){
  * Set a error status for the picture field.
  * @return {void} 
  */
-function errorStatusFill(){
+function errorStatusMPFill(){
     $("#error_fill").removeClass("hide");
 }
 
-function validateLength(id){
+function validateLengthMP(id){
     switch(id){
         case "name":
-            return validateNameLength("name");
+            return validateNameMPLengthMP("name");
             break;
         case "appat":
-            return validateNameLength("appat");
+            return validateNameMPLengthMP("appat");
             break;
         case "apmat":
-            return validateNameLength("apmat");
+            return validateNameMPLengthMP("apmat");
             break;
         case "password":
-            return validatePasswordLength();
+            return validatePasswordLengthMP();
             break;
         case "confirm":
-            return validatePasswordConfirmLength();
+            return validatePasswordConfirmMPLengthMP();
             break;
     }
 }
 
-function validate(id){
+function validateMP(id){
     switch(id){
         case "name":
-            return validateName("name");
+            return validateNameMP("name");
             break;
         case "appat":
-            return validateName("appat");
+            return validateNameMP("appat");
             break;
         case "apmat":
-            return validateName("apmat");
+            return validateNameMP("apmat");
             break;
         case "password":
-            return validatePassword();
+            return validatePasswordMP();
             break;
         case "confirm":
-            return validatePasswordConfirm();
+            return validatePasswordConfirmMP();
             break;
         case "picture":
-            return validatePicture();
+            return validatePictureMP();
             break;
     }
 }
 
-function getInvalidChars(id){
+function getInvalidCharsMP(id){
     switch(id){
         case "name":
-            return getNameInvalidChars("name");
+            return getNameInvalidCharsMP("name");
             break;
         case "appat":
-            return getNameInvalidChars("appat");
+            return getNameInvalidCharsMP("appat");
             break;
         case "apmat":
-            return getNameInvalidChars("apmat");
+            return getNameInvalidCharsMP("apmat");
             break;
         case "password":
-            return getPasswordInvalidChars();
+            return getPasswordInvalidCharsMP();
             break;
     }
 }
 
-function successStatus(id){
+function successStatusMP(id){
     switch(id){
         case "name":
-            return successStatusName("name");
+            return successStatusMPName("name");
             break;
         case "appat":
-            return successStatusName("appat");
+            return successStatusMPName("appat");
             break;
         case "apmat":
-            return successStatusName("apmat");
+            return successStatusMPName("apmat");
             break;
         case "password":
-            return successStatusPassword();
+            return successStatusMPPassword();
             break;
         case "confirm":
-            return successStatusPasswordConfirm();
+            return successStatusMPPasswordConfirm();
             break;
         case "picture":
-            return successStatusPicture();
+            return successStatusMPPicture();
             break;
     }
 }
 
-function errorStatus(id){
+function errorStatusMP(id){
     switch(id){
         case "name":
-            return errorStatusName("name");
+            return errorStatusMPName("name");
             break;
         case "appat":
-            return errorStatusName("appat");
+            return errorStatusMPName("appat");
             break;
         case "apmat":
-            return errorStatusName("apmat");
+            return errorStatusMPName("apmat");
             break;
         case "password":
-            return errorStatusPassword();
+            return errorStatusMPPassword();
             break;
         case "confirm":
-            return errorStatusPasswordConfirm();
+            return errorStatusMPPasswordConfirm();
             break;
         case "picture":
-            return errorStatusPicture();
+            return errorStatusMPPicture();
             break;
     }
 }
@@ -346,88 +346,88 @@ window.onload = function(){
         
     //Input [something] event handler
     $("#form_modifica_perfil\\:"+id[0]).on("keyup", function(){
-        if(!validateLength(id[0])){
-            errorStatus(id[0]);
+        if(!validateLengthMP(id[0])){
+            errorStatusMP(id[0]);
             $("#error_"+id[0]).text("Lo sentimos, la longitud de"+input[0]+
                                     " debe ser de "+rangos[0]+" caracteres.");
         }
-        else if(!validate(id[0])){
-            errorStatus(id[0]);
+        else if(!validateMP(id[0])){
+            errorStatusMP(id[0]);
             $("#error_"+id[0]).text("Lo sentimos, los siguientes caracteres no "+
-                                   "son válidos: "+getInvalidChars(id[0]));
+                                   "son válidos: "+getInvalidCharsMP(id[0]));
         }
         else
-            successStatus(id[0]);
+            successStatusMP(id[0]);
     });
     
     $("#form_modifica_perfil\\:"+id[1]).on("keyup", function(){
-        if(!validateLength(id[1])){
-            errorStatus(id[1]);
+        if(!validateLengthMP(id[1])){
+            errorStatusMP(id[1]);
             $("#error_"+id[1]).text("Lo sentimos, la longitud de"+input[1]+
                                     " debe ser de "+rangos[1]+" caracteres.");
         }
-        else if(!validate(id[1])){
-            errorStatus(id[1]);
+        else if(!validateMP(id[1])){
+            errorStatusMP(id[1]);
             $("#error_"+id[1]).text("Lo sentimos, los siguientes caracteres no "+
-                                   "son válidos: "+getInvalidChars(id[1]));
+                                   "son válidos: "+getInvalidCharsMP(id[1]));
         }
         else
-            successStatus(id[1]);
+            successStatusMP(id[1]);
     });
     
     $("#form_modifica_perfil\\:"+id[2]).on("keyup", function(){
-        if(!validateLength(id[2])){
-            errorStatus(id[2]);
+        if(!validateLengthMP(id[2])){
+            errorStatusMP(id[2]);
             $("#error_"+id[2]).text("Lo sentimos, la longitud de"+input[2]+
                                     " debe ser de "+rangos[2]+" caracteres.");
         }
-        else if(!validate(id[2])){
-            errorStatus(id[2]);
+        else if(!validateMP(id[2])){
+            errorStatusMP(id[2]);
             $("#error_"+id[2]).text("Lo sentimos, los siguientes caracteres no "+
-                                   "son válidos: "+getInvalidChars(id[2]));
+                                   "son válidos: "+getInvalidCharsMP(id[2]));
         }
         else
-            successStatus(id[2]);
+            successStatusMP(id[2]);
     });
     
     $("#form_modifica_perfil\\:"+id[3]).on("keyup", function(){
-        if(!validateLength(id[3])){
-            errorStatus(id[3]);
+        if(!validateLengthMP(id[3])){
+            errorStatusMP(id[3]);
             $("#error_"+id[3]).text("La longitud de"+input[4]+
                                     " debe tener entre 8 y 20 caracteres, al menos un dígito,"+
                                     "al menos una minúscula y al menos una mayúscula.");
         }
-        else if(!validate(id[3])){
-            errorStatus(id[3]);
+        else if(!validateMP(id[3])){
+            errorStatusMP(id[3]);
             $("#error_"+id[3]).text("Lo sentimos, los siguientes caracteres no "+
-                                   "son válidos: "+getInvalidChars(id[4]));
+                                   "son válidos: "+getInvalidCharsMP(id[4]));
         }
         else
-            successStatus(id[3]);
+            successStatusMP(id[3]);
     });
     
     $("#form_modifica_perfil\\:"+id[4]).on("keyup", function(){
-        if(!validateLength(id[4])){
-            errorStatus(id[4]);
+        if(!validateLengthMP(id[4])){
+            errorStatusMP(id[4]);
             $("#error_"+id[4]).text("La longitud de"+input[5]+
                                     " debe tener entre 8 y 20 caracteres, al menos un dígito,"+
                                     "al menos una minúscula y al menos una mayúscula.");
         }
-        else if(!validate(id[4])){
-            errorStatus(id[4]);
+        else if(!validateMP(id[4])){
+            errorStatusMP(id[4]);
             $("#error_"+id[4]).text("Las contraseñas no coinciden");
         }
         else
-            successStatus(id[4]);
+            successStatusMP(id[4]);
     });
     
     $("#form_modifica_perfil\\:"+id[5]).on("change", function(){
-        if(!validate(id[5])){
-            errorStatus(id[5]);
+        if(!validateMP(id[5])){
+            errorStatusMP(id[5]);
             $("#error_"+id[5]).text("Lo sentimos, el archivo no es válido; necesita ser una imagen (png|jpg|bmp|jpeg)");
         }
         else
-            successStatus(id[5]);
+            successStatusMP(id[5]);
     });
     
     
@@ -435,25 +435,24 @@ window.onload = function(){
     //Submit form event handler
     $("#form_modifica_perfil").submit(function(e){
         var check = false;
-        check = check || (($("#form_modifica_perfil\\:"+id[0]).val().length > 0) ? (!validateLength(id[0]) || !validate(id[0])): false );
-        check = check || (($("#form_modifica_perfil\\:"+id[1]).val().length > 0) ? (!validateLength(id[1]) || !validate(id[1])): false );
-        check = check || (($("#form_modifica_perfil\\:"+id[2]).val().length > 0) ? (!validateLength(id[2]) || !validate(id[2])): false );
-        check = check || (($("#form_modifica_perfil\\:"+id[3]).val().length > 0) ? (!validateLength(id[3]) || !validate(id[3])): false );
-        check = check || (($("#form_modifica_perfil\\:"+id[4]).val().length > 0) ? (!validateLength(id[4]) || !validate(id[4])): false );
-        check = check || (($("#form_modifica_perfil\\:"+id[5]).val().length > 0) ? !validate(id[5]) : false );
+        check = check || (($("#form_modifica_perfil\\:"+id[0]).val().length > 0) ? (!validateLengthMP(id[0]) || !validateMP(id[0])): false );
+        check = check || (($("#form_modifica_perfil\\:"+id[1]).val().length > 0) ? (!validateLengthMP(id[1]) || !validateMP(id[1])): false );
+        check = check || (($("#form_modifica_perfil\\:"+id[2]).val().length > 0) ? (!validateLengthMP(id[2]) || !validateMP(id[2])): false );
+        check = check || (($("#form_modifica_perfil\\:"+id[3]).val().length > 0) ? (!validateLengthMP(id[3]) || !validateMP(id[3])): false );
+        check = check || (($("#form_modifica_perfil\\:"+id[4]).val().length > 0) ? (!validateLengthMP(id[4]) || !validateMP(id[4])): false );
+        check = check || (($("#form_modifica_perfil\\:"+id[5]).val().length > 0) ? !validateMP(id[5]) : false );
 
         
         if(check){
-            errorStatusFill();
+            errorStatusMPFill();
             $("#error_fill").text("Hay campos sin corregir.");
             return false;
         }else if(validateCareer()){
-            errorStatusFill();
+            errorStatusMPFill();
             $("#error_fill").text("*Se debe seleccionar al menos una carrera.");
             return false;
         }
         else
-            successStatusFill();
-            
+            successStatusMPFill();
     });
 };

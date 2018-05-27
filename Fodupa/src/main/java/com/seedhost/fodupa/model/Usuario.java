@@ -231,7 +231,8 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]";
+        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]\n"+
+                "Nombre: "+nombre+" "+apPaterno+" "+apMaterno;
     }
     
 }

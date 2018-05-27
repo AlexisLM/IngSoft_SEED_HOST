@@ -6,12 +6,14 @@ import com.seedhost.fodupa.model.CarreraJpaController;
 import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
+import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
 import com.seedhost.fodupa.web.PerfilBean;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -19,6 +21,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -29,6 +33,7 @@ import javax.imageio.ImageIO;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.IOUtils;
 import org.primefaces.model.DefaultStreamedContent;
 
 
@@ -45,9 +50,7 @@ public class PerfilController implements Serializable {
     private CarreraJpaController c_jpaController;
     private UsuarioJpaController u_jpaController;
     private List<Carrera> carreras;
-    private List<Carrera> carrerasAc;
     private Usuario usuario;
-    private Carrera carrera;
     private Carrera carreraNula;
     private PerfilBean perfil_bean;
     private DefaultStreamedContent imagen;
@@ -76,16 +79,7 @@ public class PerfilController implements Serializable {
         
         
         //Obtenemos el usuario actual
-        FacesContext context = getCurrentInstance();
-        usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
-        
-        //SIMULAR SESIÓN
-        if(usuario == null) {
-            u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(1);
-//            context.getExternalContext().getSessionMap().put("adm", usuario);
-            context.getExternalContext().getSessionMap().put("usuario", usuario);
-        }
+        setUsuario();
         
 //        System.out.println("%%%%%%%%%%%"+usuario.getFoto().toString()+"%%%%%%%%%\n\n\n\n");
         //Cargamos la imagen del usuario de la bd.
@@ -104,76 +98,54 @@ public class PerfilController implements Serializable {
         FacesContext context = getCurrentInstance();
         emf = EntityProvider.provider();
         
-        Usuario usuario = new Usuario();
-        Carrera carrera = new Carrera();
-        List<Carrera> carreras = new ArrayList<>();
+        String nombre = (perfil_bean.getNombre() == null || perfil_bean.getNombre().length() == 0) ? usuario.getNombre() : perfil_bean.getNombre();
+        String apPat = (perfil_bean.getApPaterno() == null || perfil_bean.getApPaterno().length() == 0 ) ? usuario.getApPaterno() : perfil_bean.getApPaterno();
+        String apMat = (perfil_bean.getApMaterno() == null || perfil_bean.getApMaterno().length() == 0) ? usuario.getApMaterno() : perfil_bean.getApMaterno();
         
-        String confirm = perfil_bean.getConfirm();
-        byte[] foto = perfil_bean.getFoto();
-
-//        //Take the default user image.
-        if (foto == null) {
-            System.out.println(getRuta());
-            String src = getRuta()+"/resources/imgs/default_user.png";
-            File file = new File(src);
-            
-            try{
-                BufferedImage image = ImageIO.read(file);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(image, "png", baos);
-                byte[] res=baos.toByteArray();
-                //String encodedImage = Base64.encode(baos.toByteArray());
-                /*System.out.println("FOTO");
-                for(int i= 0; i<res.length;i++)
-                    System.out.print(res[i]);
-                */
-                foto = res;
-            }catch(IOException e){System.out.println("NO filee");}
-        }
-           
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!\n\n\n");
-        carreras.add(perfil_bean.getCarrera());
-
-        usuario.setNombre(perfil_bean.getNombre());
-        usuario.setApPaterno(perfil_bean.getApPaterno());
-        usuario.setApMaterno(perfil_bean.getApMaterno());
-        usuario.setCorreo(perfil_bean.getCorreo());
+        String contrasena = (perfil_bean.getContrasena() == null ) ? 
+                                usuario.getContrasena() : 
+                                getSha256(perfil_bean.getContrasena());
+        perfil_bean.save();
+        byte[] foto = (perfil_bean.getFoto() == null ) ? usuario.getFoto() : perfil_bean.getFoto();
         
+        //Filtramos las carreras nulas.
+        carreras.clear();
+        for(Carrera carrera : perfil_bean.getCarreras())
+            if(!carreraNula.equals(carrera) && carrera != null && !carreras.contains(carrera)){
+                carreras.add(carrera);
+                System.out.println(carrera.toString()+"\n\n");
+            }
+        
+        Usuario usr = u_jpaController.findUsuario(usuario.getId());
+        
+        usr.setNombre(nombre);
+        usr.setApPaterno(apPat);
+        usr.setApMaterno(apMat);
         //Introduce la contraseña cifrada.
-        usuario.setContrasena(getSha256(perfil_bean.getContrasena()));
-        
-        usuario.setCarreraList(carreras);
-        usuario.setFoto(foto);
+        usr.setContrasena(contrasena);
+        usr.setCarreraList(carreras);
+        usr.setFoto(foto);
         //Ya que no puede ser null
-        usuario.setToken("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        usuario.setValido(false);
-        
+//        usuarioActualizado.setToken(usuario.getToken());
+  //      usuarioActualizado.setValido(usuario.getValido());
         u_jpaController = new UsuarioJpaController(emf);
-        u_jpaController.create(usuario);
-        
-        List<Usuario> l = u_jpaController.findUsuarioEntities();
-        Usuario usr = l.get(l.size()-1);
-        String usr_id = Integer.toString(usr.getId());
-        String token = getSha256(usr_id);
-        System.out.print("\n\n!!!!!!!!!!!!!!!!!!!!!!!!!11TOKEN: "+token);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!\n\n\n");
-        usr.setToken(token);
-        
-        try{
+        try {
+            System.out.println("\n\n\n\n\n SHIDO BANDA \n\n\n\n");
             u_jpaController.edit(usr);
-        //Jejejeje
-        }catch(Exception e){ System.out.println("Error al editar usuario.\n"); }
+        } catch (NonexistentEntityException ex) {
+            System.out.println("\n\n\n\n\n 333333333 \n\n\n\n");
+            System.out.println("Error no existe usuario.\n");
+            Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            System.out.println("\n\n\n\n\n 3333333--33 \n\n\n\n");
+            System.out.println("Error al editar usuario.\n");
+            Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        //CORREO
-        String destinatario = perfil_bean.getCorreo();
-        String asunto = "Confirmación de registro";
-        
-        String hostName = getUrl();
-        String link = hostName.substring(0,hostName.length()-14)+"registro_exitoso.xhtml?token="+token;
-        //UTILIZAR MD5
-        String cuerpo = "Haz click en el siguiente enlace para confirmar tu registro:\n"+link;
-        
-        return "/views/mensaje_correo?faces-redirect=true";
+        //Lista de todas las carreras.
+        carreras = c_jpaController.findCarreraEntities();
+        setUsuario();
+        return "/views/perfil?faces-redirect=true";
     }
     
     
@@ -203,10 +175,6 @@ public class PerfilController implements Serializable {
 
     public List<Carrera> getCarreras() {
         return carreras;
-    }
-    
-    public List<Carrera> getCarrerasAc() {
-        return carrerasAc;
     }
     
     public Carrera getCarreraNula(){
@@ -240,10 +208,6 @@ public class PerfilController implements Serializable {
 
     public void setCarreras(List<Carrera> carreras) {
         this.carreras = carreras;
-    }
-    
-    public void setCarrerasAc(Carrera car) {
-        this.carrerasAc.add(car);
     }
 
     public void setPerfil(PerfilBean perfil){
@@ -297,5 +261,22 @@ public class PerfilController implements Serializable {
         StringBuffer requestUrl = origRequest.getRequestURL();
         return requestUrl.toString();
     }
-
+    
+    private void setUsuario(){
+        FacesContext context = getCurrentInstance();
+        usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
+        
+        //SIMULAR SESIÓN
+        if(usuario == null) {
+            u_jpaController = new UsuarioJpaController(emf);
+            usuario = u_jpaController.findUsuario(1);
+//            context.getExternalContext().getSessionMap().put("adm", usuario);
+            context.getExternalContext().getSessionMap().put("usuario", usuario);
+        }else{
+            u_jpaController = new UsuarioJpaController(emf);
+            usuario = u_jpaController.findUsuario(usuario.getId());
+//            context.getExternalContext().getSessionMap().put("adm", usuario);
+            context.getExternalContext().getSessionMap().put("usuario", usuario);
+        }
+    }
 }

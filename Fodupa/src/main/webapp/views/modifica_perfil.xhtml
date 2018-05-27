@@ -32,7 +32,7 @@ and open the template in the editor.
                         <h:outputLabel for="picture" class = "text-center">Cambiar foto de perfil</h:outputLabel>
                         <div id ="modificap">
                             <h:inputFile    class="color-rojo btn btn-secondary" id="picture"
-                                            value="#{perfilController.perfil.foto}">
+                                            value="{perfilController.perfil.fotoP}">
                             </h:inputFile>
                             <div id="error_picture" class="hide text-danger"></div>
                         </div>
@@ -82,7 +82,7 @@ and open the template in the editor.
                     <h:outputLabel class = "text-danger">Selecciona la opción "Quitar" para quitar esa carrera. </h:outputLabel><br/><br/>
                     <ui:repeat value="#{perfilController.usuario.getCarreraList()}" var="carrera">
                         <div class="form-group ">
-                            <h:selectOneMenu value="#{perfilController.carrerasAc}" 
+                            <h:selectOneMenu value="#{perfilController.perfil.carrera}" 
                                              class="carreras form-control"
                                              converter ="convertidorCarrera">
                                 <f:selectItem itemValue="#{carrera}" itemLabel="#{carrera.nombre}" />
@@ -94,11 +94,16 @@ and open the template in the editor.
                         </div>
                     </ui:repeat>
                     
-                    <div id ="carrera_nueva">
+                    <div class="form-group ">
                         <h:outputText value = "Selecciona otra carrera: (opcional)"/><br/>
-                        <h:selectOneMenu value="#{perfilController.perfil.carrera}" class="carreras form-control" converter ="convertidorCarrera">
-                            <f:selectItems value="#{perfilController.carreras}" var="car" itemValue="#{car}"  itemLabel="#{car.nombre}"/>
+                        <h:selectOneMenu value="#{perfilController.perfil.carrera}" 
+                                         class="carreras form-control" 
+                                         converter ="convertidorCarrera">
                             <f:selectItem itemValue="#{perfilController.carreraNula}" itemLabel="Quitar"/>
+                            <f:selectItems value="#{perfilController.carreras}" 
+                                           var="car" 
+                                           itemValue="#{car}"  
+                                           itemLabel="#{car.nombre}"/>
                         </h:selectOneMenu>
                     </div>
                     <br/><br/>

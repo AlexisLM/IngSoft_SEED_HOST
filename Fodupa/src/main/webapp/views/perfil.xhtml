@@ -48,7 +48,7 @@ and open the template in the editor.
                     <div id ="carreras">
                         <c:forEach items="#{perfilController.usuario.getCarreraList()}" var="carrera">
                             <!--<h:outputText  value="{pregunta.idusuario.nombre}" />-->
-                            <h:outputText class = "carreras" value = "#{carrera.nombre}"/>
+                            <h:outputText class = "carreras" value = "#{carrera.nombre}"/><br/>
                         </c:forEach>
                     </div>
                 </div>
