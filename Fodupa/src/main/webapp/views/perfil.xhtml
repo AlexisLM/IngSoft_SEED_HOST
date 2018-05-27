@@ -22,9 +22,9 @@ and open the template in the editor.
         <div class="container-fluid perfil">
             <div class = 'left nav'>
                 <div>
-                    <p:graphicImage value="#{FacesContext.getCurrentInstance().getExternalContext()}/resources/imgs/default_user.png"
+                    <p:graphicImage value="#{perfilController.imagen}"
                                 class="img-thumbnail rounded-circle"
-                                id = "foto"/>
+                                id = "foto"></p:graphicImage>
                 </div>
                 <div class="btn-group-vertical">
                     <h:form id ="modificap">
