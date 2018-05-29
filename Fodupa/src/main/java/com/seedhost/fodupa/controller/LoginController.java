@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -23,8 +24,7 @@ import javax.persistence.EntityManagerFactory;
  */
 @ManagedBean
 @SessionScoped
-public class LoginController implements Serializable {    
-    
+public class LoginController implements Serializable{        
     private EntityManagerFactory emf;
     private UsuarioJpaController usuarioJpaController;
     private UsuarioBean usuario_bean;
@@ -46,8 +46,28 @@ public class LoginController implements Serializable {
         this.usuario_bean = usuario;
     }
     
-    public String canLogin() {
-        Usuario l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), usuario_bean.getContrasena());
+    /**
+     * Recibe una bandera y apartir de ésta toma los parámetros para iniciar sesión.
+     * @param token la bandera. Busca el usuario por token en caso de que sea true, por correo y contraseña en otro caso.
+     * @return Inicio de sesión
+     */
+    public String canLogin(boolean token){
+        System.out.println("TOKEN LOGIN CONTROLLER");
+        if(token)
+            System.out.println(token);
+        else
+            System.out.println("NULLLLLLLLLLLL");
+        Usuario l;
+        if(!token){ //meter aqui el getSha de registra controller, y pasar el resultado al find login
+            String con = RegistraController.getSha256(usuario_bean.getContrasena());
+            l = usuarioJpaController.findLogin(usuario_bean.getCorreo(), con);   
+        }else{
+            //Busca usuario por token (del link de confirmación)
+            l = usuarioJpaController.findUsuarioByToken();
+            //Indica que el usuario es válido ya que confirmó su cuenta.
+            l.setValido(true);
+        }
+        
         boolean logged = l != null;
         if (logged) {
             FacesContext context = getCurrentInstance();            
@@ -59,7 +79,8 @@ public class LoginController implements Serializable {
                 context.getExternalContext().getSessionMap().put("usuario", l);   
             }
 //            context.getExternalContext().getSessionMap().put("datos", u);
-            return "index?faces-redirect=true";
+            //Sólo cambia la cabecera indicando que esta la sesión iniciada con los botones "Perfil" y "Cerrar Sesión".
+            return "/views/header_sesion?faces-redirect=true";
         }else{
             this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorrectas";
             this.error = true;

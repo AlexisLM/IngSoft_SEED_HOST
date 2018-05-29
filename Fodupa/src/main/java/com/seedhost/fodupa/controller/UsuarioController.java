@@ -76,7 +76,7 @@ public class UsuarioController implements Serializable {
             controlerC.deleteComentario(c);
         }
         
-//        u_jpaController.destroy(u_ref.getId());
+        u_jpaController.destroy(u_ref.getId());
         System.out.println("salio del metodo delete usuario");
         return "/views/admUsuario?faces-redirect=true"; 
     }

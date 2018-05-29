@@ -24,9 +24,15 @@
                         <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
                     </form>
                     <ul class="navbar-nav my-2 my-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Perfil</a>
+                        <li class="nav-item">                      
+                            <h:form>
+                                <h:commandButton action="#{registraController.formularioRegistro()}"
+                                                 value="Registrarse"
+                                                 class="btn nav-link">
+                                </h:commandButton>
+                            </h:form>
                         </li>
+                        
                         <li class="nav-item">
                             <c:choose>
                                 <c:when test="#{loginController.isLogged()}">                     
@@ -89,14 +95,14 @@
                 <div class="col-sm-12">
                     <h:inputSecret value="#{loginController.usuario.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
                                    a:placeholder="Contraseña">
-                        <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin()}"/>
+                        <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin(false)}"/>
                     </h:inputSecret>
                 </div>                
             </div>
             <h:outputText id="error_general" style="color: red; padding-left: 20px; font-size: 15px" value="#{loginController.errorCorreo()}"/>
             <div class="col-sm-12 " style="height: 20px" ></div>
             <div class="col-sm-12 modal-footer">
-                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin()}">
+                <h:commandButton class="btn btn-info btn-lg" value="Aceptar" action="#{loginController.canLogin(false)}">
                 </h:commandButton>
             </div>
    
