@@ -214,7 +214,7 @@ public class RegistraController implements Serializable {
      * @param input cadena a cifrar.
      * @return el cifrado de una cadena de tamaño 65.
      */
-    private static String getSha256(String input) {
+    public static String getSha256(String input) {
         try{
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(input.getBytes("UTF-8"));

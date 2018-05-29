@@ -88,15 +88,15 @@ public class PreguntaController implements Serializable {
         pregunta_bean = new PreguntaBean();
         
         //Obtenemos el usuario actual (Esto es del caso de uso de Fer)
-        FacesContext context = getCurrentInstance();
-        Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
-                                    .get("usuario");
-        if(usuario == null) {
-            u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(2);
-            context.getExternalContext().getSessionMap().put("adm", usuario);
-//            context.getExternalContext().getSessionMap().put("usuario", usuario);
-        }
+//        FacesContext context = getCurrentInstance();
+//        Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
+//                                    .get("usuario");
+//        if(usuario == null) {
+//            u_jpaController = new UsuarioJpaController(emf);
+//            usuario = u_jpaController.findUsuario(2);
+//            context.getExternalContext().getSessionMap().put("adm", usuario);
+////            context.getExternalContext().getSessionMap().put("usuario", usuario);
+//        }
     }
     
     
