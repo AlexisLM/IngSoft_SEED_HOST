@@ -56,9 +56,8 @@
     <!-- Contenedor de preguntas -->
     <div class="comments-container">
         <ul id="comments-list" class="comments-list">
-            <li>                
-                <c:set var="i" value ="0"/>
-                <c:forEach begin="${i}" end="4" items="#{preguntaController.preguntas}" var="pregunta">
+            <li>
+                <c:forEach items="#{preguntaController.preguntas}" var="pregunta">
                     <div class="comment-main-level mt-3">
                         <!-- Avatar -->
                         <div class="comment-avatar">
@@ -96,42 +95,8 @@
                     </div>
                     <ui:include src="../views/comentario.xhtml" />
                 </c:forEach>
-
-                
-                <c:set var="pag" value ="1"/> <!--Variable para imprimir el número de página-->
-                <div class="comment-box">
-                    <!-- Sección de navegación -->
-                    <c:forEach end="#{preguntaController.tamanoPreguntas}">
-                        <button onclick="funcion(${pag})" class="button" value ="${pag}">${pag}</button> <!--Imprime el botón de la página correspondiente-->
-                        <c:set var="pag" value ="${pag+1}"/> <!--Aumenta el contador-->
-                    </c:forEach>
-                </div>
-
-                <!--Muestra el número de la página-->
-                <p id="demo"></p>
-                <script> 
-                    function funcion(num) {
-                        document.getElementById("demo").innerHTML = num;
-                    }
-                </script>
             </li>
         </ul>
     </div>
-    
-    <style>
-        .button {
-            background-color: #d39c2f;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-    </style>
 
 </ui:composition>

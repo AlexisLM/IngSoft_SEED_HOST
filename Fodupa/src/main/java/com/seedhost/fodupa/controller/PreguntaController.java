@@ -49,7 +49,6 @@ public class PreguntaController implements Serializable {
     private List<Categoria> categorias;
     private List<Pregunta> preguntas;
     private PreguntaBean pregunta_bean;
-    private int tamanoPreguntas;
     
     /**
      * Creates a new instance of PreguntaController
@@ -80,8 +79,7 @@ public class PreguntaController implements Serializable {
         p_jpaController = new PreguntaJpaController(emf);
         preguntas = p_jpaController.findPreguntaEntities();
         Collections.reverse(preguntas);
-        tamanoPreguntas = (int)Math.ceil((preguntas.size()-1)/5);
-
+        
         //Inicializamos la pregunta_bean
         pregunta_bean = new PreguntaBean();
         
@@ -178,10 +176,6 @@ public class PreguntaController implements Serializable {
 
     public List<Pregunta> getPreguntas() {
         return preguntas;
-    }
-    
-    public int getTamanoPreguntas() {
-        return tamanoPreguntas;
     }
 
     public PreguntaBean getPregunta(){
