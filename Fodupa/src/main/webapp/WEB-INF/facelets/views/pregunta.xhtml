@@ -7,17 +7,7 @@
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     
         <!-- Realizar Pregunta -->
-        <c:choose>
-            <c:when test="#{loginController.isLogged()}">
-                <div id="addQuestion-cont" class="col-sm-7 mx-auto mt-3">
-                    <div class="card link">
-                        <div class="card-body">
-                            <span class="card-title text-muted">Realiza una pregunta...</span>
-                            <i class="fas fa-plus-circle fa-lg float-right" style="color:#3498db;"></i>
-                        </div>
-                    </div>
-                </div>
-            </c:when>        
+        <c:choose>       
             <c:when test="#{loginController.isAdmin()}">      
                 <h:form>
                     <h:commandButton action="#{loginController.sendUsuarios()}"
@@ -27,6 +17,15 @@
                 </h:form>
             </c:when>
         </c:choose>
+        
+         <div id="addQuestion-cont" class="col-sm-7 mx-auto mt-3">
+            <div class="card link">
+                <div class="card-body">
+                    <span class="card-title text-muted">Realiza una pregunta...</span>
+                    <i class="fas fa-plus-circle fa-lg float-right" style="color:#3498db;"></i>
+                </div>
+            </div>
+        </div>
 
         <!-- Realizar Pregunta Modal -->
         <div id="ask" class="col-sm-8 mx-auto mt-5 hide">
