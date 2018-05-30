@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.seedhost.fodupa.model.web;
+package com.seedhost.fodupa.web;
 
 import com.seedhost.fodupa.model.Carrera;
-import org.apache.commons.io.FilenameUtils;
-import org.primefaces.model.UploadedFile;
 
 
 /**
