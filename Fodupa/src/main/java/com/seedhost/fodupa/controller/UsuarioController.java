@@ -16,6 +16,7 @@ import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
 import com.seedhost.fodupa.web.UsuarioBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import javax.faces.bean.ManagedBean;
@@ -55,7 +56,9 @@ public class UsuarioController implements Serializable {
     }
 
     public List<Usuario> getUsuarios() {
-        return usuarios;
+        List<Usuario> total = new ArrayList<>(usuarios);
+        total.remove(0);
+        return total;
     }
     
     public String sendUsuarios(){

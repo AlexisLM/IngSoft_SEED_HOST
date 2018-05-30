@@ -22,6 +22,7 @@ import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
 import com.seedhost.fodupa.web.PreguntaBean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManagerFactory;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
@@ -52,12 +54,15 @@ public class PreguntaController implements Serializable {
     private PreguntaJpaController p_jpaController;
     private List<Categoria> categorias;
     private List<Pregunta> preguntas;
+    private List<Pregunta> busqueda;
     private PreguntaBean pregunta_bean;
+    private String search;
     
     /**
      * Creates a new instance of PreguntaController
      */
-    public PreguntaController() {
+    @PostConstruct
+    public void init() {
         
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new 
                                                             Locale("es-Mx"));
@@ -85,17 +90,9 @@ public class PreguntaController implements Serializable {
         
         //Inicializamos la pregunta_bean
         pregunta_bean = new PreguntaBean();
+
+        searchPregunta();
         
-        //Obtenemos el usuario actual (Esto es del caso de uso de Fer)
-//        FacesContext context = getCurrentInstance();
-//        Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
-//                                    .get("usuario");
-//        if(usuario == null) {
-//            u_jpaController = new UsuarioJpaController(emf);
-//            usuario = u_jpaController.findUsuario(2);
-//            context.getExternalContext().getSessionMap().put("adm", usuario);
-////            context.getExternalContext().getSessionMap().put("usuario", usuario);
-//        }
     }
     
     
@@ -147,6 +144,8 @@ public class PreguntaController implements Serializable {
         
         clear();
 
+        searchPregunta();
+        
         return "index?faces-redirect=true";
     }
 
@@ -184,9 +183,22 @@ public class PreguntaController implements Serializable {
     public List<Pregunta> getPreguntas() {
         return preguntas;
     }
+    
+    public List<Pregunta> getBusqueda() {
+        return busqueda;
+    }
 
     public PreguntaBean getPregunta(){
         return pregunta_bean;
+    }
+
+    public String getSearch(){
+        return search;
+    }
+
+    public void setSearch(String str){
+        System.out.println(str);
+        search = str;
     }
     
     public void setCategorias(List<Categoria> categorias) {
@@ -209,7 +221,29 @@ public class PreguntaController implements Serializable {
             com_jpaController.destroy(coment.getComentarioPK());
         }
         p_jpaController.destroy(preg_ref.getId());
+        
+        searchPregunta();
+        
         return "index?faces-redirect=true";
+    }
+
+    public String findPregunta(){
+        //System.out.println("find: null");
+        if(search.equals(""))
+            return "";
+        System.out.println("find: "+search);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+                .put("search", search);
+        return "/views/busqueda?faces-redirect=true";
+    }
+    
+    private void searchPregunta(){
+        search = (String) FacesContext.getCurrentInstance().getExternalContext()
+                .getSessionMap().get("search");
+        
+        if( search == null || (busqueda = p_jpaController
+                .findPreguntaByTitleContent(search)) == null )
+            busqueda = new ArrayList<Pregunta>();
     }
     
 }

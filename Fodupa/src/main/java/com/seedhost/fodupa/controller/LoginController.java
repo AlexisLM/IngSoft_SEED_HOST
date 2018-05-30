@@ -55,11 +55,6 @@ public class LoginController implements Serializable{
      * @return Inicio de sesión
      */
     public String canLogin(boolean token){
-        System.out.println("TOKEN LOGIN CONTROLLER");
-        if(token)
-            System.out.println(token);
-        else
-            System.out.println("NULLLLLLLLLLLL");
         Usuario l;
         if(!token){ //meter aqui el getSha de registra controller, y pasar el resultado al find login
             String con = RegistraController.getSha256(usuario_bean.getContrasena());
@@ -76,7 +71,7 @@ public class LoginController implements Serializable{
             FacesContext context = getCurrentInstance();            
             this.mensajeErrorCorreo = "";
             error = false;
-            if(l.getCorreo().equals("alexis-blm@ciencias.unam.mx")){
+            if(l.getId() == 1){
                 context.getExternalContext().getSessionMap().put("adm", l);
             }else{
                 context.getExternalContext().getSessionMap().put("usuario", l);   

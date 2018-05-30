@@ -22,7 +22,7 @@
     </div>
 
     <!-- Respuestas de los comentarios -->
-    <ul class="comments-list reply-list">
+    <ul class="comments-list reply-list #{status.index} ocultable">
         <c:forEach items="#{comentarioController.getComentarios(pregunta)}" var="comentario">
             <li>
                 <div class=".reply-list .comment-avatar">

@@ -185,9 +185,26 @@ function errorStatusContent(element){
 }
 
 
+function showPageQuestion(e){
+    $(".ocultable").hide();
+    var j = parseInt($(e).text())*9;
+    for (var i = j; i >= j-9; i--) {
+        $("."+i).show();
+    }
+    
+}
 
+
+function initPage(){
+    for (var i = 0; i <= 9; i++) {
+        $("."+i).removeClass("hide");
+
+    }
+}
 
 $(document).ready(function(){
+
+    initPage();
 
     // Div [Realiza pregunta...] event handler
     $("#addQuestion-cont").on("click", toggleQuestionModals);

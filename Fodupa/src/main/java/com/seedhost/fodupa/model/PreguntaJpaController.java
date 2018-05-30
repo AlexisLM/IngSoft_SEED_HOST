@@ -232,6 +232,20 @@ public class PreguntaJpaController implements Serializable {
         }
     }
 
+    public List<Pregunta> findPreguntaByTitleContent(String content){
+        EntityManager em = getEntityManager();
+        try{
+            
+            Query q = em.createNamedQuery("Pregunta.findByTitleContent")
+                    .setParameter("content", "%"+content+"%");
+            if( q.getResultList().isEmpty() ) return null;
+            
+            return q.getResultList();
+        } finally{
+            em.close();
+        }
+    }
+
     public Pregunta findPregunta(Integer id) {
         EntityManager em = getEntityManager();
         try {

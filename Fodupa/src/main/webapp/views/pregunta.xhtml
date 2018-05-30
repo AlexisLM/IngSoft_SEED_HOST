@@ -37,7 +37,6 @@
             <div class="card">
                 <div class="card-body">
                     <h:form id="form_question">
-                        <p:messages id="messages" autoUpdate="true" closable="true" showDetail ="true"/>
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label" for="title">Titulo: </label>  
                             <div class="col-sm-7">
@@ -70,11 +69,11 @@
         </div>
 
         <!-- Contenedor de preguntas -->
-        <div class="comments-container">
+        <div class="comments-container" style="min-height: 28px;">
             <ul id="comments-list" class="comments-list">
                 <li>
-                    <c:forEach items="#{preguntaController.preguntas}" var="pregunta">
-                        <div class="comment-main-level mt-3">
+                    <c:forEach items="#{preguntaController.preguntas}" var="pregunta" varStatus="status">
+                        <div class="comment-main-level mt-3 #{status.index} ocultable hide">
                             <!-- Avatar -->
                             <div class="comment-avatar">
                                 <h:graphicImage value="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" alt=""/>
@@ -126,8 +125,20 @@
                         </div>
                         <ui:include src="../views/comentario.xhtml" />
                     </c:forEach>
+                    
                 </li>
             </ul>
+            <nav aria-label="Page navigation example" class="nav justify-content-center mt-5">
+                <ul class="pagination">
+                    <c:choose>
+                        <c:when test="#{preguntaController.preguntas.size() gt 0}">
+                            <c:forEach var = "i" begin = "1" end = "#{(preguntaController.preguntas.size()/10)+1}">
+                                <li class="page-item link"><span class="page-link link" onclick="showPageQuestion(this)"><h:outputText value="#{i}"/></span></li>
+                            </c:forEach>
+                        </c:when>
+                    </c:choose>
+                </ul>
+            </nav>
         </div>
 
 </ui:composition>

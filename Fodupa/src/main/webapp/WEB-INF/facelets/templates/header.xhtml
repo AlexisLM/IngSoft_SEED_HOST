@@ -19,10 +19,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form class="form-inline ml-auto my-lg-0">
-                        <h:inputText class="form-control mr-md-2" a:placeholder="Buscar..."/>
-                        <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
-                    </form>
+                    <h:form class="form-inline ml-auto my-lg-0">
+                        <h:inputText class="form-control mr-md-2" a:placeholder="Buscar..."
+                            value="#{preguntaController.search}">
+                        </h:inputText>
+                        <h:commandButton class="btn btn-outline-success my-2 my-md-0" value="Buscar"
+                            action="#{preguntaController.findPregunta()}">
+                        </h:commandButton>
+                    </h:form>
                     <ul class="navbar-nav my-2 my-lg-0">
                         <c:choose>
                             <c:when test="#{(not loginController.isLogged()) and  (not loginController.isAdmin())}">
@@ -99,6 +103,7 @@
                 <div class="col-sm-12">
                     <h:inputSecret value="#{loginController.usuarioBean.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
                                    a:placeholder="Contraseña">
+                                <f:ajax  event="blur" render="error_general" listener="#{loginController.canLogin(false)}"/>
                     </h:inputSecret>
                 </div>                
             </div>
