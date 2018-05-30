@@ -323,11 +323,11 @@ CREATE TABLE fodupa.usuario (
     foto bytea,
     token character varying(64) NOT NULL,
     valido boolean NOT NULL,
-    CONSTRAINT usuario_apmaterno_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
-    CONSTRAINT usuario_appaterno_check CHECK (((ap_paterno)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
+    CONSTRAINT usuario_apmaterno_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ ]{0,47}$'::text)),
+    CONSTRAINT usuario_appaterno_check CHECK (((ap_paterno)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ ]{0,47}$'::text)),
     CONSTRAINT usuario_contrasena_check CHECK (((contrasena)::text ~* '^[A-Za-z\d]{64}$'::text)),
     CONSTRAINT usuario_correo_check CHECK (((correo)::text ~* '^[A-Za-z0-9._-]{1,83}@ciencias.unam.mx$'::text)),
-    CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ]{0,47}$'::text)),
+    CONSTRAINT usuario_nombre_check CHECK (((nombre)::text ~* '^[A-Za-záéíóúÁÉÍÓÚñÑ]{3}[A-Za-záéíóúÁÉÍÓÚñÑ ]{0,47}$'::text)),
     CONSTRAINT usuario_correo_unico unique(correo),
     CONSTRAINT usuario_token_check CHECK (((token)::text ~* '^[A-Za-z\d]{64}$'::text))
 );
