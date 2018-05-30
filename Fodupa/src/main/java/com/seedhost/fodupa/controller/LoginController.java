@@ -76,7 +76,7 @@ public class LoginController implements Serializable{
             FacesContext context = getCurrentInstance();            
             this.mensajeErrorCorreo = "";
             error = false;
-            if(l.getCorreo().equals("alexis-blm@ciencias.unam.mx")){
+            if(l.getId().equals(1)){
                 context.getExternalContext().getSessionMap().put("adm", l);
             }else{
                 context.getExternalContext().getSessionMap().put("usuario", l);   
