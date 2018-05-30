@@ -134,11 +134,11 @@ function successStatusMPName(id){
  * @return {void} 
  */
 function successStatusMPPassword(){
-    $("#form_modifica_perfil\\:password").addClass('is-valid');
-    $("#form_modifica_perfil\\:password").removeClass('is-invalid');
-    $("label[for='password']").addClass('text-success');
-    $("label[for='password']").removeClass('text-danger');
-    $("#error_password").addClass("hide");
+    $("#form_modifica_perfil\\:passsword").addClass('is-valid');
+    $("#form_modifica_perfil\\:passsword").removeClass('is-invalid');
+    $("label[for='passsword']").addClass('text-success');
+    $("label[for='passsword']").removeClass('text-danger');
+    $("#error_passsword").addClass("hide");
 }
 
 /**
@@ -340,9 +340,9 @@ function errorStatusMP(id){
 window.onload = function(){
     
     var idd = ["namee","appatt","apmatt","passsword","pconfirm","ppicture"];
-    var inputt = ["l nombre","l apellido paterno","l apellido materno","l correo",
+    var inputt = ["l nombre","l apellido paterno","l apellido materno",
                  " la contraseña"," la confirmación de contraseña"," la foto"];
-    var rangoss = ["3 a 50", "3 a 50","3 a 50","18 a 100","8 a 20", "8 a 20"];
+    var rangoss = ["3 a 50", "3 a 50","3 a 50","8 a 20", "8 a 20"];
         
     //Inputt [something] event handler
     $("#form_modifica_perfil\\:"+idd[0]).on("keyup", function(){
@@ -393,14 +393,14 @@ window.onload = function(){
     $("#form_modifica_perfil\\:"+idd[3]).on("keyup", function(){
         if(!validateLengthMP(idd[3])){
             errorStatusMP(idd[3]);
-            $("#error_"+idd[3]).text("La longitud de"+inputt[4]+
+            $("#error_"+idd[3]).text("La longitud de"+inputt[3]+
                                     " debe tener entre 8 y 20 caracteres, al menos un dígito,"+
                                     "al menos una minúscula y al menos una mayúscula.");
         }
         else if(!validateMP(idd[3])){
             errorStatusMP(idd[3]);
             $("#error_"+idd[3]).text("Lo sentimos, los siguientes caracteres no "+
-                                   "son válidos: "+getInvalidCharsMP(idd[4]));
+                                   "son válidos: "+getInvalidCharsMP(idd[3]));
         }
         else
             successStatusMP(idd[3]);
@@ -409,7 +409,7 @@ window.onload = function(){
     $("#form_modifica_perfil\\:"+idd[4]).on("keyup", function(){
         if(!validateLengthMP(idd[4])){
             errorStatusMP(idd[4]);
-            $("#error_"+idd[4]).text("La longitud de"+inputt[5]+
+            $("#error_"+idd[4]).text("La longitud de"+inputt[4]+
                                     " debe tener entre 8 y 20 caracteres, al menos un dígito,"+
                                     "al menos una minúscula y al menos una mayúscula.");
         }
@@ -439,12 +439,19 @@ window.onload = function(){
         check = check || (($("#form_modifica_perfil\\:"+idd[0]).val().length > 0) ? (!validateLengthMP(idd[0]) || !validateMP(idd[0])): false );
         check = check || (($("#form_modifica_perfil\\:"+idd[1]).val().length > 0) ? (!validateLengthMP(idd[1]) || !validateMP(idd[1])): false );
         check = check || (($("#form_modifica_perfil\\:"+idd[2]).val().length > 0) ? (!validateLengthMP(idd[2]) || !validateMP(idd[2])): false );
-        check = check || (($("#form_modifica_perfil\\:"+idd[3]).val().length > 0) ? (!validateLengthMP(idd[3]) || !validateMP(idd[3])): false );
-        check = check || (($("#form_modifica_perfil\\:"+idd[4]).val().length > 0) ? (!validateLengthMP(idd[4]) || !validateMP(idd[4])): false );
+        check = check || (($("#form_modifica_perfil\\:"+idd[3]).val().length > 0 || $("#form_modifica_perfil\\:"+idd[4]).val().length > 0) ? (!validateLengthMP(idd[3]) || !validateMP(idd[3])): false );
+        check = check || (($("#form_modifica_perfil\\:"+idd[3]).val().length > 0 || $("#form_modifica_perfil\\:"+idd[4]).val().length > 0) ? (!validateLengthMP(idd[4]) || !validateMP(idd[4])): false );
         //check = check || (($("#form_modifica_perfil\\:"+idd[5]).val().length > 0) ? !validateMP(idd[5]) : false );
-
         
-        if(check){
+        var bandera = true;
+        if($("#form_modifica_perfil\\:"+idd[3]).val().length > 0 || $("#form_modifica_perfil\\:"+idd[4]).val().length > 0)
+            if(!validateLengthMP(idd[3]) || !validateMP(idd[3]) || (!validateLengthMP(idd[4]) || !validateMP(idd[4])))
+                bandera = false;
+        
+        if(bandera){
+            errorStatusMPFill();
+            $("#error_fill").text("Es necesario escribir la contraseña y su confirmación.");  
+        }else if(check){
             errorStatusMPFill();
             $("#error_fill").text("Hay campos sin corregir.");
             return false;
