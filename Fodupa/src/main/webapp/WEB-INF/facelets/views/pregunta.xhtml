@@ -57,8 +57,8 @@
     <div class="comments-container">
         <ul id="comments-list" class="comments-list">
             <li>                
-                <c:set var="i" value ="0"/>
-                <c:forEach begin="${i}" end="4" items="#{preguntaController.preguntas}" var="pregunta">
+                <c:set var="i" value ="1"/>
+                <c:forEach begin="0" end="10" items="#{preguntaController.preguntas}" var="pregunta">
                     <div class="comment-main-level mt-3">
                         <!-- Avatar -->
                         <div class="comment-avatar">
@@ -97,19 +97,25 @@
                     <ui:include src="../views/comentario.xhtml" />
                 </c:forEach>
 
-                
                 <c:set var="pag" value ="1"/> <!--Variable para imprimir el número de página-->
-                <div class="comment-box">
-                    <!-- Sección de navegación -->
+                <nav aria-label="Navegación de paǵinas">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1">Previo</a>
+                    </li>
                     <c:forEach end="#{preguntaController.tamanoPreguntas}">
-                        <button onclick="funcion(${pag})" class="button" value ="${pag}">${pag}</button> <!--Imprime el botón de la página correspondiente-->
+                        <li class="page-item"><a class="page-link" onclick="funcion(${pag})">${pag}</a></li>
                         <c:set var="pag" value ="${pag+1}"/> <!--Aumenta el contador-->
                     </c:forEach>
-                </div>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Siguiente</a>
+                    </li>
+                  </ul>
+                </nav>
 
                 <!--Muestra el número de la página-->
                 <p id="demo"></p>
-                <script> 
+                <script>
                     function funcion(num) {
                         document.getElementById("demo").innerHTML = num;
                     }
@@ -117,21 +123,5 @@
             </li>
         </ul>
     </div>
-    
-    <style>
-        .button {
-            background-color: #d39c2f;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-    </style>
 
 </ui:composition>
