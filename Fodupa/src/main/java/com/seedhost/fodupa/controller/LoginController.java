@@ -9,6 +9,8 @@ import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
 import com.seedhost.fodupa.web.UsuarioBean;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Locale;
@@ -30,19 +32,20 @@ public class LoginController implements Serializable{
     private UsuarioBean usuario_bean;
     private boolean error = false;
     private String mensajeErrorCorreo = "";
-    
-    public LoginController() {
+
+    @PostConstruct
+    private void init(){
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
         emf = EntityProvider.provider();
         usuarioJpaController = new UsuarioJpaController(emf);
         usuario_bean = new UsuarioBean();
     }
     
-    public UsuarioBean getusuario() {
+    public UsuarioBean getUsuarioBean() {
         return usuario_bean;
     }
     
-    public void setUsuario(UsuarioBean usuario) {        
+    public void setUsuarioBean(UsuarioBean usuario) {        
         this.usuario_bean = usuario;
     }
     
@@ -73,14 +76,15 @@ public class LoginController implements Serializable{
             FacesContext context = getCurrentInstance();            
             this.mensajeErrorCorreo = "";
             error = false;
-            if(l.getId() == 1){
+            if(l.getCorreo().equals("alexis-blm@ciencias.unam.mx")){
                 context.getExternalContext().getSessionMap().put("adm", l);
             }else{
                 context.getExternalContext().getSessionMap().put("usuario", l);   
             }
 //            context.getExternalContext().getSessionMap().put("datos", u);
             //Sólo cambia la cabecera indicando que esta la sesión iniciada con los botones "Perfil" y "Cerrar Sesión".
-            return "/views/header_sesion?faces-redirect=true";
+            //return "/views/header_sesion?faces-redirect=true";
+            return "";
         }else{
             this.mensajeErrorCorreo = "Error! Ingresaste un correo y contraseña incorrectas";
             this.error = true;
@@ -116,7 +120,8 @@ public class LoginController implements Serializable{
     
     public boolean isLogged() {
         FacesContext context = getCurrentInstance();
-        Usuario l = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
+        Usuario l = (Usuario) context.getExternalContext().getSessionMap()
+            .get("usuario");
         return l != null;
     }
 

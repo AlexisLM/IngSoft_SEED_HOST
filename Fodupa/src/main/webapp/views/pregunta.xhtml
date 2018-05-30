@@ -6,26 +6,31 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     
-        <!-- Realizar Pregunta -->
         <c:choose>       
             <c:when test="#{loginController.isAdmin()}">      
                 <h:form>
-                    <h:commandButton action="#{loginController.sendUsuarios()}"
-                                     value="Administar Usuarios"
-                                     class="btn btn-info btn-lg" style="width: 70%; margin: 20px 15%">
-                    </h:commandButton>
+                    <h:commandLink action="#{loginController.sendUsuarios()}"
+                        class="btn btn-outline-info btn-lg" style="width: 70%; margin: 20px 15%">
+                        <i class="fas fa-users"></i>
+                        Administrar Usuarios
+                    </h:commandLink>
                 </h:form>
             </c:when>
         </c:choose>
         
-         <div id="addQuestion-cont" class="col-sm-7 mx-auto mt-3">
-            <div class="card link">
-                <div class="card-body">
-                    <span class="card-title text-muted">Realiza una pregunta...</span>
-                    <i class="fas fa-plus-circle fa-lg float-right" style="color:#3498db;"></i>
+        <!-- Realizar Pregunta -->
+        <c:choose>
+            <c:when test="#{loginController.isLogged() or loginController.isAdmin()}">
+                <div id="addQuestion-cont" class="col-sm-7 mx-auto mt-3">
+                    <div class="card link">
+                        <div class="card-body">
+                            <span class="card-title text-muted">Realiza una pregunta...</span>
+                            <i class="fas fa-plus-circle fa-lg float-right" style="color:#3498db;"></i>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </c:when>
+        </c:choose>
 
         <!-- Realizar Pregunta Modal -->
         <div id="ask" class="col-sm-8 mx-auto mt-5 hide">
@@ -98,20 +103,21 @@
                                 </div>
                                 <div class="icon-content">
                                     <c:choose>
-                                        <c:when test="#{loginController.isLogged()}">                                        
-                                            <i class="fa fa-heart"></i> 
-                                            <span class="link reply_question">
+                                        <c:when test="#{loginController.isLogged() or loginController.isAdmin()}">                                        
+                                            <span class="link reply_question btn btn-primary btn-sm" style="border-radius: 15px;">
                                                 <i class="fa fa-reply"></i>
                                             </span>                                        
                                         </c:when>
+                                    </c:choose>
+                                    <c:choose>
                                         <c:when test="#{loginController.isAdmin()}">
                                             <!--<i class="fas fa-trash"></i>-->           
-                                            <h:form id="delete">
-                                                <h:commandButton action="#{preguntaController.deletePregunta(pregunta)}"
-                                                                 value="Eliminar" class="btn btn-secondary btn-sm"
-                                                                 style="margin-left: 15px">
-                                                <!--<i class="fas fa-trash"></i>-->                                   
-                                                </h:commandButton>
+                                            <h:form id="delete" style="display: inline;">
+                                                <h:commandLink action="#{preguntaController.deletePregunta(pregunta)}"
+                                                                 value="" class="btn btn-danger btn-sm"
+                                                                 style="margin-left: 15px; border-radius: 15px;">
+                                                <i class="fas fa-trash"></i>
+                                                </h:commandLink>
                                             </h:form>
                                         </c:when>
                                     </c:choose>

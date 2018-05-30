@@ -28,11 +28,11 @@
                                         <h:outputText value="#{usuario.nombre} #{usuario.apPaterno} #{usuario.apMaterno}" />
                                     </h6>
                                     <h:form id="delete">
-                                        <h:commandButton action="#{usuarioController.deleteUsuario(usuario)}"
-                                                         value="Eliminar" class="btn btn-danger btn-sm"
-                                                         style="float: right">
-                                        <!--<i class="fas fa-trash"></i>-->                                   
-                                        </h:commandButton>
+                                        <h:commandLink action="#{usuarioController.deleteUsuario(usuario)}"
+                                                         value="" class="btn btn-danger btn-sm"
+                                                         style="float: right; border-radius: 15px;">
+                                            <i class="fas fa-trash"></i>
+                                        </h:commandLink>
                                     </h:form>
                                 </div>
                                 <div class="comment-content pl-5" style="padding-right: 6%">

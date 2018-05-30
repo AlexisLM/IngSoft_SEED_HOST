@@ -68,7 +68,10 @@ public class ComentarioController implements Serializable {
 
         //Obtenemos el usuario actual (Esto es del caso de uso de Fer)
         FacesContext context = getCurrentInstance();
-        Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
+        Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
+            .get("usuario");
+        usuario = usuario == null ? (Usuario) context.getExternalContext().
+            getSessionMap().get("adm") : usuario;
 //        if(usuario == null) {
 //            u_jpaController = new UsuarioJpaController(emf);
 //            usuario = u_jpaController.findUsuario(1);
@@ -91,7 +94,10 @@ public class ComentarioController implements Serializable {
         FacesContext context = getCurrentInstance();
         emf = EntityProvider.provider();
         
-        Usuario usuario = (Usuario)context.getExternalContext().getSessionMap().get("usuario");
+        Usuario usuario = (Usuario)context.getExternalContext().getSessionMap()
+            .get("usuario");
+        usuario = usuario == null ? (Usuario)context.getExternalContext()
+            .getSessionMap().get("adm") : usuario;
         Pregunta pregunta = pregunta_ref;
         ComentarioPK comentarioPK = new ComentarioPK();
 

@@ -16,7 +16,7 @@ import static javax.faces.context.FacesContext.getCurrentInstance;
  *
  * @author adrisan
  */
-@Named(value = "usuarioBean")
+
 @SessionScoped
 public class UsuarioBean implements Serializable {
     private String correo;    

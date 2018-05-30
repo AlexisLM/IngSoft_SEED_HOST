@@ -126,6 +126,9 @@ public class PreguntaController implements Serializable {
         Categoria categoria = new Categoria();
         Usuario usuario = (Usuario) context.getExternalContext().getSessionMap()
                                     .get("usuario");
+
+        usuario = usuario == null ? (Usuario) context.getExternalContext().
+            getSessionMap().get("adm") : usuario;
         
         String[] id_nom_categoria = pregunta_bean.getCategoria().split(":");
         int id = Integer.parseInt(id_nom_categoria[0]);
