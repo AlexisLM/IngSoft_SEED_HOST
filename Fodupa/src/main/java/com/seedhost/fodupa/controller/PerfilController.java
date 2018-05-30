@@ -129,15 +129,13 @@ public class PerfilController implements Serializable {
   //      usuarioActualizado.setValido(usuario.getValido());
         u_jpaController = new UsuarioJpaController(emf);
         try {
-            System.out.println("\n\n\n\n\n SHIDO BANDA \n\n\n\n");
+            System.out.println("\n\n\n\n\n ACTUALIZACIÓN EXITOSA \n\n\n\n");
             u_jpaController.edit(usr);
         } catch (NonexistentEntityException ex) {
-            System.out.println("\n\n\n\n\n 333333333 \n\n\n\n");
-            System.out.println("Error no existe usuario.\n");
+            System.out.println("Error no existe usuario en la bd.\n");
             Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            System.out.println("\n\n\n\n\n 3333333--33 \n\n\n\n");
-            System.out.println("Error al editar usuario.\n");
+            System.out.println("Error al editar información de usuario en la bd.\n");
             Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
