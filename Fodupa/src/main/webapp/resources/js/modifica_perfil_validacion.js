@@ -421,14 +421,15 @@ window.onload = function(){
             successStatusMP(idd[4]);
     });
     
-    $("#form_modifica_perfil\\:"+idd[5]).on("change", function(){
-        if(!validateMP(idd[5])){
-            errorStatusMP(idd[5]);
-            $("#error_"+idd[5]).text("Lo sentimos, el archivo no es válido; necesita ser una imagen (png|jpg|bmp|jpeg)");
-        }
-        else
-            successStatusMP(idd[5]);
-    });
+    
+//    $("#form_modifica_perfil\\:"+idd[5]).on("change", function(){
+//        if(!validateMP(idd[5])){
+//            errorStatusMP(idd[5]);
+//            $("#error_"+idd[5]).text("Lo sentimos, el archivo no es válido; necesita ser una imagen (png|jpg|bmp|jpeg)");
+//        }
+//        else
+//            successStatusMP(idd[5]);
+//    });
     
     
 
@@ -440,7 +441,7 @@ window.onload = function(){
         check = check || (($("#form_modifica_perfil\\:"+idd[2]).val().length > 0) ? (!validateLengthMP(idd[2]) || !validateMP(idd[2])): false );
         check = check || (($("#form_modifica_perfil\\:"+idd[3]).val().length > 0) ? (!validateLengthMP(idd[3]) || !validateMP(idd[3])): false );
         check = check || (($("#form_modifica_perfil\\:"+idd[4]).val().length > 0) ? (!validateLengthMP(idd[4]) || !validateMP(idd[4])): false );
-        check = check || (($("#form_modifica_perfil\\:"+idd[5]).val().length > 0) ? !validateMP(idd[5]) : false );
+        //check = check || (($("#form_modifica_perfil\\:"+idd[5]).val().length > 0) ? !validateMP(idd[5]) : false );
 
         
         if(check){
