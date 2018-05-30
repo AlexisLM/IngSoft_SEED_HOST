@@ -8,6 +8,7 @@ and open the template in the editor.
     Author     : fergch97
 */
 
+.perfil>form{margin-top:40px;}
 .perfil>form>div{
     display: inline-block;
 }

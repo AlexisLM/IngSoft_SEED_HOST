@@ -6,26 +6,30 @@
 package com.seedhost.fodupa.web;
 
 import com.seedhost.fodupa.model.Carrera;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.http.Part;
-import org.apache.commons.io.IOUtils;
-import org.primefaces.event.FileUploadEvent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.ServletContext;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.model.UploadedFile;
+//import org.apache.myfaces.custom.fileupload.UploadedFile;
 
 
 /**
  *
  * @author fergch97
  */
-
+@ManagedBean
+@RequestScoped
 public class PerfilBean{
     
     private String nombre;
@@ -33,7 +37,7 @@ public class PerfilBean{
     private String apMaterno;
     private String contrasena;
     private String confirm;
-    private Part fotoP;
+    private UploadedFile uploadedFile;
     private byte[] foto;
     private Carrera carrera;
     private ArrayList<Carrera> carreras;
@@ -58,8 +62,8 @@ public class PerfilBean{
         return foto;
     }
     
-    public Part getFotoP(){
-        return fotoP;
+    public UploadedFile getUploadedFile(){
+        return uploadedFile;
     }
     
     public Carrera getCarrera(){
@@ -88,8 +92,13 @@ public class PerfilBean{
         this.confirm = confirm;
     }
     
-    public void setFotoP(Part foto){
-        this.fotoP = foto;
+    public void setFoto(byte[] foto){
+        this.foto = foto;
+    }
+    
+    public void setUploadedFile(UploadedFile foto){
+        System.out.println("\n\n\n\n\n\nENTRA \n\n\n\n\n\n");
+        this.uploadedFile = foto;
     }
     
     public void setCarrera(Carrera carrera){
@@ -98,20 +107,34 @@ public class PerfilBean{
     }
     
     private void setCarreras(){
+        System.out.println("\n\n\n\n\n\nENTRA Cn\n\n\n\n\n");
         if(carreras == null)
             carreras = new ArrayList<>();
         carreras.add(carrera);
 
     }
-        
-    public void save() {
-        if(fotoP != null)
-            try (InputStream input = fotoP.getInputStream()) {
-                this.foto = IOUtils.toByteArray(input);
-            }
-            catch (IOException e) {
-                System.out.println("\n\n\n\n CARITA TRISTE: Error foto \n\n\n");
-            }
-    }
+    
+    
+    public void save(){
+        if(uploadedFile != null){
+            foto = uploadedFile.getContents();
+        }else
+            System.out.println("\n\n\n\n\n\nERROR AL OBTENER IMAGEN UPLOADD\n\n\n\n\n\n");
 
+        foto = null;
+    }
+    
+    /**
+     * Método que obtiene la ruta de los archivos
+     * @return la ruta del directorio.
+     */
+    private static String getRuta(){
+        try{
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            return ctx.getRealPath("/");
+        }catch(Exception e){
+            System.out.println("Error en obtener ruta");
+        }
+        return null;
+    }
 }

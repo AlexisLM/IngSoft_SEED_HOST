@@ -20,23 +20,30 @@ and open the template in the editor.
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     
     <ui:define name="content">
+         <h:head></h:head>
         <div class="container-fluid perfil">
-            <h:form enctype="multipart/form-data" style="margin-top:40px" id="form_modifica_perfil">
+            <h:form enctype="multipart/form-data" id="form_modifica_perfil" prependId="false">
                 <div class = 'left nav'>
                     <div>
                     <p:graphicImage value="#{perfilController.imagen}"
                                     class="img-thumbnail rounded-circle"
                                     id = "foto"></p:graphicImage>
                     </div>
-                    <div class="btn-group-vertical">
+<!--                    <div class="btn-group-vertical">
                         <h:outputLabel for="picture" class = "text-center">Cambiar foto de perfil</h:outputLabel>
                         <div id ="modificap">
-                            <h:inputFile    class="color-rojo btn btn-secondary" id="picture"
-                                            value="{perfilController.perfil.fotoP}">
-                            </h:inputFile>
+                            <h:form enctype="multipart/form-data" prependId="false">
+                                <p:fileUpload    class="color-rojo btn btn-secondary" id="picture"
+                                                 mode ="simple"
+                                               value="#{perfilController.perfil.uploadedFile}"/>
+                                <p:commandButton value="Actualizar Imagen" 
+                                                 class="btn btn-primary submit"
+                                                 action="#{perfilController.actualizaImg()}" 
+                                                 ajax="false" />
+                            </h:form>
                             <div id="error_picture" class="hide text-danger"></div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class = 'perfil-datos'>
                     <h:outputLabel class="display-5">Actualización del perfil</h:outputLabel><br/>

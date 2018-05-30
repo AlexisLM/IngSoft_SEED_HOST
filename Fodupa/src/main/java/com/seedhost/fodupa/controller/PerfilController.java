@@ -1,6 +1,7 @@
 package com.seedhost.fodupa.controller;
 
 /* Modelo */
+import static com.seedhost.fodupa.controller.RegistraController.getRuta;
 import com.seedhost.fodupa.model.Carrera;
 import com.seedhost.fodupa.model.CarreraJpaController;
 import com.seedhost.fodupa.model.EntityProvider;
@@ -105,8 +106,6 @@ public class PerfilController implements Serializable {
         String contrasena = (perfil_bean.getContrasena() == null ) ? 
                                 usuario.getContrasena() : 
                                 getSha256(perfil_bean.getContrasena());
-        perfil_bean.save();
-        byte[] foto = (perfil_bean.getFoto() == null ) ? usuario.getFoto() : perfil_bean.getFoto();
         
         //Filtramos las carreras nulas.
         carreras.clear();
@@ -124,7 +123,7 @@ public class PerfilController implements Serializable {
         //Introduce la contraseña cifrada.
         usr.setContrasena(contrasena);
         usr.setCarreraList(carreras);
-        usr.setFoto(foto);
+        usr.setFoto(usuario.getFoto());
         //Ya que no puede ser null
 //        usuarioActualizado.setToken(usuario.getToken());
   //      usuarioActualizado.setValido(usuario.getValido());
@@ -142,9 +141,7 @@ public class PerfilController implements Serializable {
             Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        //Lista de todas las carreras.
-        carreras = c_jpaController.findCarreraEntities();
-        setUsuario();
+        init();
         return "/views/perfil?faces-redirect=true";
     }
     
@@ -228,15 +225,31 @@ public class PerfilController implements Serializable {
     }
     
     /**
-     * Recibe una foto en bytes y regresa el nombre de la foto en servidor.
+     * Actualiza sólo la imagen del usuario.
      * @param foto
      * @return 
      */
-    private DefaultStreamedContent obtieneImg(){
-        String mimeType = "image/png";
-        return new DefaultStreamedContent(new ByteArrayInputStream(usuario.getFoto()),mimeType);
-    }
+    public void actualizaImg(){
+        perfil_bean.save();
+        if(perfil_bean.getFoto() != null){
+            Usuario usr = u_jpaController.findUsuario(usuario.getId());
 
+            usr.setFoto(perfil_bean.getFoto());
+            
+            u_jpaController = new UsuarioJpaController(emf);
+            try {
+                System.out.println("\n\n\n\n\n IMAGEN ACTUALIZADA \n\n\n\n");
+                u_jpaController.edit(usr);
+            } catch (NonexistentEntityException ex) {
+                System.out.println("Error no existe usuario. IMG\n");
+                Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                System.out.println("Error al editar usuario.IMG \n");
+                Logger.getLogger(PerfilController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{System.out.println("\n\n\n\n\n\nERROR ACTUALIZA IMG\n\n\n\n\n\n");}
+    }
+    
     
     /**
      * Método que obtiene la ruta de los archivos
