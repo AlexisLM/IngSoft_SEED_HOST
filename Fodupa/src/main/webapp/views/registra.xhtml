@@ -14,7 +14,8 @@ and open the template in the editor.
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
-                xmlns:t="http://myfaces.apache.org/tomahawk">
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:p="http://primefaces.org/ui">
     
     <ui:define name="content">
         <h1 class="mt-5">Registro</h1>
@@ -55,9 +56,9 @@ and open the template in the editor.
               <!--<rich:message for="password_confirm" />-->
             </div>
             <div class="form-group">
-              <h:outputLabel for="picture">Foto de Perfil: </h:outputLabel>
+              <h:outputLabel for="picture" class = "hide">Foto de Perfil: </h:outputLabel>
               <!--<t:inputFileUpload value="#{registraController.registra.foto}"  class="form-control-file" id="picture" />-->
-              <h:inputFile value="#{registraController.registra.foto}"  class="form-control-file" id="picture" />
+              <h:inputFile value="#{registraController.registra.foto}"  class="form-control-file hide" id="picture" />
               <div id="error_picture" class="hide text-danger"></div>
     <!--          <rich:message for="picture" />-->
             </div>
@@ -73,5 +74,6 @@ and open the template in the editor.
             <div id="error_fill" class="hide text-danger"></div>
           <!--</rich:graphValidator>-->
         </h:form>
+        <h:outputScript library="js" name="registra_validacion.js" />
     </ui:define>
 </ui:composition>

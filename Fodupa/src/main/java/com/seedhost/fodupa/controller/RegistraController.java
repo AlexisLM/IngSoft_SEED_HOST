@@ -6,22 +6,16 @@ import com.seedhost.fodupa.model.CarreraJpaController;
 import com.seedhost.fodupa.model.EntityProvider;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
-import com.seedhost.fodupa.model.web.RegistraBean;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import com.seedhost.fodupa.web.RegistraBean;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -38,6 +32,7 @@ import static javax.faces.context.FacesContext.getCurrentInstance;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
 
 
 /**
@@ -68,6 +63,10 @@ public class RegistraController implements Serializable {
 
         //Obtenemos las carreras
         c_jpaController = new CarreraJpaController(emf);
+<<<<<<< HEAD
+=======
+        u_jpaController = new UsuarioJpaController(emf);
+>>>>>>> Fernanda-Gonzalez-SegundaIteracion
         carreras = c_jpaController.findCarreraEntities();
 
         //Inicializamos el registra_bean
@@ -86,6 +85,12 @@ public class RegistraController implements Serializable {
 
 
     public String createRegistro(){
+        
+        //Primero checamos si el usuario ya esta registrado.
+        if(u_jpaController.findByCorreo(registra_bean.getCorreo())){
+            RequestContext context = RequestContext.getCurrentInstance();
+            return "/views/registra?faces-redirect=true";
+        }
 
         FacesContext.getCurrentInstance().getViewRoot().setLocale(new
                                                             Locale("es-Mx"));
@@ -214,7 +219,7 @@ public class RegistraController implements Serializable {
      * @param input cadena a cifrar.
      * @return el cifrado de una cadena de tamaño 65.
      */
-    public static String getSha256(String input) {
+    private static String getSha256(String input) {
         try{
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(input.getBytes("UTF-8"));

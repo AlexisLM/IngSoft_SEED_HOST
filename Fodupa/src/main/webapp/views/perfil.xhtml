@@ -1,0 +1,58 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 20/05/2018, 01:21:09 AM
+    Author     : fergch97
+-->
+<ui:composition template="/WEB-INF/facelets/templates/layout.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f = "http://java.sun.com/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:t="http://myfaces.apache.org/tomahawk"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <ui:define name="content">
+        <div class="container-fluid perfil">
+            <div class = 'left nav'>
+                <div>
+                    <p:graphicImage value="#{perfilController.imagen}"
+                                class="img-thumbnail rounded-circle"
+                                id = "foto"></p:graphicImage>
+                </div>
+                <div class="btn-group-vertical">
+                    <h:form id ="modificap">
+                        <h:commandButton value="Modificar perfil"  
+                                        class="color-rojo btn btn-secondary"
+                                        action="#{perfilController.modificaPerfilVista()}">
+                        </h:commandButton>
+                    </h:form>
+                </div>
+            </div>
+            <div class = 'perfil-datos'>
+                <div class="jumbotron jumbotron-fluid color-verde rounded">
+                    <div class="container text-center">
+                        <!--<h:outputText class="display-5" value="{perfilController.getNombreCompleto}" />-->
+                        <h:outputText class="display-5" value="#{perfilController.usuario.nombre} #{perfilController.usuario.apPaterno} #{perfilController.usuario.apMaterno}" />
+                    </div>
+                </div>
+                <div id = 'datos'>
+                    <h:outputText value = "#{perfilController.usuario.correo}"/><br/><br/>
+                    <h:outputText value = "Carrera(s):"/><br/>
+                    <div id ="carreras">
+                        <c:forEach items="#{perfilController.usuario.getCarreraList()}" var="carrera">
+                            <!--<h:outputText  value="{pregunta.idusuario.nombre}" />-->
+                            <h:outputText class = "carreras" value = "#{carrera.nombre}"/><br/>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

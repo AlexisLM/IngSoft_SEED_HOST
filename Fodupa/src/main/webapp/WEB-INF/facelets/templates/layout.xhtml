@@ -21,11 +21,11 @@
     <h:outputStylesheet library="css" name="main.css" />
     <h:outputStylesheet library="css" name="comentar.css" />   
     <h:outputStylesheet library="css" name="registro.css" />
+    <h:outputStylesheet library="css" name="perfil.css" />
     
     <style>
         .hide{  display: none;  }
         .link{ cursor: pointer; }
-        .unresizable{ resize: none; }
     </style>
 
 </h:head>
@@ -33,7 +33,7 @@
 
     <ui:include src="./header.xhtml" />
     <div class="container">
-        <ui:include src="./content.xhtml" />
+        <ui:include id="contenido" src="./content.xhtml"/>
     </div>
     <ui:include src="./footer.xhtml" />
     

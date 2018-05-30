@@ -137,7 +137,7 @@ public class Usuario implements Serializable {
     public String getNombre() {
         return nombre;
     }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -239,7 +239,8 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "\n >>>>>>>>>>>>>>><[ usuario=    " + id + "   ] >>>>>>>>><<<\n";
+        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]\n"+
+                "Nombre: "+nombre+" "+apPaterno+" "+apMaterno;
     }
     
 }

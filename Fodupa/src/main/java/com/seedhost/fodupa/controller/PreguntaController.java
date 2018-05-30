@@ -246,4 +246,10 @@ public class PreguntaController implements Serializable {
             busqueda = new ArrayList<Pregunta>();
     }
     
+        return "index?faces-redirect=true";
+    }
+    
+    public String sendUsuarios(){
+        return "facelets/views/admUsuario?faces-redirect=true";
+    }
 }

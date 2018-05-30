@@ -40,7 +40,7 @@ function validateEmail(){
  * @return {boolean} True if the test passes, false otherwise.
  */
 function validatePassword(){
-    var pattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
+    var pattern = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
     return pattern.test($("#form_registra\\:password").val());
 }
 
@@ -132,7 +132,7 @@ function getEmailInvalidChars(){
  * @return {string} The invalid chars of the email.
  */
 function getPasswordInvalidChars(){
-    var pattern = /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/g;
+    var pattern = /[A-Za-z/d]/g;
     return uniqChars($("#form_registra\\:password").val().replace(pattern,""));
 };
 
@@ -468,8 +468,9 @@ window.onload = function(){
     $("#form_registra\\:"+id[4]).on("keyup", function(){
         if(!validateLength(id[4])){
             errorStatus(id[4]);
-            $("#error_"+id[4]).text("Lo sentimos, la longitud de"+input[4]+
-                                    " debe ser de "+rangos[4]+" caracteres.");
+            $("#error_"+id[4]).text("La longitud de"+input[4]+
+                                    " debe tener entre 8 y 20 caracteres, al menos un dígito,"+
+                                    "al menos una minúscula y al menos una mayúscula.");
         }
         else if(!validate(id[4])){
             errorStatus(id[4]);
@@ -483,8 +484,9 @@ window.onload = function(){
     $("#form_registra\\:"+id[5]).on("keyup", function(){
         if(!validateLength(id[5])){
             errorStatus(id[5]);
-            $("#error_"+id[5]).text("Lo sentimos, la longitud de"+input[5]+
-                                    " debe ser de "+rangos[5]+" caracteres.");
+            $("#error_"+id[5]).text("La longitud de"+input[5]+
+                                    " debe tener entre 8 y 20 caracteres, al menos un dígito,"+
+                                    "al menos una minúscula y al menos una mayúscula.");
         }
         else if(!validate(id[5])){
             errorStatus(id[5]);
