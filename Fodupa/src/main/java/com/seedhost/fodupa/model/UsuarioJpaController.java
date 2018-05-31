@@ -7,6 +7,7 @@ package com.seedhost.fodupa.model;
 
 import com.seedhost.fodupa.model.exceptions.IllegalOrphanException;
 import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
+import com.seedhost.fodupa.web.UsuarioBean;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -14,8 +15,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -202,6 +206,7 @@ public class UsuarioJpaController implements Serializable {
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
+        System.out.println("entro a destroy");
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -209,6 +214,7 @@ public class UsuarioJpaController implements Serializable {
             try {
                 usuario = em.getReference(Usuario.class, id);
                 usuario.getId();
+                System.out.println("encontro a la referencia");
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The usuario with id " + id + " no longer exists.", enfe);
             }
@@ -227,16 +233,20 @@ public class UsuarioJpaController implements Serializable {
                 }
                 illegalOrphanMessages.add("This Usuario (" + usuario + ") cannot be destroyed since the Pregunta " + preguntaListOrphanCheckPregunta + " in its preguntaList field has a non-nullable idusuario field.");
             }
+            System.out.println("reviso que preguntas y comentarios esten vacios");
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             List<Carrera> carreraList = usuario.getCarreraList();
-            for (Carrera carreraListCarrera : carreraList) {
-                carreraListCarrera.getUsuarioList().remove(usuario);
-                carreraListCarrera = em.merge(carreraListCarrera);
-            }
+            System.out.println("aqui es donde muere");
+//            for (Carrera carreraListCarrera : carreraList) {
+//                carreraListCarrera.getUsuarioList().remove(usuario);
+//                carreraListCarrera = em.merge(carreraListCarrera);
+//            }
+            System.out.println("paso de remover la carrera");
             em.remove(usuario);
             em.getTransaction().commit();
+            System.out.println("paso el get transaction");
         } finally {
             if (em != null) {
                 em.close();
@@ -276,6 +286,7 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
+    
 
     public int getUsuarioCount() {
         EntityManager em = getEntityManager();
@@ -290,4 +301,55 @@ public class UsuarioJpaController implements Serializable {
         }
     }
     
+    public Usuario findLogin(String correo, String contraseña) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findByCorreoAndContrasena")
+                .setParameter("correo", correo)
+                .setParameter("contrasena", contraseña);
+        if (q.getResultList().isEmpty()) {
+            return null;
+        }
+        return (Usuario) q.getSingleResult();
+        }
+    
+    public Usuario findUsuarioByLoginId(Integer loginId) {
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findById")
+                .setParameter("id", loginId);
+        if (q.getResultList().isEmpty()) {
+            return null;
+        }
+        return (Usuario) q.getSingleResult();
+    }
+    
+    public boolean findByCorreo(String correo){
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findByCorreo")
+                .setParameter("correo", correo);
+        if (q.getResultList().isEmpty()) {
+            System.out.println("No se encontro");
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Asigna el usuario buscandolo a través del token obtenido de la url.
+     * @return El usuario con ese token.
+     */
+    public Usuario findUsuarioByToken(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();
+        String token = paramMap.get("token");
+        
+        System.out.println("Token: "+token+"\n");
+        
+        EntityManager em = getEntityManager();
+        Query q = em.createNamedQuery("Usuario.findByToken")
+                .setParameter("token", token);
+        if (q.getResultList().isEmpty()) {
+            return null;
+        }
+        return (Usuario) q.getSingleResult();
+    }
 }

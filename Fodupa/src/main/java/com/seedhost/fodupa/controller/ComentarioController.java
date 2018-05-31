@@ -14,6 +14,7 @@ import com.seedhost.fodupa.model.Pregunta;
 import com.seedhost.fodupa.model.PreguntaJpaController;
 import com.seedhost.fodupa.model.Usuario;
 import com.seedhost.fodupa.model.UsuarioJpaController;
+import com.seedhost.fodupa.model.exceptions.NonexistentEntityException;
 
 /* Vista */
 import com.seedhost.fodupa.web.ComentarioBean;
@@ -23,9 +24,7 @@ import java.util.Locale;
 import java.util.Date;
 import java.util.Collections;
 import java.util.List;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -43,55 +42,64 @@ import static javax.faces.context.FacesContext.getCurrentInstance;
 public class ComentarioController implements Serializable {
 
     private EntityManagerFactory emf;
-    private UsuarioJpaController u_jpaController;
-    private PreguntaJpaController p_jpaController;
+    private UsuarioJpaController uJpaController;
+    private PreguntaJpaController pJpaController;
     private List<Comentario> comentarios;
-    private ComentarioJpaController c_jpaController;
-    private ComentarioBean comentario_bean;
+    private ComentarioJpaController cJpaController;
+    private ComentarioBean comentarioBean;
 
     /**
-     * Creates a new instance of ComentarioController
+     * Creates a new instance of ComentarioController.
      */
-    @PostConstruct
-    private void init() {
-        
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
+    public ComentarioController() {
+        FacesContext.getCurrentInstance().getViewRoot()
+                                         .setLocale(new Locale("es-Mx"));
         emf = EntityProvider.provider();
 
-        //Inicializamos el comentario_bean
-        comentario_bean = new ComentarioBean();
+        //Inicializamos el comentarioBean
+        comentarioBean = new ComentarioBean();
 
         //Obtenemos las preguntas
-        c_jpaController = new ComentarioJpaController(emf);
-        comentarios = c_jpaController.findComentarioEntities();
+        cJpaController = new ComentarioJpaController(emf);
+        comentarios = cJpaController.findComentarioEntities();
         Collections.reverse(comentarios);
 
         //Obtenemos el usuario actual (Esto es del caso de uso de Fer)
         FacesContext context = getCurrentInstance();
-        Usuario usuario = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
-        if(usuario == null) {
-            u_jpaController = new UsuarioJpaController(emf);
-            usuario = u_jpaController.findUsuario(1);
-            context.getExternalContext().getSessionMap().put("usuario", usuario);
-        }
+        Usuario usuario = (Usuario) context.getExternalContext()
+                                           .getSessionMap().get("usuario");
+        usuario = usuario == null ? (Usuario) context.getExternalContext().
+            getSessionMap().get("adm") : usuario;
+//        if (usuario == null) {
+//            uJpaController = new UsuarioJpaController(emf);
+//            usuario = uJpaController.findUsuario(1);
+//            context.getExternalContext().getSessionMap().put("adm", usuario);
+//            context.getExternalContext().getSessionMap()
+//                                        .put("usuario", usuario);
+//        }
 
         //Obtenemos la pregunta actual (Esto es del caso de uso de Alexis)
-        /*Pregunta pregunta = (Pregunta) context.getExternalContext().getSessionMap().get("pregunta");
-        if(pregunta == null) {
-            p_jpaController = new PreguntaJpaController(emf);
-            pregunta = p_jpaController.findPregunta(5);
-            context.getExternalContext().getSessionMap().put("pregunta", pregunta);
+        /*Pregunta pregunta = (Pregunta) context.getExternalContext()
+                               .getSessionMap().get("pregunta");
+        if (pregunta == null) {
+            pJpaController = new PreguntaJpaController(emf);
+            pregunta = pJpaController.findPregunta(5);
+            context.getExternalContext().getSessionMap()
+                                        .put("pregunta", pregunta);
         }*/
     }
-    
-    public String createComentario(Pregunta pregunta_ref) throws Exception {
-                
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale("es-Mx"));
+
+    public String createComentario(Pregunta preguntaRef) throws Exception {
+        FacesContext.getCurrentInstance().getViewRoot()
+                                         .setLocale(new Locale("es-Mx"));
         FacesContext context = getCurrentInstance();
         emf = EntityProvider.provider();
-        
-        Usuario usuario = (Usuario)context.getExternalContext().getSessionMap().get("usuario");
-        Pregunta pregunta = pregunta_ref;
+
+        Usuario usuario = (Usuario) context.getExternalContext()
+                                           .getSessionMap().get("usuario");
+        usuario = usuario == null ? (Usuario) context.getExternalContext()
+                  .getSessionMap().get("adm") : usuario;
+        Pregunta pregunta = preguntaRef;
         ComentarioPK comentarioPK = new ComentarioPK();
 
         comentarioPK.setFecha(new Date());
@@ -99,16 +107,18 @@ public class ComentarioController implements Serializable {
         comentarioPK.setIdusuario(usuario.getId());
 
         Comentario comentario = new Comentario(comentarioPK);
-        if(comentarios == null)
+        if (comentarios == null) {
             comentarios = new ArrayList<>();
-        comentarios.add(0,comentario); //Agrega el nuevo comentario a la lista de comentarios
+        }
+        //Agrega el nuevo comentario a la lista de comentarios
+        comentarios.add(0,comentario);
 
-        comentario.setContenido(comentario_bean.getContenido());
+        comentario.setContenido(comentarioBean.getContenido());
         comentario.setPregunta(pregunta);
         comentario.setUsuario(usuario);
-        
-        c_jpaController = new ComentarioJpaController(emf);
-        c_jpaController.create(comentario); //create
+
+        cJpaController = new ComentarioJpaController(emf);
+        cJpaController.create(comentario); //create
 
         clear();
 
@@ -116,25 +126,32 @@ public class ComentarioController implements Serializable {
     }
 
     public void clear() {
-        comentario_bean.setContenido(null);
+        comentarioBean.setContenido(null);
     }
 
     public ComentarioBean getComentario() {
-        return comentario_bean;
+        return comentarioBean;
     }
 
     public List<Comentario> getComentarios(Pregunta pregunta) {
-        c_jpaController = new ComentarioJpaController(emf);
-        comentarios = c_jpaController.findComentarioByPregunta(pregunta);
+        cJpaController = new ComentarioJpaController(emf);
+        comentarios = cJpaController.findComentarioByPregunta(pregunta);
         return comentarios;
     }
 
     public void setComentario(ComentarioBean comentario) {
-        this.comentario_bean = comentario;
+        this.comentarioBean = comentario;
     }
 
     public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
+    }
+
+    public String deleteComentario(Comentario comRef) throws NonexistentEntityException {
+        cJpaController = new ComentarioJpaController(emf);
+        cJpaController.destroy(comRef.getComentarioPK());
+
+        return "index?faces-redirect=true";
     }
 
 }

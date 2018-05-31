@@ -163,7 +163,7 @@ public class Pregunta implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.model.Pregunta[ id=" + id + " ]";
+        return "\n >>>>>>>>>>>>>>><[ pregunta=    " + id + "   ] >>>>>>>>><<<\n";
     }
     
 }

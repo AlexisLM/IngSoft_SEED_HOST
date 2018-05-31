@@ -16,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -39,7 +41,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByContrasena", query = "SELECT u FROM Usuario u WHERE u.contrasena = :contrasena")
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByApPaterno", query = "SELECT u FROM Usuario u WHERE u.apPaterno = :apPaterno")
-    , @NamedQuery(name = "Usuario.findByApMaterno", query = "SELECT u FROM Usuario u WHERE u.apMaterno = :apMaterno")})
+    , @NamedQuery(name = "Usuario.findByApMaterno", query = "SELECT u FROM Usuario u WHERE u.apMaterno = :apMaterno")
+    , @NamedQuery(name = "Usuario.findByToken", query = "SELECT u FROM Usuario u WHERE u.token = :token")
+    , @NamedQuery(name = "Usuario.findByCorreoAndContrasena",  query = "SELECT u FROM Usuario u WHERE u.correo = :correo AND u.contrasena = :contrasena")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,30 +55,38 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(name = "correo", nullable = false, length = 100)
     private String correo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
-    @Column(nullable = false, length = 20)
+    @Column(name = "contrasena", nullable = false, length = 20)
     private String contrasena;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
-    @Column(nullable = false, length = 50)
+    @Size(min = 3, max = 50)
+    @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 3, max = 50)
     @Column(name = "ap_paterno", nullable = false, length = 50)
     private String apPaterno;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 3, max = 50)
     @Column(name = "ap_materno", nullable = false, length = 50)
     private String apMaterno;
     @Lob
     private byte[] foto;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 65, max = 65)
+    @Column(name = "token", nullable = false, length = 65)
+    private String token;
+    
+    private boolean valido;
+    
     @ManyToMany(mappedBy = "usuarioList")
     private List<Carrera> carreraList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
@@ -153,6 +165,22 @@ public class Usuario implements Serializable {
     public void setFoto(byte[] foto) {
         this.foto = foto;
     }
+    
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
+    public boolean getValido() {
+        return valido;
+    }
+
+    public void setValido(boolean valido) {
+        this.valido = valido;
+    }
 
     @XmlTransient
     public List<Carrera> getCarreraList() {
@@ -167,6 +195,10 @@ public class Usuario implements Serializable {
     public List<Comentario> getComentarioList() {
         return comentarioList;
     }
+    
+    public int getSizeComentarioList(){
+        return this.comentarioList.size();
+    }
 
     public void setComentarioList(List<Comentario> comentarioList) {
         this.comentarioList = comentarioList;
@@ -175,6 +207,10 @@ public class Usuario implements Serializable {
     @XmlTransient
     public List<Pregunta> getPreguntaList() {
         return preguntaList;
+    }
+    
+    public int getSizePreguntaList(){
+        return this.preguntaList.size();
     }
 
     public void setPreguntaList(List<Pregunta> preguntaList) {
@@ -203,7 +239,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seedhost.fodupa.model.Usuario[ id=" + id + " ]";
+        return "\n >>>>>>>>>>>>>>><[ usuario=    " + id + "   ] >>>>>>>>><<<\n";
     }
     
 }

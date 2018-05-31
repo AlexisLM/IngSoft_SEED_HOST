@@ -187,7 +187,7 @@ function errorStatusContent(element){
 
 
 
-window.onload = function(){
+$(document).ready(function(){
 
     // Div [Realiza pregunta...] event handler
     $("#addQuestion-cont").on("click", toggleQuestionModals);
@@ -276,4 +276,4 @@ window.onload = function(){
             return false;
     });
 
-};
+});

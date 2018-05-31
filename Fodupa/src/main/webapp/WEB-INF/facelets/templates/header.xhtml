@@ -4,30 +4,63 @@
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core" 
     xmlns:h="http://xmlns.jcp.org/jsf/html" 
     xmlns:p="http://primefaces.org/ui" 
-    xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
     <header>
         <!-- Menú/Encabezado -->
         <div class="header">
             <!-- Logo UNAM -->
             <div class="container-fluid bg-dark">
-                <h:graphicImage value="./resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
+                <h:graphicImage value="/resources/imgs/logo-unam.png" class="img-fluid" alt="Responsive image"/>
             </div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">Inicio <span class="sr-only">(current)</span></a>
+                <a class="navbar-brand" href="http://localhost:8080/Fodupa/">Inicio <span class="sr-only">(current)</span></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <form class="form-inline ml-auto my-lg-0">
-                        <h:inputText class="form-control mr-md-2"/>
+                        <h:inputText class="form-control mr-md-2" a:placeholder="Buscar..."/>
                         <button class="btn btn-outline-success my-2 my-md-0" type="submit">Buscar</button>
                     </form>
                     <ul class="navbar-nav my-2 my-lg-0">
+                        <c:choose>
+                            <c:when test="#{(not loginController.isLogged()) and  (not loginController.isAdmin())}">
+                                <li class="nav-item">                      
+                                    <h:form>
+                                        <h:commandButton action="#{registraController.formularioRegistro()}"
+                                            value="Registrarse"
+                                            class="btn btn-outline-primary ml-md-2">
+                                        </h:commandButton>
+                                    </h:form>
+                                </li>
+                            </c:when>
+                        </c:choose>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Perfil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Cerrar Sesión</a>
+                            <c:choose>
+                                <c:when test="#{loginController.isLogged()}">                     
+                                    <div class ="my-2 my-lg-0">
+                                      <h:form id="exit">                                         
+                                        <h:commandButton action="#{loginController.logout}"
+                                                       value="Cerrar Sesión"
+                                                       class="btn btn-light"/>
+                                      </h:form>
+                                    </div>
+                                </c:when>
+                                <c:when test="#{loginController.isAdmin()}">                     
+                                    <div class ="my-2 my-lg-0">
+                                      <h:form id="exit">                                         
+                                        <h:commandButton action="#{loginController.logout}"
+                                                       value="Cerrar Administación"
+                                                       class="btn btn-light"/>
+                                      </h:form>
+                                    </div>
+                                </c:when>                                
+                                <c:otherwise>                                     
+                                    <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">Iniciar Sesión</a>
+                                </c:otherwise>
+                            </c:choose>
+                            
                         </li>
                     </ul>
                 </div>
@@ -37,5 +70,48 @@
                 <div class="color-secundario"></div>
             </div>
         </div>
+     
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Inicia Sesión </h6>          
+          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" 
+          style="border-radius: 15px; padding-left: 10px; padding-right: 10px;">X</button>
+        </div>
+        <h:form id="myForm" class="form-inline my-2 my-lg-0">
+            <div class="modal-body">
+                <label class="col-md-2 col-form-label" for="title">Correo: </label>  
+                <div class="col-sm-12">                          
+                    <h:inputText value="#{loginController.usuarioBean.correo}"
+                               required="true" id="Correo"
+                               size="15" class="form-control mr-sm-2"
+                               a:placeholder="Correo Electrónico">
+                        <f:ajax  event="blur" render="error_correo" listener="#{loginController.existeCorreo()}"/>
+                    </h:inputText>
+                </div>
+                <h:outputText id="error_correo" style="color: red; padding-left: 20px" value="#{loginController.errorCorreo()}"/>
+
+                <label class="col-md-2 col-form-label" for="title">Contraseña: </label>  
+                <div class="col-sm-12">
+                    <h:inputSecret value="#{loginController.usuarioBean.contrasena}" required="true" id="Contrasena" class="form-control mr-sm-2"
+                                   a:placeholder="Contraseña">
+                    </h:inputSecret>
+                </div>                
+            </div>
+            <h:outputText id="error_general" style="color: red; padding-left: 20px; font-size: 15px" value="#{loginController.errorCorreo()}"/>
+            <div class="col-sm-12 " style="height: 20px" ></div>
+            <div class="col-sm-12 modal-footer">
+                <h:commandButton class="btn btn-outline-success btn-md" value="Aceptar" action="#{loginController.canLogin(false)}">
+                </h:commandButton>
+            </div>
+        </h:form>            
+      </div>
+      
+    </div>
+  </div>
     </header>
 </ui:composition>
